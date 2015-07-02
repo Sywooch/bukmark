@@ -4,9 +4,14 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
+	'name' => 'Bukmark',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+		'urlManager' => [
+			'enablePrettyUrl' => true,
+			'showScriptName' => false,
+		],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'UAdA1kGsFyylOBUxl4c9i8qlXvuTJpwG',
@@ -44,11 +49,19 @@ $config = [
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = 'yii\debug\Module';
+	$config['bootstrap'][] = 'debug';
+	$config['modules']['debug'] = [
+		'class' => 'yii\debug\Module',
+		'allowedIPs' => ['*']
+	];
 
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = 'yii\gii\Module';
+	$config['bootstrap'][] = 'gii';
+	$config['modules']['gii'] = [
+		'class' => 'yii\gii\Module',
+		'allowedIPs' => ['*'] // adjust this to your needs
+	];
+	// publish files even there are published before
+	$config['components']['assetManager']['forceCopy'] = true;
 }
 
 return $config;
