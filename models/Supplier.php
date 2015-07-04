@@ -50,4 +50,12 @@ class Supplier extends \yii\db\ActiveRecord
             'notes' => 'Notes',
         ];
     }
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getContacts()
+    {
+        return $this->hasMany(Contact::className(), ['supplier_id' => 'id']);
+    }
 }

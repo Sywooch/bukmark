@@ -2,9 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Supplier */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Suppliers', 'url' => ['index']];
@@ -36,5 +38,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'notes:ntext',
         ],
     ]) ?>
+	
+	<?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'first_name',
+            'last_name',
+			'email',
+			'phone',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 
 </div>

@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Supplier;
 use app\models\SupplierSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,8 +49,15 @@ class SupplierController extends Controller
      */
     public function actionView($id)
     {
+		$model = $this->findModel($id);
+		
+		$dataProvider = new ActiveDataProvider([
+            'query' => $model->getContacts(),
+        ]);
+		
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+			'dataProvider' => $dataProvider,
         ]);
     }
 
