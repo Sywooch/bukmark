@@ -22,7 +22,7 @@ class m150704_004115_create_contact extends Migration {
 			'phone' => Schema::TYPE_STRING,
 				], $tableOptions);
 		
-		$this->addForeignKey('fk_contact_supplier', 'contact', 'supplier_id', 'supplier', 'id');
+		$this->addForeignKey('fk_contact_supplier', 'contact', 'supplier_id', 'supplier', 'id', 'CASCADE');
 	}
 
 	public function down() {
