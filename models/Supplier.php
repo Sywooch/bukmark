@@ -32,7 +32,9 @@ class Supplier extends \yii\db\ActiveRecord
         return [
             [['notes'], 'string'],
 			[['name'], 'required'],
-            [['code', 'name', 'website', 'address'], 'string', 'max' => 255]
+            [['code', 'name', 'website', 'address'], 'string', 'max' => 255],
+			[['website'], 'url', 'defaultScheme' => 'http'],
+			[['code'], 'unique'],
         ];
     }
 
