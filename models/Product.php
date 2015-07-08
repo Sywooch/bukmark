@@ -50,7 +50,7 @@ class Product extends \yii\db\ActiveRecord {
 			}],
 			[['bukmark_code'], 'unique'],
 			// Accept images up to 500KB
-			[['image'], 'image', 'extension' => ['jpg', 'jpeg', 'png'], 'maxSize' => 500 * 1024],
+			[['image'], 'image', 'extensions' => ['jpg', 'jpeg', 'png'], 'maxSize' => 500 * 1024],
 			[['currency'], 'in', 'range' => array_keys(self::currencyLabels())],
 		];
 	}
