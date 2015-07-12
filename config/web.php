@@ -45,6 +45,9 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
     ],
     'params' => $params,
+	'aliases' => [
+		'@images' => '@app/web/images',
+	],
 ];
 
 if (YII_ENV_DEV) {
