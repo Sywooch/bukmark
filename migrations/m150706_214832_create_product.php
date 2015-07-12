@@ -17,7 +17,7 @@ class m150706_214832_create_product extends Migration
 			'id' => Schema::TYPE_PK,
 			'category_id' => Schema::TYPE_INTEGER,
 			'supplier_id' => Schema::TYPE_INTEGER,
-			'provider_code' => Schema::TYPE_STRING,
+			'supplier_code' => Schema::TYPE_STRING,
 			'bukmark_code' => Schema::TYPE_STRING,
 			'image' => Schema::TYPE_STRING,
 			'description' => Schema::TYPE_TEXT,

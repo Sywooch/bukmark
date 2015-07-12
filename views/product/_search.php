@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'supplier_id') ?>
 
-    <?= $form->field($model, 'provider_code') ?>
+    <?= $form->field($model, 'supplier_code') ?>
 
     <?= $form->field($model, 'bukmark_code') ?>
 

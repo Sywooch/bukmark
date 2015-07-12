@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $category_id
  * @property integer $supplier_id
- * @property string $provider_code
+ * @property string $supplier_code
  * @property string $bukmark_code
  * @property string $image
  * @property string $description
@@ -42,10 +42,12 @@ class Product extends \yii\db\ActiveRecord {
 		return [
 			[['category_id', 'supplier_id', 'description'], 'required'],
 			[['category_id', 'supplier_id', 'currency'], 'integer'],
+			['category_id', 'exist', 'targetClass' => Category::className(), 'targetAttribute' => 'id'],
+			['supplier_id', 'exist', 'targetClass' => Supplier::className(), 'targetAttribute' => 'id'],
 			[['description'], 'string'],
 			[['price'], 'number'],
-			[['provider_code', 'bukmark_code', 'image'], 'string', 'max' => 255],
-			[['provider_code'], 'unique', 'when' => function ($model) {
+			[['supplier_code', 'bukmark_code', 'image'], 'string', 'max' => 255],
+			[['supplier_code'], 'unique', 'when' => function ($model) {
 				return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
 			}],
 			[['bukmark_code'], 'unique'],
@@ -63,7 +65,7 @@ class Product extends \yii\db\ActiveRecord {
 			'id' => 'ID',
 			'category_id' => 'Category ID',
 			'supplier_id' => 'Supplier ID',
-			'provider_code' => 'Provider Code',
+			'supplier_code' => 'Supplier Code',
 			'bukmark_code' => 'Bukmark Code',
 			'image' => 'Image',
 			'description' => 'Description',

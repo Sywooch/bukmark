@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'category_id',
             'supplier_id',
-            'provider_code',
+            'supplier_code',
             'bukmark_code',
             // 'image',
             // 'description:ntext',

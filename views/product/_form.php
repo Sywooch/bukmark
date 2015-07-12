@@ -10,13 +10,13 @@ use yii\widgets\ActiveForm;
 
 <div class="product-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
     <?= $form->field($model, 'category_id')->textInput() ?>
 
     <?= $form->field($model, 'supplier_id')->textInput() ?>
 
-    <?= $form->field($model, 'provider_code')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'supplier_code')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'bukmark_code')->textInput(['maxlength' => true]) ?>
 

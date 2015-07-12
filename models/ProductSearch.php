@@ -19,7 +19,7 @@ class ProductSearch extends Product
     {
         return [
             [['id', 'category_id', 'supplier_id', 'currency'], 'integer'],
-            [['provider_code', 'bukmark_code', 'image', 'description'], 'safe'],
+            [['supplier_code', 'bukmark_code', 'image', 'description'], 'safe'],
             [['price'], 'number'],
         ];
     }
@@ -34,7 +34,7 @@ class ProductSearch extends Product
     }
 
     /**
-     * Creates data provider instance with search query applied
+     * Creates data supplier instance with search query applied
      *
      * @param array $params
      *
@@ -64,7 +64,7 @@ class ProductSearch extends Product
             'currency' => $this->currency,
         ]);
 
-        $query->andFilterWhere(['like', 'provider_code', $this->provider_code])
+        $query->andFilterWhere(['like', 'supplier_code', $this->supplier_code])
             ->andFilterWhere(['like', 'bukmark_code', $this->bukmark_code])
             ->andFilterWhere(['like', 'image', $this->image])
             ->andFilterWhere(['like', 'description', $this->description]);
