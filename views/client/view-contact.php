@@ -36,7 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
 		'model' => $model,
 		'attributes' => [
 			'id',
-			'client_id',
 			'first_name',
 			'last_name',
 			'email',

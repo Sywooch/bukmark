@@ -70,7 +70,7 @@ class ClientContact extends \yii\db\ActiveRecord {
 		}
 		if (!$valid) {
 			foreach ($attributes as $attribute) {
-				$this->addError($attribute, 'At least one field should contain information.');
+				$this->addError($attribute, 'Al menos un campo debe contener información.');
 			}
 		}
 		return parent::beforeValidate();
