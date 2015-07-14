@@ -29,14 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'category_id',
-            'supplier_id',
+            ['label' => 'Categoría', 'value' => $model->category->title],
+            ['label' => 'Proveedor', 'value' => $model->supplier->name],
             'supplier_code',
             'bukmark_code',
-            'image',
+            ['label' => 'Imagen', 'value' => '@web/images/product/' . $model->image, 'format' => ['image',['height'=>'100']]],
             'description:ntext',
             'price',
-            'currency',
+            ['label' => 'Moneda', 'value' => $model->currencyLabel],
         ],
     ]) ?>
 

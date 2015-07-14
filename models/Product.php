@@ -92,6 +92,14 @@ class Product extends \yii\db\ActiveRecord {
 	}
 
 	/**
+	 * Get the currency label.
+	 * @return string
+	 */
+	public function getCurrencyLabel() {
+		return self::currencyLabels()[$this->currency];
+	}
+
+	/**
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getCategory() {
@@ -118,10 +126,11 @@ class Product extends \yii\db\ActiveRecord {
 	 * @return boolean true whether the file is saved successfully
 	 */
 	public function uploadImage() {
+		$this->imageFile = UploadedFile::getInstance($this, 'imageFile');
 		if ($this->imageFile) {
-			$this->imageFile = UploadedFile::getInstance($this, 'imageFile');
 			$ext = end((explode(".", $this->imageFile->name)));
 			$filename = uniqid() . '.' . $ext;
+			echo $filename;
 			$this->image = $filename;
 			return $this->imageFile->saveAs(self::getImageFolder() . DIRECTORY_SEPARATOR . $filename);
 		} else {
@@ -129,6 +138,9 @@ class Product extends \yii\db\ActiveRecord {
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function beforeSave($insert) {
 		if (parent::beforeSave($insert)) {
 			$this->price = str_replace(',', '.', $this->price);
@@ -138,8 +150,12 @@ class Product extends \yii\db\ActiveRecord {
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function afterFind() {
 		$this->price = str_replace('.', ',', $this->price);
 		parent::afterFind();
 	}
+
 }
