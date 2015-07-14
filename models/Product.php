@@ -75,7 +75,7 @@ class Product extends \yii\db\ActiveRecord {
 			'bukmark_code' => 'Código interno',
 			'image' => 'Imagen',
 			'description' => 'Descripción',
-			'price' => 'Precion',
+			'price' => 'Precio',
 			'currency' => 'Moneda',
 		];
 	}

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Category;
 use app\models\Supplier;
+use app\models\Product;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -12,6 +13,7 @@ use yii\helpers\ArrayHelper;
 
 $categories = Category::find()->all();
 $suppliers = Supplier::find()->all();
+$currencies = Product::currencyLabels();
 
 ?>
 
@@ -19,9 +21,9 @@ $suppliers = Supplier::find()->all();
 
 	<?php $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
-	<?= $form->field($model, 'category_id')->textInput()->dropDownList(ArrayHelper::map($categories, 'id', 'title')) ?>
+	<?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map($categories, 'id', 'title')) ?>
 
-	<?= $form->field($model, 'supplier_id')->textInput()->dropDownList(ArrayHelper::map($suppliers, 'id', 'name')) ?>
+	<?= $form->field($model, 'supplier_id')->dropDownList(ArrayHelper::map($suppliers, 'id', 'name')) ?>
 
 	<?= $form->field($model, 'supplier_code')->textInput(['maxlength' => true]) ?>
 
@@ -33,10 +35,10 @@ $suppliers = Supplier::find()->all();
 
 	<?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
-	<?= $form->field($model, 'currency')->textInput() ?>
+	<?= $form->field($model, 'currency')->dropDownList($currencies) ?>
 
     <div class="form-group">
-		<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+		<?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
 	<?php ActiveForm::end(); ?>
