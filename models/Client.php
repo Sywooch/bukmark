@@ -50,4 +50,12 @@ class Client extends \yii\db\ActiveRecord
             'notes' => 'Notes',
         ];
     }
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getContacts()
+    {
+        return $this->hasMany(ClientContact::className(), ['client_id' => 'id']);
+    }
 }

@@ -2,9 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Client */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
@@ -36,5 +39,39 @@ $this->params['breadcrumbs'][] = $this->title;
             'notes:ntext',
         ],
     ]) ?>
+	
+	<?=
+	GridView::widget([
+		'dataProvider' => $dataProvider,
+		'columns' => [
+			['class' => 'yii\grid\SerialColumn'],
+			'id',
+			'first_name',
+			'last_name',
+			'email',
+			'phone',
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'urlCreator' => function($action, $model, $key, $index) {
+					$url = '';
+					switch ($action) {
+						case 'view':
+							$url = 'view-contact';
+							break;
+						case 'update':
+							$url = 'update-contact';
+							break;
+						case 'delete':
+							$url = 'delete-contact';
+							break;
+					}
+					return Url::to([$url, 'id' => $model->id]);
+				},
+			],
+		],
+	]);
+	?>
+
+<?= Html::a('Add Contact', ['add-contact', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 
 </div>

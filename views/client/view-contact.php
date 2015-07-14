@@ -6,12 +6,12 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Contact */
+/* @var $model app\models\ClientContact */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->displayName;
-$this->params['breadcrumbs'][] = ['label' => 'Suppliers', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->supplier->name, 'url' => ['view', 'id' => $model->supplier->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->client->name, 'url' => ['view', 'id' => $model->client->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="contact-view">
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'model' => $model,
 		'attributes' => [
 			'id',
-			'supplier_id',
+			'client_id',
 			'first_name',
 			'last_name',
 			'email',
