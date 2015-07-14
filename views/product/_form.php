@@ -2,19 +2,26 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Category;
+use app\models\Supplier;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 /* @var $form yii\widgets\ActiveForm */
+
+$categories = Category::find()->all();
+$suppliers = Supplier::find()->all();
+
 ?>
 
 <div class="product-form">
 
 	<?php $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
-	<?= $form->field($model, 'category_id')->textInput() ?>
+	<?= $form->field($model, 'category_id')->textInput()->dropDownList(ArrayHelper::map($categories, 'id', 'title')) ?>
 
-	<?= $form->field($model, 'supplier_id')->textInput() ?>
+	<?= $form->field($model, 'supplier_id')->textInput()->dropDownList(ArrayHelper::map($suppliers, 'id', 'name')) ?>
 
 	<?= $form->field($model, 'supplier_code')->textInput(['maxlength' => true]) ?>
 

@@ -118,11 +118,15 @@ class Product extends \yii\db\ActiveRecord {
 	 * @return boolean true whether the file is saved successfully
 	 */
 	public function uploadImage() {
-		$this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-		$ext = end((explode(".", $this->imageFile->name)));
-		$filename = uniqid() . '.' . $ext;
-		$this->image = $filename;
-		return $this->imageFile->saveAs(self::getImageFolder() . DIRECTORY_SEPARATOR . $filename);
+		if ($this->imageFile) {
+			$this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+			$ext = end((explode(".", $this->imageFile->name)));
+			$filename = uniqid() . '.' . $ext;
+			$this->image = $filename;
+			return $this->imageFile->saveAs(self::getImageFolder() . DIRECTORY_SEPARATOR . $filename);
+		} else {
+			return FALSE;
+		}
 	}
 
 }
