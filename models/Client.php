@@ -43,11 +43,11 @@ class Client extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'cuit' => 'Cuit',
-            'address' => 'Address',
-            'payment_conditions' => 'Payment Conditions',
-            'notes' => 'Notes',
+            'name' => 'Nombre',
+            'cuit' => 'CUIT',
+            'address' => 'Dirección',
+            'payment_conditions' => 'Condiciones de pago',
+            'notes' => 'Notas',
         ];
     }
 	

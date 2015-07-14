@@ -42,10 +42,10 @@ class Contact extends \yii\db\ActiveRecord {
 		return [
 			'id' => 'ID',
 			'supplier_id' => 'Supplier ID',
-			'first_name' => 'First Name',
-			'last_name' => 'Last Name',
+			'first_name' => 'Nombre',
+			'last_name' => 'Apellido',
 			'email' => 'Email',
-			'phone' => 'Phone',
+			'phone' => 'Teléfono',
 		];
 	}
 

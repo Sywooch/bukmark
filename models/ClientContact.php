@@ -42,10 +42,10 @@ class ClientContact extends \yii\db\ActiveRecord {
 		return [
 			'id' => 'ID',
 			'client_id' => 'Client ID',
-			'first_name' => 'First Name',
-			'last_name' => 'Last Name',
+			'first_name' => 'Nombre',
+			'last_name' => 'Apellido',
 			'email' => 'Email',
-			'phone' => 'Phone',
+			'phone' => 'Teléfono',
 		];
 	}
 

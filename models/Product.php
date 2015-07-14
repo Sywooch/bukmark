@@ -71,12 +71,12 @@ class Product extends \yii\db\ActiveRecord {
 			'id' => 'ID',
 			'category_id' => 'Category ID',
 			'supplier_id' => 'Supplier ID',
-			'supplier_code' => 'Supplier Code',
-			'bukmark_code' => 'Bukmark Code',
-			'image' => 'Image',
-			'description' => 'Description',
-			'price' => 'Price',
-			'currency' => 'Currency',
+			'supplier_code' => 'Código de proveedor',
+			'bukmark_code' => 'Código interno',
+			'image' => 'Imagen',
+			'description' => 'Descripción',
+			'price' => 'Precion',
+			'currency' => 'Moneda',
 		];
 	}
 
