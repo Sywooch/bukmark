@@ -10,7 +10,7 @@ use yii\helpers\Url;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Suppliers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Proveedores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="supplier-view">
@@ -18,12 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-		<?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+		<?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?=
-		Html::a('Delete', ['delete', 'id' => $model->id], [
+		Html::a('Eliminar', ['delete', 'id' => $model->id], [
 			'class' => 'btn btn-danger',
 			'data' => [
-				'confirm' => 'Are you sure you want to delete this item?',
+				'confirm' => '¿Está seguro de eliminar este elemento?',
 				'method' => 'post',
 			],
 		])
@@ -76,6 +76,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	]);
 	?>
 
-<?= Html::a('Add Contact', ['add-contact', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+<?= Html::a('Agregar contacto', ['add-contact', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 
 </div>

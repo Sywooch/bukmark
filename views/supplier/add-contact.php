@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\models\Contact */
 /* @var $supplier app\models\Supplier */
 
-$this->title = 'Add Contact';
-$this->params['breadcrumbs'][] = ['label' => 'Suppliers', 'url' => ['index']];
+$this->title = 'Agregar contacto';
+$this->params['breadcrumbs'][] = ['label' => 'Proveedores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $supplier->name, 'url' => ['view', 'id' => $supplier->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
