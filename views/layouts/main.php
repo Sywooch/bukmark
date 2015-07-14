@@ -36,11 +36,11 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Home', 'url' => ['/site/index']],
-					['label' => 'Users', 'url' => ['/user/index']],
-					['label' => 'Suppliers', 'url' => ['/supplier/index']],
-					['label' => 'Categories', 'url' => ['/category/index']],
-					['label' => 'Products', 'url' => ['/product/index']],
-					['label' => 'Clients', 'url' => ['/client/index']],
+					['label' => 'Usuarios', 'url' => ['/user/index']],
+					['label' => 'Proveedores', 'url' => ['/supplier/index']],
+					['label' => 'Categorías', 'url' => ['/category/index']],
+					['label' => 'Productos', 'url' => ['/product/index']],
+					['label' => 'Clientes', 'url' => ['/client/index']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
@@ -58,13 +58,6 @@ AppAsset::register($this);
             <?= $content ?>
         </div>
     </div>
-
-    <footer class="footer">
-        <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-            <p class="pull-right"><?= Yii::powered() ?></p>
-        </div>
-    </footer>
 
 <?php $this->endBody() ?>
 </body>
