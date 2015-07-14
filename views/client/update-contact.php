@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\ClientContact */
 
 $this->title = $model->displayName;
-$this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Clientes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->client->name, 'url' => ['view', 'id' => $model->client->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

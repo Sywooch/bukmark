@@ -10,7 +10,7 @@ use yii\helpers\Url;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->displayName;
-$this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Clientes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->client->name, 'url' => ['view', 'id' => $model->client->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,12 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-		<?= Html::a('Update', ['update-contact', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+		<?= Html::a('Editar', ['update-contact', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?=
-		Html::a('Delete', ['delete-contact', 'id' => $model->id], [
+		Html::a('Eliminar', ['delete-contact', 'id' => $model->id], [
 			'class' => 'btn btn-danger',
 			'data' => [
-				'confirm' => 'Are you sure you want to delete this item?',
+				'confirm' => '¿Está seguro de eliminar este elemento?',
 				'method' => 'post',
 			],
 		])
