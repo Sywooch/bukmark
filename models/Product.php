@@ -51,7 +51,7 @@ class Product extends \yii\db\ActiveRecord {
 			['category_id', 'exist', 'targetClass' => Category::className(), 'targetAttribute' => 'id'],
 			['supplier_id', 'exist', 'targetClass' => Supplier::className(), 'targetAttribute' => 'id'],
 			[['description'], 'string'],
-			[['price'], 'number'],
+			[['price'], 'number', 'numberPattern' => '/^\s*[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
 			[['supplier_code', 'bukmark_code'], 'string', 'max' => 255],
 			[['supplier_code'], 'unique', 'when' => function ($model) {
 			return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
@@ -129,4 +129,17 @@ class Product extends \yii\db\ActiveRecord {
 		}
 	}
 
+	public function beforeSave($insert) {
+		if (parent::beforeSave($insert)) {
+			$this->price = str_replace(',', '.', $this->price);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function afterFind() {
+		$this->price = str_replace('.', ',', $this->price);
+		parent::afterFind();
+	}
 }

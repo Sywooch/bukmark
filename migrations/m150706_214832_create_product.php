@@ -21,7 +21,7 @@ class m150706_214832_create_product extends Migration
 			'bukmark_code' => Schema::TYPE_STRING,
 			'image' => Schema::TYPE_STRING,
 			'description' => Schema::TYPE_TEXT,
-			'price' => Schema::TYPE_DECIMAL,
+			'price' => Schema::TYPE_MONEY,
 			'currency' => Schema::TYPE_SMALLINT,
 				], $tableOptions);
 		
