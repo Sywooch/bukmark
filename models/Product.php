@@ -69,8 +69,8 @@ class Product extends \yii\db\ActiveRecord {
 	public function attributeLabels() {
 		return [
 			'id' => 'ID',
-			'category_id' => 'Category ID',
-			'supplier_id' => 'Supplier ID',
+			'category_id' => 'Categoría',
+			'supplier_id' => 'Proveedor',
 			'supplier_code' => 'Código de proveedor',
 			'bukmark_code' => 'Código interno',
 			'image' => 'Imagen',
