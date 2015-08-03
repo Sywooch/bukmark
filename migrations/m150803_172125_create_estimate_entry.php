@@ -15,12 +15,17 @@ class m150803_172125_create_estimate_entry extends Migration
 
 		$this->createTable('estimate_entry', [
 			'id' => Schema::TYPE_PK,
-			'product_id' => Schema::TYPE_MONEY,
-			'variant_id' => Schema::TYPE_MONEY,
+			'estimate_id' => Schema::TYPE_INTEGER,
+			'product_id' => Schema::TYPE_INTEGER,
+			'variant_id' => Schema::TYPE_INTEGER,
 			'quantity' => Schema::TYPE_MONEY,
 			'utility' => Schema::TYPE_MONEY,
 			'price' => Schema::TYPE_MONEY,
 				], $tableOptions);
+		
+		$this->addForeignKey('fk_estimate_entry_estimate', 'estimate_entry', 'estimate_id', 'estimate', 'id', 'CASCADE');
+		$this->addForeignKey('fk_estimate_entry_product', 'estimate_entry', 'product_id', 'product', 'id', 'CASCADE');
+		$this->addForeignKey('fk_estimate_entry_variant', 'estimate_entry', 'variant_id', 'variant', 'id', 'CASCADE');
 	}
 
 	public function down() {

@@ -48,4 +48,28 @@ class EstimateEntry extends \yii\db\ActiveRecord
             'price' => 'Price',
         ];
     }
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEstimate()
+    {
+        return $this->hasOne(Estimate::className(), ['id' => 'estimate_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVariant()
+    {
+        return $this->hasOne(Variant::className(), ['id' => 'variant_id']);
+    }
 }

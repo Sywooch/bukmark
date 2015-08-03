@@ -38,6 +38,14 @@ class Estimate extends \yii\db\ActiveRecord
     }
 	
 	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEntries()
+    {
+        return $this->hasMany(EstimateEntry::className(), ['estimate_id' => 'id']);
+    }
+	
+	/**
 	 * @inheritdoc
 	 */
 	public function beforeSave($insert) {
