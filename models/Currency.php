@@ -9,6 +9,11 @@ class Currency {
 	  to currencyLabels(). */
 	const CURRENCY_ARS = 0;
 	const CURRENCY_USD = 1;
+	
+	/**
+	 * Pattern for number validator
+	 */
+	const VALIDATOR_PATTERN = '/^\s*\-*[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/';
 
 	/**
 	 * Get currency labels

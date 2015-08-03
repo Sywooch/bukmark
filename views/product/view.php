@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'price',
             ['label' => 'Moneda', 'value' => $model->currencyLabel],
+			'utility',
         ],
     ]) ?>
 

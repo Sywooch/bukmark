@@ -10,65 +10,64 @@ use app\models\Product;
 /**
  * ProductSearch represents the model behind the search form about `app\models\Product`.
  */
-class ProductSearch extends Product
-{
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id', 'category_id', 'supplier_id', 'currency'], 'integer'],
-            [['supplier_code', 'bukmark_code', 'image', 'description'], 'safe'],
-            [['price'], 'number'],
-        ];
-    }
+class ProductSearch extends Product {
 
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function rules() {
+		return [
+			[['id', 'category_id', 'supplier_id', 'currency'], 'integer'],
+			[['supplier_code', 'bukmark_code', 'image', 'description'], 'safe'],
+			[['price', 'utility'], 'number'],
+		];
+	}
 
-    /**
-     * Creates data supplier instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    public function search($params)
-    {
-        $query = Product::find();
+	/**
+	 * @inheritdoc
+	 */
+	public function scenarios() {
+		// bypass scenarios() implementation in the parent class
+		return Model::scenarios();
+	}
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+	/**
+	 * Creates data supplier instance with search query applied
+	 *
+	 * @param array $params
+	 *
+	 * @return ActiveDataProvider
+	 */
+	public function search($params) {
+		$query = Product::find();
 
-        $this->load($params);
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+		]);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
+		$this->load($params);
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'category_id' => $this->category_id,
-            'supplier_id' => $this->supplier_id,
-            'price' => $this->price,
-            'currency' => $this->currency,
-        ]);
+		if (!$this->validate()) {
+			// uncomment the following line if you do not want to return any records when validation fails
+			// $query->where('0=1');
+			return $dataProvider;
+		}
 
-        $query->andFilterWhere(['like', 'supplier_code', $this->supplier_code])
-            ->andFilterWhere(['like', 'bukmark_code', $this->bukmark_code])
-            ->andFilterWhere(['like', 'image', $this->image])
-            ->andFilterWhere(['like', 'description', $this->description]);
+		$query->andFilterWhere([
+			'id' => $this->id,
+			'category_id' => $this->category_id,
+			'supplier_id' => $this->supplier_id,
+			'price' => $this->price,
+			'currency' => $this->currency,
+			'utility' => $this->utility,
+		]);
 
-        return $dataProvider;
-    }
+		$query->andFilterWhere(['like', 'supplier_code', $this->supplier_code])
+				->andFilterWhere(['like', 'bukmark_code', $this->bukmark_code])
+				->andFilterWhere(['like', 'image', $this->image])
+				->andFilterWhere(['like', 'description', $this->description]);
+
+		return $dataProvider;
+	}
+
 }
