@@ -32,7 +32,8 @@ class Massbuy extends \yii\db\ActiveRecord
         return [
 			[['quantity', 'utility_drop'], 'required'],
             [['product_id', 'quantity'], 'integer'],
-            [['utility_drop'], 'number', 'min' => -100, 'max' => 100, 'numberPattern' => Currency::VALIDATOR_PATTERN]
+			[['quantity'], 'unique'],
+            [['utility_drop'], 'number', 'min' => -100, 'max' => 100, 'numberPattern' => Currency::VALIDATOR_PATTERN],
         ];
     }
 

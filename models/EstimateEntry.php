@@ -8,11 +8,13 @@ use Yii;
  * This is the model class for table "estimate_entry".
  *
  * @property integer $id
- * @property string $product_id
- * @property string $variant_id
- * @property string $quantity
+ * @property integer $estimate_id
+ * @property integer $product_id
+ * @property integer $variant_id
+ * @property integer $quantity
  * @property string $utility
  * @property string $price
+ * @property string $variant_price
  */
 class EstimateEntry extends \yii\db\ActiveRecord
 {
@@ -30,7 +32,8 @@ class EstimateEntry extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'variant_id', 'quantity', 'utility', 'price'], 'number']
+			[['quantity'], 'required'],
+			[['quantity'], 'integer', 'min' => 1],
         ];
     }
 
@@ -41,11 +44,13 @@ class EstimateEntry extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'product_id' => 'Product ID',
-            'variant_id' => 'Variant ID',
-            'quantity' => 'Quantity',
-            'utility' => 'Utility',
-            'price' => 'Price',
+			'estimate_id' => 'Presupuesto',
+            'product_id' => 'Producto',
+            'variant_id' => 'Variante',
+            'quantity' => 'Cantidad',
+            'utility' => 'Utilidad',
+            'price' => 'Precio',
+			'variant_price' => 'Precio variante',
         ];
     }
 	
@@ -72,4 +77,28 @@ class EstimateEntry extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Variant::className(), ['id' => 'variant_id']);
     }
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function beforeSave($insert) {
+		if (parent::beforeSave($insert)) {
+			$this->utility = str_replace(',', '.', $this->utility);
+			$this->price = str_replace(',', '.', $this->price);
+			$this->variant_price = str_replace(',', '.', $this->variant_price);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterFind() {
+		$this->utility = str_replace('.', ',', $this->utility);
+		$this->price = str_replace('.', ',', $this->price);
+		$this->variant_price = str_replace('.', ',', $this->variant_price);
+		parent::afterFind();
+	}
 }

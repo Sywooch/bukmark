@@ -68,4 +68,19 @@ class Estimate extends \yii\db\ActiveRecord
 		$this->us = str_replace('.', ',', $this->us);
 		parent::afterFind();
 	}
+	
+	public function doEstimate() {
+		$entries = $this->entries;
+		$cost = 0;
+		$total = 0;
+		foreach($entries as $entry) {
+			$subcost = $entry->price * $entry->quantity;
+			$subtotal = $subcost * (1 + $entry->utility / 100);
+			$cost += $subcost;
+			$total += $subtotal;
+		}
+		$this->cost = $cost;
+		$this->total = $total;
+		$this->save();
+	}
 }

@@ -4,11 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Estimate;
+use app\models\EstimateEntry;
+use app\models\Product;
+use app\models\ProductSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\models\Currency;
 
 /**
  * EstimateController implements the CRUD actions for Estimate model.
@@ -67,32 +71,54 @@ class EstimateController extends Controller {
 	 */
 	public function actionCreate() {
 		$model = new Estimate();
-
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id]);
-		} else {
-			return $this->render('create', [
-						'model' => $model,
-			]);
-		}
+		$model->us = Currency::US_TO_ARS + Estimate::US_TO_ARS_MARGIN;
+		$model->save();
+		return $this->redirect(['view', 'id' => $model->id]);
 	}
 
-	/**
-	 * Updates an existing Estimate model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionUpdate($id) {
-		$model = $this->findModel($id);
+	public function actionSelectProduct($id) {
+		$estimate = $this->findModel($id);
+
+		$searchModel = new ProductSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+		return $this->render('select-product', [
+					'estimate' => $estimate,
+					'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
+		]);
+	}
+
+	public function actionAddProduct($id, $productId) {
+		$estimate = $this->findModel($id);
+		$product = $this->findProductModel($productId);
+		$model = new EstimateEntry;
+
+		$model->estimate_id = $estimate->id;
+		$model->product_id = $product->id;
+		$model->utility = $product->utility;
+
+		$price = $product->price;
+		if ($product->currency == Currency::CURRENCY_USD) {
+			$price = $product->price * $estimate->us;
+		}
+		$model->price = $price;
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id]);
-		} else {
-			return $this->render('update', [
-						'model' => $model,
-			]);
+			$estimate->doEstimate();
+			return $this->redirect(['view', 'id' => $estimate->id]);
 		}
+		return $this->render('add-product', [
+					'model' => $model,
+		]);
+	}
+
+	public function actionSelectVariation($entryId) {
+		
+	}
+
+	public function actionAddVariation($entryId, $variationId) {
+		
 	}
 
 	/**
@@ -116,6 +142,21 @@ class EstimateController extends Controller {
 	 */
 	protected function findModel($id) {
 		if (($model = Estimate::findOne($id)) !== null) {
+			return $model;
+		} else {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+	}
+
+	/**
+	 * Finds the Product model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param integer $id
+	 * @return Product the loaded model
+	 * @throws NotFoundHttpException if the model cannot be found
+	 */
+	protected function findProductModel($id) {
+		if (($model = Product::findOne($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

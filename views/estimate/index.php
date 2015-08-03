@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Estimates';
+$this->title = 'Presupuestos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="estimate-index">
@@ -14,21 +14,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Estimate', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Crear presupuesto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'total',
-            'cost',
-            'us',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+	<?=
+	GridView::widget([
+		'dataProvider' => $dataProvider,
+		'columns' => [
+			['class' => 'yii\grid\SerialColumn'],
+			'id',
+			'total',
+			'cost',
+			'us',
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{view}{delete}'
+			],
+		],
+	]);
+	?>
 
 </div>

@@ -50,8 +50,8 @@ class Product extends \yii\db\ActiveRecord {
 			[['utility'], 'number', 'min' => 0, 'max' => 100, 'numberPattern' => Currency::VALIDATOR_PATTERN],
 			[['supplier_code', 'bukmark_code'], 'string', 'max' => 255],
 			[['supplier_code'], 'unique', 'when' => function ($model) {
-				return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
-			}],
+			return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
+		}],
 			[['bukmark_code'], 'unique'],
 			// Accept images up to 500KB
 			[['imageFile'], 'image', 'extensions' => ['jpg', 'jpeg', 'png'], 'maxSize' => 500 * 1024],
@@ -90,22 +90,20 @@ class Product extends \yii\db\ActiveRecord {
 	public function getSupplier() {
 		return $this->hasOne(Supplier::className(), ['id' => 'supplier_id']);
 	}
-	
+
 	/**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVariants()
-    {
-        return $this->hasMany(Variant::className(), ['product_id' => 'id']);
-    }
-	
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getVariants() {
+		return $this->hasMany(Variant::className(), ['product_id' => 'id']);
+	}
+
 	/**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMassbuys()
-    {
-        return $this->hasMany(Massbuy::className(), ['product_id' => 'id']);
-    }
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getMassbuys() {
+		return $this->hasMany(Massbuy::className(), ['product_id' => 'id']);
+	}
 
 	/**
 	 * Get the folder where the product images are stored.
@@ -161,5 +159,4 @@ class Product extends \yii\db\ActiveRecord {
 	public function getCurrencyLabel() {
 		return Currency::labels()[$this->currency];
 	}
-
 }
