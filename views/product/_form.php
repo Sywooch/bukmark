@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use app\models\Category;
 use app\models\Supplier;
 use app\models\Product;
+use app\models\Currency;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -13,7 +14,7 @@ use yii\helpers\ArrayHelper;
 
 $categories = Category::find()->all();
 $suppliers = Supplier::find()->all();
-$currencies = Product::currencyLabels();
+$currencies = Currency::labels();
 
 ?>
 

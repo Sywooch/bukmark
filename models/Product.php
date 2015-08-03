@@ -22,12 +22,6 @@ use yii\web\UploadedFile;
  * @property Supplier $supplier
  */
 class Product extends \yii\db\ActiveRecord {
-	/* Currency types go here.
-	  IMPORTANT: If a currency is added it must also be added
-	  to currencyLabels(). */
-
-	const CURRENCY_ARS = 0;
-	const CURRENCY_USD = 1;
 
 	/**
 	 * @var UploadedFile
@@ -54,12 +48,12 @@ class Product extends \yii\db\ActiveRecord {
 			[['price'], 'number', 'numberPattern' => '/^\s*[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
 			[['supplier_code', 'bukmark_code'], 'string', 'max' => 255],
 			[['supplier_code'], 'unique', 'when' => function ($model) {
-			return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
-		}],
+				return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
+			}],
 			[['bukmark_code'], 'unique'],
 			// Accept images up to 500KB
 			[['imageFile'], 'image', 'extensions' => ['jpg', 'jpeg', 'png'], 'maxSize' => 500 * 1024],
-			[['currency'], 'in', 'range' => array_keys(self::currencyLabels())],
+			[['currency'], 'in', 'range' => array_keys(Currency::labels())],
 		];
 	}
 
@@ -78,25 +72,6 @@ class Product extends \yii\db\ActiveRecord {
 			'price' => 'Precio',
 			'currency' => 'Moneda',
 		];
-	}
-
-	/**
-	 * Get currency labels
-	 * @return string[]
-	 */
-	public static function currencyLabels() {
-		return [
-			self::CURRENCY_ARS => '$',
-			self::CURRENCY_USD => 'US$',
-		];
-	}
-
-	/**
-	 * Get the currency label.
-	 * @return string
-	 */
-	public function getCurrencyLabel() {
-		return self::currencyLabels()[$this->currency];
 	}
 
 	/**
@@ -156,6 +131,14 @@ class Product extends \yii\db\ActiveRecord {
 	public function afterFind() {
 		$this->price = str_replace('.', ',', $this->price);
 		parent::afterFind();
+	}
+
+	/**
+	 * Get the currency label.
+	 * @return string
+	 */
+	public function getCurrencyLabel() {
+		return Currency::labels()[$this->currency];
 	}
 
 }
