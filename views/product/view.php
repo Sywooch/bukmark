@@ -56,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'currency',
 			[
 				'class' => 'yii\grid\ActionColumn',
+				'template' => '{delete}',
 				'urlCreator' => function($action, $model, $key, $index) {
 					$url = '';
 					switch ($action) {
@@ -90,6 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'utility_drop',
 			[
 				'class' => 'yii\grid\ActionColumn',
+				'template' => '{delete}',
 				'urlCreator' => function($action, $model, $key, $index) {
 					$url = '';
 					switch ($action) {
@@ -110,6 +112,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	]);
 	?>
 	
-	<?= Html::a('Agregar contacto', ['add-massbuy', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+	<?= Html::a('Agregar descuento', ['add-massbuy', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 
 </div>

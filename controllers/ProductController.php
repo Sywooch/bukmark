@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Product;
 use app\models\ProductSearch;
+use app\models\Variant;
+use app\models\Massbuy;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -122,6 +124,41 @@ class ProductController extends Controller {
 
 		return $this->redirect(['index']);
 	}
+	
+	/**
+	 * Add a variant to an existing Product.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionAddVariant($id) {
+
+		$product = $this->findModel($id);
+
+		$model = new Variant();
+		$model->product_id = $product->id;
+
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			return $this->redirect(['view', 'id' => $product->id]);
+		} else {
+			return $this->render('add-variant', [
+						'model' => $model,
+						'product' => $product,
+			]);
+		}
+	}
+
+	/**
+	 * Deletes an existing ClientContact model.
+	 * If deletion is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionDeleteVariant($id) {
+		$model = $this->findVariantModel($id);
+		$model->delete();
+
+		return $this->redirect(['view', 'id' => $model->product->id]);
+	}
 
 	/**
 	 * Finds the Product model based on its primary key value.
@@ -138,4 +175,33 @@ class ProductController extends Controller {
 		}
 	}
 
+	/**
+	 * Finds the Variant model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param integer $id
+	 * @return Variant the loaded model
+	 * @throws NotFoundHttpException if the model cannot be found
+	 */
+	protected function findVariantModel($id) {
+		if (($model = Variant::findOne($id)) !== null) {
+			return $model;
+		} else {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+	}
+	
+	/**
+	 * Finds the Massbuy model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param integer $id
+	 * @return Massbuy the loaded model
+	 * @throws NotFoundHttpException if the model cannot be found
+	 */
+	protected function findMassbuyModel($id) {
+		if (($model = Massbuy::findOne($id)) !== null) {
+			return $model;
+		} else {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+	}
 }
