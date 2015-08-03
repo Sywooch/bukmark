@@ -56,4 +56,24 @@ class Massbuy extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function beforeSave($insert) {
+		if (parent::beforeSave($insert)) {
+			$this->utility_drop = str_replace(',', '.', $this->utility_drop);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterFind() {
+		$this->utility_drop = str_replace('.', ',', $this->utility_drop);
+		parent::afterFind();
+	}
 }

@@ -90,6 +90,22 @@ class Product extends \yii\db\ActiveRecord {
 	public function getSupplier() {
 		return $this->hasOne(Supplier::className(), ['id' => 'supplier_id']);
 	}
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVariants()
+    {
+        return $this->hasMany(Variant::className(), ['product_id' => 'id']);
+    }
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMassbuys()
+    {
+        return $this->hasMany(Massbuy::className(), ['product_id' => 'id']);
+    }
 
 	/**
 	 * Get the folder where the product images are stored.

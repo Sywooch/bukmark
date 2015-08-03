@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
@@ -40,5 +42,74 @@ $this->params['breadcrumbs'][] = $this->title;
 			'utility',
         ],
     ]) ?>
+	
+	<h2>Variantes</h2>
+	
+	<?=
+	GridView::widget([
+		'dataProvider' => $variantDataProvider,
+		'columns' => [
+			['class' => 'yii\grid\SerialColumn'],
+			'id',
+			'description',
+			'price',
+			'currency',
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'urlCreator' => function($action, $model, $key, $index) {
+					$url = '';
+					switch ($action) {
+						case 'view':
+							$url = 'view-variant';
+							break;
+						case 'update':
+							$url = 'update-variant';
+							break;
+						case 'delete':
+							$url = 'delete-variant';
+							break;
+					}
+					return Url::to([$url, 'id' => $model->id]);
+				},
+			],
+		],
+	]);
+	?>
+	
+	<?= Html::a('Agregar variante', ['add-variant', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+	
+	<h2>Descuento por cantidad</h2>
+	
+	<?=
+	GridView::widget([
+		'dataProvider' => $massbuyDataProvider,
+		'columns' => [
+			['class' => 'yii\grid\SerialColumn'],
+			'id',
+			'quantity',
+			'utility_drop',
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'urlCreator' => function($action, $model, $key, $index) {
+					$url = '';
+					switch ($action) {
+						case 'view':
+							$url = 'view-massbuy';
+							break;
+						case 'update':
+							$url = 'update-masssbuy';
+							break;
+						case 'delete':
+							$url = 'delete-massbuy';
+							break;
+					}
+					return Url::to([$url, 'id' => $model->id]);
+				},
+			],
+		],
+	]);
+	?>
+	
+	<?= Html::a('Agregar contacto', ['add-massbuy', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 
 </div>

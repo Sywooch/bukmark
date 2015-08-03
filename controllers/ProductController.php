@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Product;
 use app\models\ProductSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -55,8 +56,19 @@ class ProductController extends Controller {
 	 * @return mixed
 	 */
 	public function actionView($id) {
+		$model = $this->findModel($id);
+		
+		$variantDataProvider = new ActiveDataProvider([
+			'query' => $model->getVariants(),
+		]);
+		
+		$massbuyDataProvider = new ActiveDataProvider([
+			'query' => $model->getMassbuys(),
+		]);
 		return $this->render('view', [
-					'model' => $this->findModel($id),
+			'model' => $model,
+			'variantDataProvider' => $variantDataProvider,
+			'massbuyDataProvider' => $massbuyDataProvider,
 		]);
 	}
 

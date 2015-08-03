@@ -59,4 +59,32 @@ class Variant extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function beforeSave($insert) {
+		if (parent::beforeSave($insert)) {
+			$this->price = str_replace(',', '.', $this->price);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterFind() {
+		$this->price = str_replace('.', ',', $this->price);
+		parent::afterFind();
+	}
+
+	/**
+	 * Get the currency label.
+	 * @return string
+	 */
+	public function getCurrencyLabel() {
+		return Currency::labels()[$this->currency];
+	}
 }
