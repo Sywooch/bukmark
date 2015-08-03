@@ -41,7 +41,7 @@ class Product extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['category_id', 'supplier_id', 'description', 'price', 'utility'], 'required'],
+			[['category_id', 'supplier_id', 'description', 'price', 'currency', 'utility'], 'required'],
 			[['category_id', 'supplier_id', 'currency'], 'integer'],
 			['category_id', 'exist', 'targetClass' => Category::className(), 'targetAttribute' => 'id'],
 			['supplier_id', 'exist', 'targetClass' => Supplier::className(), 'targetAttribute' => 'id'],
