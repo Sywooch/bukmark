@@ -146,15 +146,50 @@ class ProductController extends Controller {
 			]);
 		}
 	}
-
+	
 	/**
-	 * Deletes an existing ClientContact model.
+	 * Deletes an existing Variant model.
 	 * If deletion is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id
 	 * @return mixed
 	 */
 	public function actionDeleteVariant($id) {
 		$model = $this->findVariantModel($id);
+		$model->delete();
+
+		return $this->redirect(['view', 'id' => $model->product->id]);
+	}
+	
+	/**
+	 * Add a massbuy to an existing Product.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionAddMassbuy($id) {
+
+		$product = $this->findModel($id);
+
+		$model = new Massbuy();
+		$model->product_id = $product->id;
+
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			return $this->redirect(['view', 'id' => $product->id]);
+		} else {
+			return $this->render('add-massbuy', [
+						'model' => $model,
+						'product' => $product,
+			]);
+		}
+	}
+
+	/**
+	 * Deletes an existing Massbuy model.
+	 * If deletion is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionDeleteMassbuy($id) {
+		$model = $this->findMassbuyModel($id);
 		$model->delete();
 
 		return $this->redirect(['view', 'id' => $model->product->id]);
