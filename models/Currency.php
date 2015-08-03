@@ -10,6 +10,8 @@ class Currency {
 	const CURRENCY_ARS = 0;
 	const CURRENCY_USD = 1;
 	
+	const US_TO_ARS = 9.2;
+	
 	/**
 	 * Pattern for number validator
 	 */
