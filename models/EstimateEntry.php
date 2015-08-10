@@ -91,14 +91,4 @@ class EstimateEntry extends \yii\db\ActiveRecord
 			return false;
 		}
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function afterFind() {
-		$this->utility = str_replace('.', ',', $this->utility);
-		$this->price = str_replace('.', ',', $this->price);
-		$this->variant_price = str_replace('.', ',', $this->variant_price);
-		parent::afterFind();
-	}
 }

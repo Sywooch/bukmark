@@ -73,14 +73,6 @@ class Variant extends \yii\db\ActiveRecord
 	}
 
 	/**
-	 * @inheritdoc
-	 */
-	public function afterFind() {
-		$this->price = str_replace('.', ',', $this->price);
-		parent::afterFind();
-	}
-
-	/**
 	 * Get the currency label.
 	 * @return string
 	 */

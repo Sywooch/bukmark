@@ -69,12 +69,4 @@ class Massbuy extends \yii\db\ActiveRecord
 			return false;
 		}
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function afterFind() {
-		$this->utility_drop = str_replace('.', ',', $this->utility_drop);
-		parent::afterFind();
-	}
 }

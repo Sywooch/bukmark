@@ -144,15 +144,6 @@ class Product extends \yii\db\ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
-	 */
-	public function afterFind() {
-		$this->price = str_replace('.', ',', $this->price);
-		$this->utility = str_replace('.', ',', $this->utility);
-		parent::afterFind();
-	}
-
-	/**
 	 * Get the currency label.
 	 * @return string
 	 */

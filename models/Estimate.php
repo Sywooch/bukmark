@@ -58,16 +58,6 @@ class Estimate extends \yii\db\ActiveRecord
 			return false;
 		}
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function afterFind() {
-		$this->total = str_replace('.', ',', $this->total);
-		$this->cost = str_replace('.', ',', $this->cost);
-		$this->us = str_replace('.', ',', $this->us);
-		parent::afterFind();
-	}
 	
 	public function doEstimate() {
 		$entries = $this->entries;
