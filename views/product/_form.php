@@ -34,11 +34,11 @@ $currencies = Currency::labels();
 
 	<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-	<?= $form->field($model, 'price')->textInput() ?>
+	<?= $form->field($model, 'price')->textInput(['value' => Yii::$app->formatter->asDecimal($model->price, 2)]) ?>
 
 	<?= $form->field($model, 'currency')->dropDownList($currencies) ?>
 	
-	<?= $form->field($model, 'utility')->textInput() ?>
+	<?= $form->field($model, 'utility')->textInput(['value' => Yii::$app->formatter->asDecimal($model->utility, 2)]) ?>
 
     <div class="form-group">
 		<?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

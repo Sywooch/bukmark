@@ -46,7 +46,7 @@ $config = [
 		'db' => require(__DIR__ . '/db.php'),
 		'formatter' => [
 			'class' => 'yii\i18n\Formatter',
-			'thousandSeparator' => '.',
+			'thousandSeparator' => '',
 			'decimalSeparator' => ',',
 		],
 	],
