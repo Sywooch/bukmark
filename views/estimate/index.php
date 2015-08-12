@@ -23,9 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 			'id',
-			'total',
-			'cost',
-			'us',
+			[
+				'attribute' => 'total',
+				'format' => ['decimal', 2]
+			],
+			[
+				'attribute' => 'cost',
+				'format' => ['decimal', 2]
+			],
+			[
+				'attribute' => 'us',
+				'format' => ['decimal', 2]
+			],
 			[
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{view}{delete}'

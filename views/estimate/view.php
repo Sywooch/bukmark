@@ -29,9 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'total',
-            'cost',
-            'us',
+            [
+				'attribute' => 'total',
+				'format' => ['decimal', 2]
+			],
+			[
+				'attribute' => 'cost',
+				'format' => ['decimal', 2]
+			],
+			[
+				'attribute' => 'us',
+				'format' => ['decimal', 2]
+			],
         ],
     ]) ?>
 

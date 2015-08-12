@@ -17,34 +17,44 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => '¿Está seguro de eliminar este elemento?',
-                'method' => 'post',
-            ],
-        ]) ?>
+		<?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+		<?=
+		Html::a('Eliminar', ['delete', 'id' => $model->id], [
+			'class' => 'btn btn-danger',
+			'data' => [
+				'confirm' => '¿Está seguro de eliminar este elemento?',
+				'method' => 'post',
+			],
+		])
+		?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            ['label' => 'Categoría', 'value' => $model->category->title],
-            ['label' => 'Proveedor', 'value' => $model->supplier->name],
-            'supplier_code',
-            'bukmark_code',
-            ['label' => 'Imagen', 'value' => '@web/images/product/' . $model->image, 'format' => ['image',['height'=>'100']]],
-            'description:ntext',
-            'price',
-            ['label' => 'Moneda', 'value' => $model->currencyLabel],
-			'utility',
-        ],
-    ]) ?>
-	
+	<?=
+	DetailView::widget([
+		'model' => $model,
+		'attributes' => [
+			'id',
+			['label' => 'Categoría', 'value' => $model->category->title],
+			['label' => 'Proveedor', 'value' => $model->supplier->name],
+			'supplier_code',
+			'bukmark_code',
+			['label' => 'Imagen', 'value' => '@web/images/product/' . $model->image, 'format' => ['image', ['height' => '100']]],
+			'description:ntext',
+			[
+				'attribute' => 'price',
+				'format' => ['decimal', 2]
+			],
+			['label' => 'Moneda', 'value' => $model->currencyLabel],
+			[
+				'attribute' => 'utility',
+				'format' => ['decimal', 2]
+			],
+		],
+	])
+	?>
+
 	<h2>Variantes</h2>
-	
+
 	<?=
 	GridView::widget([
 		'dataProvider' => $variantDataProvider,
@@ -52,8 +62,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
 			'id',
 			'description',
-			'price',
-			'currency',
+			[
+				'attribute' => 'price',
+				'format' => ['decimal', 2]
+			],
+			[
+				'label' => 'Moneda',
+				'value' => 'currencyLabel',
+			],
 			[
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{delete}',
@@ -76,11 +92,11 @@ $this->params['breadcrumbs'][] = $this->title;
 		],
 	]);
 	?>
-	
+
 	<?= Html::a('Agregar variante', ['add-variant', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-	
+
 	<h2>Descuento por cantidad</h2>
-	
+
 	<?=
 	GridView::widget([
 		'dataProvider' => $massbuyDataProvider,
@@ -88,7 +104,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
 			'id',
 			'quantity',
-			'utility_drop',
+			[
+				'attribute' => 'utility_drop',
+				'format' => ['decimal', 2]
+			],
 			[
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{delete}',
@@ -111,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		],
 	]);
 	?>
-	
+
 	<?= Html::a('Agregar descuento', ['add-massbuy', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 
 </div>
