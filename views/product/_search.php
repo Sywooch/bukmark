@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'category_id') ?>
 
     <?= $form->field($model, 'supplier_id') ?>
+	
+	<?= $form->field($model, 'title') ?>
 
     <?= $form->field($model, 'supplier_code') ?>
 

@@ -11,6 +11,7 @@ use yii\web\UploadedFile;
  * @property integer $id
  * @property integer $category_id
  * @property integer $supplier_id
+ * @property string $title
  * @property string $supplier_code
  * @property string $bukmark_code
  * @property string $image
@@ -41,14 +42,14 @@ class Product extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['category_id', 'supplier_id', 'description', 'price', 'currency', 'utility'], 'required'],
+			[['category_id', 'supplier_id', 'title', 'price', 'currency', 'utility'], 'required'],
 			[['category_id', 'supplier_id', 'currency'], 'integer'],
 			['category_id', 'exist', 'targetClass' => Category::className(), 'targetAttribute' => 'id'],
 			['supplier_id', 'exist', 'targetClass' => Supplier::className(), 'targetAttribute' => 'id'],
 			[['description'], 'string'],
 			[['price'], 'number', 'min' => 0, 'numberPattern' => Currency::VALIDATOR_PATTERN],
 			[['utility'], 'number', 'min' => 0, 'numberPattern' => Currency::VALIDATOR_PATTERN],
-			[['supplier_code', 'bukmark_code'], 'string', 'max' => 255],
+			[['title', 'supplier_code', 'bukmark_code'], 'string', 'max' => 255],
 			[['supplier_code'], 'unique', 'when' => function ($model) {
 			return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
 		}],
@@ -67,6 +68,7 @@ class Product extends \yii\db\ActiveRecord {
 			'id' => 'ID',
 			'category_id' => 'Categoría',
 			'supplier_id' => 'Proveedor',
+			'title' => 'Título',
 			'supplier_code' => 'Código de proveedor',
 			'bukmark_code' => 'Código interno',
 			'image' => 'Imagen',

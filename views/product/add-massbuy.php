@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = 'Agregar descuento por cantidad';
 $this->params['breadcrumbs'][] = ['label' => 'Productos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $product->id, 'url' => ['view', 'id' => $product->id]];
+$this->params['breadcrumbs'][] = ['label' => $product->title, 'url' => ['view', 'id' => $product->id]];
 $this->params['breadcrumbs'][] = $model->id;
 ?>
 <div class="variant-create">
