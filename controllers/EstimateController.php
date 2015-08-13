@@ -6,6 +6,8 @@ use Yii;
 use app\models\Estimate;
 use app\models\EstimateEntry;
 use app\models\Product;
+use app\models\Variant;
+use app\models\Massbuy;
 use app\models\ProductSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -89,36 +91,65 @@ class EstimateController extends Controller {
 		]);
 	}
 
-	public function actionAddProduct($id, $productId) {
+	public function actionSelectVariant($id, $productId) {
 		$estimate = $this->findModel($id);
 		$product = $this->findProductModel($productId);
+		
+		$dataProvider = new ActiveDataProvider([
+			'query' => $product->getVariants(),
+		]);
+		
+		return $this->render('select-variant', [
+					'estimate' => $estimate,
+					'product' => $product,
+					'dataProvider' => $dataProvider,
+		]);
+	}
+	
+	public function actionAddProduct($id, $productId, $variantId = null) {
+		$estimate = $this->findModel($id);
+		$product = $this->findProductModel($productId);
+		$variant = null;
+		if($variantId) {
+			$variant = $this->findVariantModel($variantId);
+		}
 		$model = new EstimateEntry;
 
 		$model->estimate_id = $estimate->id;
 		$model->product_id = $product->id;
-		$model->utility = $product->utility;
+		if($variant) {
+			$model->variant_id = $variant->id;
+		}
 
 		$price = $product->price;
 		if ($product->currency == Currency::CURRENCY_USD) {
 			$price = $product->price * $estimate->us;
 		}
 		$model->price = $price;
+		
+		if($variant) {
+			$variantPrice = $variant->price;
+			if($variant->currency == Currency::CURRENCY_USD) {
+				$variantPrice = $variant->price * $estimate->us;
+			}
+			$model->variant_price = $variantPrice;
+		}
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			$estimate->doEstimate();
-			return $this->redirect(['view', 'id' => $estimate->id]);
+		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+			$massbuy = Massbuy::find()->where(['product_id' => $product->id])->andWhere(['<', 'quantity', $model->quantity])->orderBy(['quantity' => SORT_DESC])->one();
+			$utilityDrop = 0;
+			if($massbuy) {
+				$utilityDrop = $massbuy->utility_drop;
+			}
+			$model->utility = $product->utility - $utilityDrop;
+			if($model->save()) {
+				$estimate->doEstimate();
+				return $this->redirect(['view', 'id' => $estimate->id]);
+			}
 		}
 		return $this->render('add-product', [
 					'model' => $model,
 		]);
-	}
-
-	public function actionSelectVariation($entryId) {
-		
-	}
-
-	public function actionAddVariation($entryId, $variationId) {
-		
 	}
 
 	/**
@@ -163,4 +194,18 @@ class EstimateController extends Controller {
 		}
 	}
 
+	/**
+	 * Finds the Variant model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param integer $id
+	 * @return Variant the loaded model
+	 * @throws NotFoundHttpException if the model cannot be found
+	 */
+	protected function findVariantModel($id) {
+		if (($model = Variant::findOne($id)) !== null) {
+			return $model;
+		} else {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+	}
 }

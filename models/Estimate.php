@@ -64,7 +64,7 @@ class Estimate extends \yii\db\ActiveRecord
 		$cost = 0;
 		$total = 0;
 		foreach($entries as $entry) {
-			$subcost = $entry->price * $entry->quantity;
+			$subcost = ($entry->price + $entry->variant_price) * $entry->quantity;
 			$subtotal = $subcost * (1 + $entry->utility / 100);
 			$cost += $subcost;
 			$total += $subtotal;

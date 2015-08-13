@@ -47,7 +47,7 @@ class Product extends \yii\db\ActiveRecord {
 			['supplier_id', 'exist', 'targetClass' => Supplier::className(), 'targetAttribute' => 'id'],
 			[['description'], 'string'],
 			[['price'], 'number', 'min' => 0, 'numberPattern' => Currency::VALIDATOR_PATTERN],
-			[['utility'], 'number', 'min' => 0, 'max' => 100, 'numberPattern' => Currency::VALIDATOR_PATTERN],
+			[['utility'], 'number', 'min' => 0, 'numberPattern' => Currency::VALIDATOR_PATTERN],
 			[['supplier_code', 'bukmark_code'], 'string', 'max' => 255],
 			[['supplier_code'], 'unique', 'when' => function ($model) {
 			return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
