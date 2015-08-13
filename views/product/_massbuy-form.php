@@ -11,11 +11,11 @@ use yii\widgets\ActiveForm;
 
 <div class="variant-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 	
 	<?= $form->field($model, 'quantity')->textInput() ?>
 	
-	<?= $form->field($model, 'utility_drop')->textInput() ?>
+	<?= $form->field($model, 'utility_drop')->textInput(['value' => is_numeric($model->utility_drop) ? Yii::$app->formatter->asDecimal($model->utility_drop, 2) : null]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

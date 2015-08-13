@@ -34,7 +34,7 @@ class Variant extends \yii\db\ActiveRecord
 			[['description', 'price', 'currency'], 'required'],
             [['product_id', 'currency'], 'integer'],
             [['description'], 'string'],
-            [['price'], 'number', 'numberPattern' => Currency::VALIDATOR_PATTERN]
+            [['price'], 'number']
         ];
     }
 
@@ -63,8 +63,8 @@ class Variant extends \yii\db\ActiveRecord
 	/**
 	 * @inheritdoc
 	 */
-	public function beforeSave($insert) {
-		if (parent::beforeSave($insert)) {
+	public function beforeValidate() {
+		if (parent::beforeValidate()) {
 			$this->price = str_replace(',', '.', $this->price);
 			return true;
 		} else {

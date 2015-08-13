@@ -14,11 +14,11 @@ $currencies = Currency::labels();
 
 <div class="variant-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 	
 	<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 	
-	<?= $form->field($model, 'price')->textInput() ?>
+	<?= $form->field($model, 'price')->textInput(['value' => is_numeric($model->price) ? Yii::$app->formatter->asDecimal($model->price, 2) : null]) ?>
 
 	<?= $form->field($model, 'currency')->dropDownList($currencies) ?>
 

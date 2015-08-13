@@ -33,7 +33,7 @@ class Massbuy extends \yii\db\ActiveRecord
 			[['quantity', 'utility_drop'], 'required'],
             [['product_id', 'quantity'], 'integer'],
 			[['quantity'], 'unique'],
-            [['utility_drop'], 'number', 'numberPattern' => Currency::VALIDATOR_PATTERN],
+            [['utility_drop'], 'number'],
         ];
     }
 
@@ -61,8 +61,8 @@ class Massbuy extends \yii\db\ActiveRecord
 	/**
 	 * @inheritdoc
 	 */
-	public function beforeSave($insert) {
-		if (parent::beforeSave($insert)) {
+	public function beforeValidate() {
+		if (parent::beforeValidate()) {
 			$this->utility_drop = str_replace(',', '.', $this->utility_drop);
 			return true;
 		} else {
