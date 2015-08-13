@@ -22,21 +22,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             ['label' => 'Categoría', 'attribute' => 'category.title'],
             ['label' => 'Proveedor', 'attribute' => 'supplier.name'],
+			'title',
             'supplier_code',
             'bukmark_code',
-            'description:ntext',
             [
 				'attribute' => 'price',
-				'format' => ['decimal', 2]
+				'format' => ['decimal', 2],
+				'filter' => false,
 			],
             [
 				'label' => 'Moneda',
 				'value' => 'currencyLabel',
+			],
+			[
+				'attribute' => 'utility',
+				'format' => ['decimal', 2],
+				'filter' => false,
 			],
             [
 				'class' => 'yii\grid\ActionColumn',
