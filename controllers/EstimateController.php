@@ -61,8 +61,14 @@ class EstimateController extends Controller {
 	 * @return mixed
 	 */
 	public function actionView($id) {
+		$model = $this->findModel($id);
+		$dataProvider = new ActiveDataProvider([
+				'query' => $model->getEntries(),
+		]);
+		
 		return $this->render('view', [
-					'model' => $this->findModel($id),
+					'model' => $model,
+					'dataProvider' => $dataProvider,
 		]);
 	}
 

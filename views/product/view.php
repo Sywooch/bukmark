@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 			'id',
-			'description',
+			'description:ntext',
 			[
 				'attribute' => 'price',
 				'format' => ['decimal', 2]

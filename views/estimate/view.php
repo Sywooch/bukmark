@@ -2,9 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Estimate */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Presupuesto ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Presupuestos', 'url' => ['index']];
@@ -43,5 +45,37 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
     ]) ?>
+	
+	<?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            'id',
+            ['label' => 'Producto', 'attribute' => 'product.title'],
+            [
+				'label' => 'Variante',
+				'attribute' => 'variant.description',
+				'format' => 'ntext'
+			],
+			'quantity',
+			[
+				'attribute' => 'utility',
+				'format' => ['decimal', 2],
+				'filter' => false,
+			],
+            [
+				'label' => 'Precio producto',
+				'attribute' => 'price',
+				'format' => ['decimal', 2],
+				'filter' => false,
+			],
+			[
+				'label' => 'Precio variante',
+				'attribute' => 'variant_price',
+				'format' => ['decimal', 2],
+				'filter' => false,
+			],
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 
 </div>
