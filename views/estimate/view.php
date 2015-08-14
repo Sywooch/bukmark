@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Estimate */
@@ -74,7 +75,19 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => ['decimal', 2],
 				'filter' => false,
 			],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{delete}',
+				'urlCreator' => function($action, $model, $key, $index) {
+					$url = '';
+					switch ($action) {
+						case 'delete':
+							$url = 'delete-entry';
+							break;
+					}
+					return Url::to([$url, 'id' => $model->id]);
+				},
+			],
         ],
     ]); ?>
 

@@ -169,6 +169,21 @@ class EstimateController extends Controller {
 
 		return $this->redirect(['index']);
 	}
+	
+	/**
+	 * Deletes an existing EstimateEntry model.
+	 * If deletion is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionDeleteEntry($id) {
+		$model = $this->findEntryModel($id);
+		$estimate = $model->estimate;
+		$model->delete();
+		$estimate->doEstimate();
+
+		return $this->redirect(['view', 'id' => $estimate->id]);
+	}
 
 	/**
 	 * Finds the Estimate model based on its primary key value.
@@ -209,6 +224,21 @@ class EstimateController extends Controller {
 	 */
 	protected function findVariantModel($id) {
 		if (($model = Variant::findOne($id)) !== null) {
+			return $model;
+		} else {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+	}
+	
+	/**
+	 * Finds the EstimateEntry model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param integer $id
+	 * @return EstimateEntry the loaded model
+	 * @throws NotFoundHttpException if the model cannot be found
+	 */
+	protected function findEntryModel($id) {
+		if (($model = EstimateEntry::findOne($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');
