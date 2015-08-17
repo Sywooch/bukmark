@@ -197,6 +197,7 @@ class EstimateController extends Controller {
 		$estimate = $model->estimate;
 		$model->checked = $check;
 		$model->save();
+		$estimate->doEstimate();
 
 		return $this->redirect(['view', 'id' => $estimate->id]);
 	}

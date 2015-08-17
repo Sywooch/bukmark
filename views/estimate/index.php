@@ -32,6 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => ['decimal', 2]
 			],
 			[
+				'attribute' => 'total_checked',
+				'format' => ['decimal', 2]
+			],
+			[
+				'attribute' => 'cost_checked',
+				'format' => ['decimal', 2]
+			],
+			[
 				'attribute' => 'us',
 				'format' => ['decimal', 2]
 			],
