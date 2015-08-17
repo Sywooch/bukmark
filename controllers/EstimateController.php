@@ -184,6 +184,22 @@ class EstimateController extends Controller {
 
 		return $this->redirect(['view', 'id' => $estimate->id]);
 	}
+	
+	/**
+	 * Sets the checked field of an EstimateEntry model.
+	 * If operation is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @param boolean $check
+	 * @return mixed
+	 */
+	public function actionCheckEntry($id, $check) {
+		$model = $this->findEntryModel($id);
+		$estimate = $model->estimate;
+		$model->checked = $check;
+		$model->save();
+
+		return $this->redirect(['view', 'id' => $estimate->id]);
+	}
 
 	/**
 	 * Finds the Estimate model based on its primary key value.

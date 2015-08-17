@@ -15,6 +15,7 @@ use Yii;
  * @property string $utility
  * @property string $price
  * @property string $variant_price
+ * @property boolean $checked
  */
 class EstimateEntry extends \yii\db\ActiveRecord
 {
@@ -34,6 +35,7 @@ class EstimateEntry extends \yii\db\ActiveRecord
         return [
 			[['quantity'], 'required'],
 			[['quantity'], 'integer', 'min' => 1],
+			[['checked'], 'boolean'],
         ];
     }
 
@@ -51,6 +53,7 @@ class EstimateEntry extends \yii\db\ActiveRecord
             'utility' => 'Utilidad',
             'price' => 'Precio',
 			'variant_price' => 'Precio variante',
+			'checked' => 'Confirmado',
         ];
     }
 	

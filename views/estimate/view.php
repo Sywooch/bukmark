@@ -75,17 +75,24 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => ['decimal', 2],
 				'filter' => false,
 			],
+			[
+				'attribute' => 'checked',
+				'format' => 'boolean'
+			],
             [
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{delete}',
+				'template' => '{delete} {update}',
 				'urlCreator' => function($action, $model, $key, $index) {
-					$url = '';
+					$url = [''];
 					switch ($action) {
 						case 'delete':
-							$url = 'delete-entry';
+							$url = ['delete-entry', 'id' => $model->id];
+							break;
+						case 'update':
+							$url = ['check-entry', 'id' => $model->id, 'check' => !$model->checked];
 							break;
 					}
-					return Url::to([$url, 'id' => $model->id]);
+					return Url::to($url);
 				},
 			],
         ],
