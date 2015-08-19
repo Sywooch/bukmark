@@ -19,7 +19,7 @@ class ClientSearch extends Client
     {
         return [
             [['id'], 'integer'],
-            [['name', 'cuit', 'address', 'payment_conditions', 'notes'], 'safe'],
+            [['name', 'cuit', 'address', 'delivery_address', 'payment_conditions', 'notes'], 'safe'],
         ];
     }
 
@@ -62,6 +62,7 @@ class ClientSearch extends Client
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'cuit', $this->cuit])
             ->andFilterWhere(['like', 'address', $this->address])
+			->andFilterWhere(['like', 'delivery_address', $this->delivery_address])
             ->andFilterWhere(['like', 'payment_conditions', $this->payment_conditions])
             ->andFilterWhere(['like', 'notes', $this->notes]);
 

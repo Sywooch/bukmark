@@ -11,6 +11,7 @@ use Yii;
  * @property string $name
  * @property string $cuit
  * @property string $address
+ * @property string $delivery_address
  * @property string $payment_conditions
  * @property string $notes
  */
@@ -32,7 +33,7 @@ class Client extends \yii\db\ActiveRecord
         return [
 			[['name'], 'required'],
             [['notes'], 'string'],
-            [['name', 'cuit', 'address', 'payment_conditions'], 'string', 'max' => 255]
+            [['name', 'cuit', 'address', 'delivery_address', 'payment_conditions'], 'string', 'max' => 255]
         ];
     }
 
@@ -46,6 +47,7 @@ class Client extends \yii\db\ActiveRecord
             'name' => 'Nombre',
             'cuit' => 'CUIT',
             'address' => 'Dirección',
+			'delivery_address' => 'Dirección de entrega',
             'payment_conditions' => 'Condiciones de pago',
             'notes' => 'Notas',
         ];

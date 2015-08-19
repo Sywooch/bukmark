@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'cuit') ?>
+	
+	<?= $form->field($model, 'delivery_address') ?>
 
     <?= $form->field($model, 'address') ?>
 

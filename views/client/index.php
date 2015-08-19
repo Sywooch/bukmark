@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'cuit',
+			'delivery_address',
             'address',
             'payment_conditions',
             // 'notes:ntext',
