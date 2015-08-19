@@ -48,6 +48,7 @@ class EstimateController extends Controller {
 	public function actionIndex() {
 		$dataProvider = new ActiveDataProvider([
 			'query' => Estimate::find(),
+			'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
 		]);
 
 		return $this->render('index', [

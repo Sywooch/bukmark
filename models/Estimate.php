@@ -30,7 +30,7 @@ class Estimate extends \yii\db\ActiveRecord {
 	 */
 	public function attributeLabels() {
 		return [
-			'id' => 'ID',
+			'id' => 'N° de presupuesto',
 			'total' => 'Total',
 			'cost' => 'Costo',
 			'total_checked' => 'Total(confirmado)',
