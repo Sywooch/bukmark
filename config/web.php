@@ -48,6 +48,7 @@ $config = [
 			'class' => 'yii\i18n\Formatter',
 			'thousandSeparator' => '',
 			'decimalSeparator' => ',',
+			'dateFormat' => 'dd/MM/yyyy',
 		],
 	],
 	'params' => $params,

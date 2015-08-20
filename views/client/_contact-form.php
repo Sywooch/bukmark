@@ -19,6 +19,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 	
 	<?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+	
+	<?= $form->field($model, 'birthdate')->widget(\yii\jui\DatePicker::classname(), ['options' => ['class' => 'form-control']]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

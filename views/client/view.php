@@ -53,6 +53,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			'email',
 			'phone',
 			[
+				'attribute' => 'birthdate',
+				'format' => 'date',
+			],
+			[
 				'class' => 'yii\grid\ActionColumn',
 				'urlCreator' => function($action, $model, $key, $index) {
 					$url = '';

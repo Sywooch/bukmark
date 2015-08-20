@@ -13,6 +13,7 @@ use Yii;
  * @property string $last_name
  * @property string $email
  * @property string $phone
+ * @property string $birthdate
  *
  * @property Client $client
  */
@@ -31,7 +32,8 @@ class ClientContact extends \yii\db\ActiveRecord {
 	public function rules() {
 		return [
 			[['email'], 'email'],
-			[['first_name', 'last_name', 'email', 'phone'], 'string', 'max' => 255]
+			[['first_name', 'last_name', 'email', 'phone'], 'string', 'max' => 255],
+			[['birthdate'], 'date'],
 		];
 	}
 
@@ -46,6 +48,7 @@ class ClientContact extends \yii\db\ActiveRecord {
 			'last_name' => 'Apellido',
 			'email' => 'Email',
 			'phone' => 'Teléfono',
+			'birthdate' => 'Cumpleaños',
 		];
 	}
 
@@ -74,6 +77,18 @@ class ClientContact extends \yii\db\ActiveRecord {
 			}
 		}
 		return parent::beforeValidate();
+	}
+
+	/**
+	 * Format birthdate
+	 * @inheritdoc
+	 */
+	public function beforeSave($insert) {
+		if ($this->birthdate) {
+			$array = explode('/', $this->birthdate);
+			$this->birthdate = $array[2] . '-' . $array[1] . '-' . $array[0];
+		}
+		return parent::beforeSave($insert);
 	}
 
 	/**

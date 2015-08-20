@@ -152,4 +152,5 @@ class Product extends \yii\db\ActiveRecord {
 	public function getCurrencyLabel() {
 		return Currency::labels()[$this->currency];
 	}
+
 }

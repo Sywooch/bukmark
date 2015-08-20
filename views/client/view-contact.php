@@ -40,6 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			'last_name',
 			'email',
 			'phone',
+			[
+				'attribute' => 'birthdate',
+				'format' => 'date',
+			],
 		],
 	])
 	?>
