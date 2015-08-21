@@ -6,7 +6,8 @@ use yii\db\Migration;
 class m150821_185633_add_data_to_estimate extends Migration
 {
     public function up() {
-		$this->addColumn('estimate', 'client_id', Schema::TYPE_INTEGER . ' AFTER id');
+		$this->addColumn('estimate', 'title', Schema::TYPE_STRING . ' AFTER id');
+		$this->addColumn('estimate', 'client_id', Schema::TYPE_INTEGER . ' AFTER title');
 		$this->addColumn('estimate', 'user_id', Schema::TYPE_INTEGER . ' AFTER client_id');
 		$this->addColumn('estimate', 'status', Schema::TYPE_SMALLINT . ' AFTER user_id');
 		$this->addColumn('estimate', 'request_date', Schema::TYPE_DATE . ' AFTER status');
@@ -20,6 +21,7 @@ class m150821_185633_add_data_to_estimate extends Migration
 		$this->dropForeignKey('fk_estimate_client', 'estimate');
 		$this->dropForeignKey('fk_estimate_user', 'estimate');
 		
+		$this->dropColumn('estimate', 'title');
 		$this->dropColumn('estimate', 'client_id');
 		$this->dropColumn('estimate', 'user_id');
 		$this->dropColumn('estimate', 'status');
