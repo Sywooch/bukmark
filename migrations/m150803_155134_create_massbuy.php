@@ -19,8 +19,6 @@ class m150803_155134_create_massbuy extends Migration {
 			'quantity' => Schema::TYPE_INTEGER,
 			'utility_drop' => Schema::TYPE_MONEY,
 				], $tableOptions);
-
-		$this->addForeignKey('fk_massbuy_product', 'massbuy', 'product_id', 'product', 'id', 'CASCADE');
 	}
 
 	public function down() {

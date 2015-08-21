@@ -115,6 +115,14 @@ class Product extends \yii\db\ActiveRecord {
 		return Yii::getAlias('@images/product');
 	}
 
+	public function getImageUrl() {
+		$imageUrl = null;
+		if ($this->image) {
+			$imageUrl = '@web/images/product/' . $this->image;
+		}
+		return $imageUrl;
+	}
+
 	/**
 	 * Save the uploaded image.
 	 * @return boolean true whether the file is saved successfully

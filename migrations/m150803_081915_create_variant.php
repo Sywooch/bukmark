@@ -25,6 +25,7 @@ class m150803_081915_create_variant extends Migration
 	}
 
 	public function down() {
+		$this->dropForeignKey('fk_variant_product', 'variant');
 		$this->dropTable('variant');
 	}
     

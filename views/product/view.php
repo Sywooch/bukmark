@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			['label' => 'Proveedor', 'value' => $model->supplier->name],
 			'supplier_code',
 			'bukmark_code',
-			['label' => 'Imagen', 'value' => '@web/images/product/' . $model->image, 'format' => ['image', ['height' => '100']]],
+			['label' => 'Imagen', 'value' => $model->imageUrl, 'format' => ['image', ['height' => '100']]],
 			'description:ntext',
 			[
 				'attribute' => 'price',
