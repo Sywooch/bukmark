@@ -31,6 +31,8 @@ class EstimateController extends Controller {
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
+					'delete-entry' => ['post'],
+					'check-entry' => ['post'],
 				],
 			],
 		];

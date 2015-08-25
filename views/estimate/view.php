@@ -9,7 +9,7 @@ use yii\helpers\Url;
 /* @var $model app\models\Estimate */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Presupuesto ' . $model->title;
+$this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Presupuestos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -135,16 +135,25 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => 'utilityMargin',
 				'format' => ['decimal', 2],
 			],
-			[
-				'attribute' => 'checked',
-				'format' => 'boolean'
-			],
             [
 				'class' => 'yii\grid\ActionColumn',
+				'template' => '{check} {update} {delete}',
+				'buttons' => [
+					'check' => function ($url, $model, $key) {
+						$options = array_merge([
+							'title' => Yii::t('yii', 'Check'),
+							'aria-label' => Yii::t('yii', 'Check'),
+							'data-method' => 'post',
+							'data-pjax' => '0',
+						]);
+						$icon = $model->checked ? 'glyphicon-check' : 'glyphicon-unchecked';
+						return Html::a('<span class="glyphicon ' . $icon . '"></span>', $url, $options);
+					},
+				],
 				'urlCreator' => function($action, $model, $key, $index) {
 					$url = [''];
 					switch ($action) {
-						case 'view':
+						case 'check':
 							$url = ['check-entry', 'id' => $model->id, 'check' => !$model->checked];
 							break;
 						case 'update':
