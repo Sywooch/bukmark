@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\helpers\DateConverter;
 use Yii;
 
 /**
@@ -13,7 +14,7 @@ use Yii;
  * @property integer $user_id
  * @property integer $status
  * @property string $request_date
- * @property string $send_date 
+ * @property string $sent_date
  * @property string $total
  * @property string $cost
  * @property string $total_checked
@@ -22,8 +23,6 @@ use Yii;
  */
 class Estimate extends \yii\db\ActiveRecord {
 
-	const US_TO_ARS_MARGIN = 0.04;
-	
 	/* Statuses go here.
 	  IMPORTANT: If a Status is added it must also be added
 	  to statusLabels() and statusColors(). */
@@ -34,20 +33,19 @@ class Estimate extends \yii\db\ActiveRecord {
 	const STATUS_SEND = 4;
 	const STATUS_CONTACT = 5;
 	const STATUS_SENT = 6;
-	
+
 	/**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
+	 * @inheritdoc
+	 */
+	public function rules() {
+		return [
 			[['title', 'client_id', 'request_date'], 'required'],
 			[['title'], 'string', 'max' => 255],
-			[['client_id'], 'exists', 'targetClass' => Client::className(), 'targetAttribute' => 'id'],
+			[['client_id'], 'exist', 'targetClass' => Client::className(), 'targetAttribute' => 'id'],
 			[['status'], 'in', 'range' => array_keys(self::statusLabels())],
-			[['request_date', 'send_date'], 'date'],
-        ];
-    }
+			[['request_date', 'sent_date'], 'date'],
+		];
+	}
 
 	/**
 	 * @inheritdoc
@@ -67,7 +65,7 @@ class Estimate extends \yii\db\ActiveRecord {
 			'user_id' => 'Usuario',
 			'status' => 'Estado',
 			'request_date' => 'Solicitado',
-			'send_date' => 'Enviado',
+			'sent_date' => 'Enviado',
 			'total' => 'Total',
 			'cost' => 'Costo',
 			'total_checked' => 'Total(confirmado)',
@@ -75,21 +73,20 @@ class Estimate extends \yii\db\ActiveRecord {
 			'us' => 'Dólar',
 		];
 	}
-	
+
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getClient() {
-		return $this->hasOne(Client::className(), ['client_id' => 'id']);
+		return $this->hasOne(Client::className(), ['id' => 'client_id']);
 	}
-	
+
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getUser() {
-		return $this->hasOne(User::className(), ['user_id' => 'id']);
+		return $this->hasOne(User::className(), ['id' => 'user_id']);
 	}
-
 
 	/**
 	 * @return \yii\db\ActiveQuery
@@ -97,39 +94,39 @@ class Estimate extends \yii\db\ActiveRecord {
 	public function getEntries() {
 		return $this->hasMany(EstimateEntry::className(), ['estimate_id' => 'id']);
 	}
-	
+
 	/**
 	 * Get status labels
 	 * @return string[]
 	 */
 	public static function statusLabels() {
 		return [
-			STATUS_ENTERED => 'Ingresado',
-			STATUS_UTILITY => 'Utilidad',
-			STATUS_PRESENTATION_PENDING => 'Presentación pendiente',
-			STATUS_WAITING_ANSWER => 'Epserando respuesta',
-			STATUS_SEND => 'Enviar',
-			STATUS_CONTACT => 'Cotactar',
-			STATUS_SENT => 'Enviado',
+			self::STATUS_ENTERED => 'Ingresado',
+			self::STATUS_UTILITY => 'Utilidad',
+			self::STATUS_PRESENTATION_PENDING => 'Presentación pendiente',
+			self::STATUS_WAITING_ANSWER => 'Epserando respuesta',
+			self::STATUS_SEND => 'Enviar',
+			self::STATUS_CONTACT => 'Cotactar',
+			self::STATUS_SENT => 'Enviado',
 		];
 	}
-	
+
 	/**
 	 * Get status colors
 	 * @return string[]
 	 */
 	public static function statusColors() {
 		return [
-			STATUS_ENTERED => 'red',
-			STATUS_UTILITY => 'yellow',
-			STATUS_PRESENTATION_PENDING => 'blue',
-			STATUS_WAITING_ANSWER => 'orange',
-			STATUS_SEND => 'green',
-			STATUS_CONTACT => 'cyan',
-			STATUS_SENT => 'gray',
+			self::STATUS_ENTERED => 'red',
+			self::STATUS_UTILITY => 'yellow',
+			self::STATUS_PRESENTATION_PENDING => 'blue',
+			self::STATUS_WAITING_ANSWER => 'orange',
+			self::STATUS_SEND => 'green',
+			self::STATUS_CONTACT => 'cyan',
+			self::STATUS_SENT => 'gray',
 		];
 	}
-	
+
 	/**
 	 * 
 	 * @return string
@@ -137,7 +134,7 @@ class Estimate extends \yii\db\ActiveRecord {
 	public function getStatusLabel() {
 		return self::statusLabels()[$this->status];
 	}
-	
+
 	/**
 	 * 
 	 * @return string
@@ -151,11 +148,12 @@ class Estimate extends \yii\db\ActiveRecord {
 	 */
 	public function beforeSave($insert) {
 		if (parent::beforeSave($insert)) {
-			$this->total = str_replace(',', '.', $this->total);
-			$this->cost = str_replace(',', '.', $this->cost);
-			$this->total_checked = str_replace(',', '.', $this->total_checked);
-			$this->cost_checked = str_replace(',', '.', $this->cost_checked);
-			$this->us = str_replace(',', '.', $this->us);
+			if ($this->isNewRecord) {
+				$this->us = Currency::US_TO_ARS + Currency::US_TO_ARS_MARGIN;
+				$this->user_id = Yii::$app->user->id;
+			}
+			$this->request_date = DateConverter::convert($this->request_date);
+			$this->sent_date = DateConverter::convert($this->sent_date);
 			return true;
 		} else {
 			return false;
@@ -169,8 +167,8 @@ class Estimate extends \yii\db\ActiveRecord {
 		$cost_checked = 0;
 		$total_checked = 0;
 		foreach ($entries as $entry) {
-			$subcost = ($entry->price + $entry->variant_price) * $entry->quantity;
-			$subtotal = $subcost * (1 + $entry->utility / 100);
+			$subcost = $entry->quantityCost;
+			$subtotal = $entry->quantitySubtotal;
 			$cost += $subcost;
 			$total += $subtotal;
 			if ($entry->checked) {
@@ -182,7 +180,7 @@ class Estimate extends \yii\db\ActiveRecord {
 		$this->total = $total;
 		$this->cost_checked = $cost_checked;
 		$this->total_checked = $total_checked;
-		$this->save();
+		$this->save(false);
 	}
 
 }

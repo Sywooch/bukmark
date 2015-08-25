@@ -36,12 +36,6 @@ $currencies = Currency::labels();
 
 	<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-	<?= $form->field($model, 'price')->textInput(['value' => is_numeric($model->price) ? Yii::$app->formatter->asDecimal($model->price, 2) : null]) ?>
-
-	<?= $form->field($model, 'currency')->dropDownList($currencies) ?>
-	
-	<?= $form->field($model, 'utility')->textInput(['value' => is_numeric($model->utility) ? Yii::$app->formatter->asDecimal($model->utility, 2) : null]) ?>
-
     <div class="form-group">
 		<?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

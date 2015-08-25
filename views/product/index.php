@@ -29,20 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			'title',
             'supplier_code',
             'bukmark_code',
-            [
-				'attribute' => 'price',
-				'format' => ['decimal', 2],
-				'filter' => false,
-			],
-            [
-				'label' => 'Moneda',
-				'value' => 'currencyLabel',
-			],
-			[
-				'attribute' => 'utility',
-				'format' => ['decimal', 2],
-				'filter' => false,
-			],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

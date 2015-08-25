@@ -10,88 +10,148 @@ use Yii;
  * @property integer $id
  * @property integer $estimate_id
  * @property integer $product_id
- * @property integer $variant_id
  * @property integer $quantity
  * @property string $utility
  * @property string $price
+ * @property integer $currency
  * @property string $variant_price
+ * @property integer $variant_currency
+ * @property string $description
  * @property boolean $checked
  */
-class EstimateEntry extends \yii\db\ActiveRecord
-{
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'estimate_entry';
-    }
+class EstimateEntry extends \yii\db\ActiveRecord {
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-			[['quantity'], 'required'],
-			[['quantity'], 'integer', 'min' => 1],
-			[['checked'], 'boolean'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-			'estimate_id' => 'Presupuesto',
-            'product_id' => 'Producto',
-            'variant_id' => 'Variante',
-            'quantity' => 'Cantidad',
-            'utility' => 'Utilidad',
-            'price' => 'Precio',
-			'variant_price' => 'Precio variante',
-			'checked' => 'Confirmado',
-        ];
-    }
-	
-	/**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEstimate()
-    {
-        return $this->hasOne(Estimate::className(), ['id' => 'estimate_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProduct()
-    {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVariant()
-    {
-        return $this->hasOne(Variant::className(), ['id' => 'variant_id']);
-    }
-	
 	/**
 	 * @inheritdoc
 	 */
-	public function beforeSave($insert) {
-		if (parent::beforeSave($insert)) {
-			$this->utility = str_replace(',', '.', $this->utility);
+	public static function tableName() {
+		return 'estimate_entry';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function rules() {
+		return [
+			[['product_id', 'quantity', 'utility', 'price'], 'required'],
+			[['product_id', 'currency', 'variant_currency'], 'integer'],
+			[['product_id'], 'exist', 'targetClass' => Product::className(), 'targetAttribute' => 'id'],
+			[['quantity'], 'integer', 'min' => 1],
+			[['utility', 'price', 'variant_price'], 'number', 'min' => 0],
+			[['currency', 'variant_currency'], 'in', 'range' => array_keys(Currency::labels())],
+			[['description'], 'safe'],
+			[['checked'], 'boolean'],
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels() {
+		return [
+			'id' => 'ID',
+			'estimate_id' => 'Presupuesto',
+			'product_id' => 'Producto',
+			'quantity' => 'Cantidad',
+			'utility' => 'Utilidad',
+			'price' => 'Precio',
+			'currency' => 'Moneda',
+			'variant_price' => 'Precio variante',
+			'variant_currency' => 'Moneda',
+			'description' => 'Descripción',
+			'checked' => 'Confirmado',
+		];
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getEstimate() {
+		return $this->hasOne(Estimate::className(), ['id' => 'estimate_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getProduct() {
+		return $this->hasOne(Product::className(), ['id' => 'product_id']);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function beforeValidate() {
+		if (parent::beforeValidate()) {
 			$this->price = str_replace(',', '.', $this->price);
 			$this->variant_price = str_replace(',', '.', $this->variant_price);
+			$this->utility = str_replace(',', '.', $this->utility);
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Get the currency label.
+	 * @return string
+	 */
+	public function getCurrencyLabel() {
+		return Currency::labels()[$this->currency];
+	}
+
+	/**
+	 * Get the variant currency label.
+	 * @return string
+	 */
+	public function getVariantCurrencyLabel() {
+		return Currency::labels()[$this->variant_currency];
+	}
+
+	/**
+	 * Get price + variant_price converted to ARS
+	 * @return float
+	 */
+	public function getCost() {
+		$price = $this->price;
+		if ($this->currency == Currency::CURRENCY_USD) {
+			$price = $this->price * $this->estimate->us;
+		}
+		$variantPrice = $this->variant_price ? $this->variant_price : 0;
+		if ($this->variant_currency == Currency::CURRENCY_USD) {
+			$variantPrice = $this->variant_price * $this->estimate->us;
+		}
+		return $price + $variantPrice;
+	}
+	
+	/**
+	 * Get cost + utility margin
+	 * @return float
+	 */
+	public function getSubtotal() {
+		return $this->cost * (1 + $this->utility / 100);
+	}
+
+	/**
+	 * Get quantity * cost
+	 * @return float
+	 */
+	public function getQuantityCost() {
+		return $this->cost * $this->quantity;
+	}
+	
+	/**
+	 * Get quantity * subtotal
+	 * @return float
+	 */
+	public function getQuantitySubtotal() {
+		return $this->subtotal * $this->quantity;
+	}
+	
+	/**
+	 * Get utility margin
+	 * @return float
+	 */
+	public function getUtilityMargin() {
+		return $this->quantityCost * ($this->utility / 100);
 	}
 }

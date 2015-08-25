@@ -9,7 +9,7 @@ use yii\helpers\Url;
 /* @var $model app\models\Estimate */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Presupuesto ' . $model->id;
+$this->title = 'Presupuesto ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Presupuestos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -18,11 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Agregar producto', ['select-product', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '¿Estas seguro de eleminar este elemento?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -32,6 +32,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+			'title',
+			[
+				'label' => 'Cliente',
+				'attribute' => 'client.name',
+			],
+			[
+				'label' => 'Usuario',
+				'attribute' => 'user.username',
+			],
+			[
+				'label' => 'Estado',
+				'attribute' => 'statusLabel',
+			],
+			'request_date',
+			'sent_date',
             [
 				'attribute' => 'total',
 				'format' => ['decimal', 2]
@@ -55,33 +70,70 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 	
+	<h2>Resumen</h2>
+	
+	<p>
+	
+	<?= Html::a('Agregar producto', ['create-entry', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+	
+	</p>
+		
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'id',
-            ['label' => 'Producto', 'attribute' => 'product.title'],
-            [
-				'label' => 'Variante',
-				'attribute' => 'variant.description',
-				'format' => 'ntext'
+            [	'label' => 'Producto',
+				'value' => 'product.title'
 			],
+			[	'label' => 'Proveedor',
+				'value' => 'product.supplier.name'
+			],
+			'product.supplier_code',
+			'product.bukmark_code',
+			'description:ntext',
 			'quantity',
-			[
-				'attribute' => 'utility',
-				'format' => ['decimal', 2],
-				'filter' => false,
-			],
             [
-				'label' => 'Precio producto',
 				'attribute' => 'price',
 				'format' => ['decimal', 2],
 				'filter' => false,
 			],
 			[
-				'label' => 'Precio variante',
+				'label' => 'Moneda',
+				'value' => 'currencyLabel'
+			],
+			[
 				'attribute' => 'variant_price',
 				'format' => ['decimal', 2],
 				'filter' => false,
+			],
+			[
+				'label' => 'Moneda',
+				'value' => 'variantCurrencyLabel'
+			],
+			[
+				'label' => 'Suma',
+				'value' => 'cost',
+				'format' => ['decimal', 2],
+			],
+			[
+				'attribute' => 'utility',
+				'format' => ['decimal', 2],
+				'filter' => false,
+			],
+			[
+				'label' => 'Subtotal',
+				'value' => 'subtotal',
+				'format' => ['decimal', 2],
+			],
+			[
+				'label' => 'Subtotal x cantidad',
+				'value' => 'quantitySubtotal',
+				'format' => ['decimal', 2],
+			],
+			[
+				'label' => 'Margen de utilidad',
+				'value' => 'utilityMargin',
+				'format' => ['decimal', 2],
 			],
 			[
 				'attribute' => 'checked',
@@ -89,15 +141,17 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             [
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{delete} {update}',
 				'urlCreator' => function($action, $model, $key, $index) {
 					$url = [''];
 					switch ($action) {
-						case 'delete':
-							$url = ['delete-entry', 'id' => $model->id];
+						case 'view':
+							$url = ['check-entry', 'id' => $model->id, 'check' => !$model->checked];
 							break;
 						case 'update':
-							$url = ['check-entry', 'id' => $model->id, 'check' => !$model->checked];
+							$url = ['update-entry', 'id' => $model->id];
+							break;
+						case 'delete':
+							$url = ['delete-entry', 'id' => $model->id];
 							break;
 					}
 					return Url::to($url);

@@ -5,16 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Estimate;
 use app\models\EstimateEntry;
-use app\models\Product;
-use app\models\Variant;
-use app\models\Massbuy;
-use app\models\ProductSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\Currency;
 
 /**
  * EstimateController implements the CRUD actions for Estimate model.
@@ -47,7 +42,7 @@ class EstimateController extends Controller {
 	 */
 	public function actionIndex() {
 		$dataProvider = new ActiveDataProvider([
-			'query' => Estimate::find(),
+			'query' => Estimate::find()->with('client'),
 			'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
 		]);
 
@@ -64,7 +59,7 @@ class EstimateController extends Controller {
 	public function actionView($id) {
 		$model = $this->findModel($id);
 		$dataProvider = new ActiveDataProvider([
-				'query' => $model->getEntries(),
+				'query' => $model->getEntries()->with('product.supplier'),
 		]);
 		
 		return $this->render('view', [
@@ -80,81 +75,28 @@ class EstimateController extends Controller {
 	 */
 	public function actionCreate() {
 		$model = new Estimate();
-		$model->us = Currency::US_TO_ARS + Estimate::US_TO_ARS_MARGIN;
-		$model->save();
-		return $this->redirect(['view', 'id' => $model->id]);
-	}
 
-	public function actionSelectProduct($id) {
-		$estimate = $this->findModel($id);
-
-		$searchModel = new ProductSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-		return $this->render('select-product', [
-					'estimate' => $estimate,
-					'searchModel' => $searchModel,
-					'dataProvider' => $dataProvider,
-		]);
-	}
-
-	public function actionSelectVariant($id, $productId) {
-		$estimate = $this->findModel($id);
-		$product = $this->findProductModel($productId);
-		
-		$dataProvider = new ActiveDataProvider([
-			'query' => $product->getVariants(),
-		]);
-		
-		return $this->render('select-variant', [
-					'estimate' => $estimate,
-					'product' => $product,
-					'dataProvider' => $dataProvider,
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				return $this->redirect(['view', 'id' => $model->id]);
+		}
+		return $this->render('create', [
+					'model' => $model,
 		]);
 	}
 	
-	public function actionAddProduct($id, $productId, $variantId = null) {
-		$estimate = $this->findModel($id);
-		$product = $this->findProductModel($productId);
-		$variant = null;
-		if($variantId) {
-			$variant = $this->findVariantModel($variantId);
-		}
-		$model = new EstimateEntry;
+	/**
+	 * Updates an existing Estimate model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionUpdate($id) {
+		$model = $this->findModel($id);
 
-		$model->estimate_id = $estimate->id;
-		$model->product_id = $product->id;
-		if($variant) {
-			$model->variant_id = $variant->id;
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				return $this->redirect(['view', 'id' => $model->id]);
 		}
-
-		$price = $product->price;
-		if ($product->currency == Currency::CURRENCY_USD) {
-			$price = $product->price * $estimate->us;
-		}
-		$model->price = $price;
-		
-		if($variant) {
-			$variantPrice = $variant->price;
-			if($variant->currency == Currency::CURRENCY_USD) {
-				$variantPrice = $variant->price * $estimate->us;
-			}
-			$model->variant_price = $variantPrice;
-		}
-
-		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-			$massbuy = Massbuy::find()->where(['product_id' => $product->id])->andWhere(['<', 'quantity', $model->quantity])->orderBy(['quantity' => SORT_DESC])->one();
-			$utilityDrop = 0;
-			if($massbuy) {
-				$utilityDrop = $massbuy->utility_drop;
-			}
-			$model->utility = $product->utility - $utilityDrop;
-			if($model->save()) {
-				$estimate->doEstimate();
-				return $this->redirect(['view', 'id' => $estimate->id]);
-			}
-		}
-		return $this->render('add-product', [
+		return $this->render('update', [
 					'model' => $model,
 		]);
 	}
@@ -169,6 +111,44 @@ class EstimateController extends Controller {
 		$this->findModel($id)->delete();
 
 		return $this->redirect(['index']);
+	}
+	
+	/**
+	 * Creates a new EstimateEntry model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * @param integet $id estimate id
+	 * @return mixed
+	 */
+	public function actionCreateEntry($id) {
+		$estimate = $this->findModel($id);
+		$model = new EstimateEntry();
+		$model->estimate_id = $estimate->id;
+
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				$estimate->doEstimate();
+				return $this->redirect(['view', 'id' => $estimate->id]);
+		}
+		return $this->render('create-entry', [
+					'model' => $model,
+		]);
+	}
+	
+	/**
+	 * Updates an existing EstimateEntry model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integet $id
+	 * @return mixed
+	 */
+	public function actionUpdateEntry($id) {
+		$model = $this->findEntryModel($id);
+
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				$model->estimate->doEstimate();
+				return $this->redirect(['view', 'id' => $model->estimate->id]);
+		}
+		return $this->render('update-entry', [
+					'model' => $model,
+		]);
 	}
 	
 	/**
@@ -212,36 +192,6 @@ class EstimateController extends Controller {
 	 */
 	protected function findModel($id) {
 		if (($model = Estimate::findOne($id)) !== null) {
-			return $model;
-		} else {
-			throw new NotFoundHttpException('The requested page does not exist.');
-		}
-	}
-
-	/**
-	 * Finds the Product model based on its primary key value.
-	 * If the model is not found, a 404 HTTP exception will be thrown.
-	 * @param integer $id
-	 * @return Product the loaded model
-	 * @throws NotFoundHttpException if the model cannot be found
-	 */
-	protected function findProductModel($id) {
-		if (($model = Product::findOne($id)) !== null) {
-			return $model;
-		} else {
-			throw new NotFoundHttpException('The requested page does not exist.');
-		}
-	}
-
-	/**
-	 * Finds the Variant model based on its primary key value.
-	 * If the model is not found, a 404 HTTP exception will be thrown.
-	 * @param integer $id
-	 * @return Variant the loaded model
-	 * @throws NotFoundHttpException if the model cannot be found
-	 */
-	protected function findVariantModel($id) {
-		if (($model = Variant::findOne($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

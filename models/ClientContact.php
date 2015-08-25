@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\helpers\DateConverter;
 use Yii;
 
 /**
@@ -84,10 +85,7 @@ class ClientContact extends \yii\db\ActiveRecord {
 	 * @inheritdoc
 	 */
 	public function beforeSave($insert) {
-		if ($this->birthdate) {
-			$array = explode('/', $this->birthdate);
-			$this->birthdate = $array[2] . '-' . $array[1] . '-' . $array[0];
-		}
+		$this->birthdate = DateConverter::convert($this->birthdate);
 		return parent::beforeSave($insert);
 	}
 

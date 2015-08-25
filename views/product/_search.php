@@ -27,14 +27,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'bukmark_code') ?>
 
-    <?php // echo $form->field($model, 'image') ?>
-
-    <?php // echo $form->field($model, 'description') ?>
-
-    <?php // echo $form->field($model, 'price') ?>
-
-    <?php // echo $form->field($model, 'currency') ?>
-
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

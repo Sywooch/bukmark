@@ -22,9 +22,19 @@ $this->params['breadcrumbs'][] = $this->title;
 		'dataProvider' => $dataProvider,
 		'columns' => [
 			'id',
+			'title',
+			[
+				'label' => 'Cliente',
+				'value' => 'client.name',
+			],
+			[
+				'label' => 'Estado',
+				'value' => 'statusLabel',
+			],
+			'request_date',
+			'sent_date',
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{view}{delete}'
 			],
 		],
 	]);

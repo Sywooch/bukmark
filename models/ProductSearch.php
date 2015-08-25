@@ -17,9 +17,8 @@ class ProductSearch extends Product {
 	 */
 	public function rules() {
 		return [
-			[['id', 'category_id', 'supplier_id', 'currency'], 'integer'],
+			[['id', 'category_id', 'supplier_id'], 'integer'],
 			[['title', 'supplier_code', 'bukmark_code', 'image', 'description'], 'safe'],
-			[['price', 'utility'], 'number'],
 		];
 	}
 
@@ -57,9 +56,6 @@ class ProductSearch extends Product {
 			'id' => $this->id,
 			'category_id' => $this->category_id,
 			'supplier_id' => $this->supplier_id,
-			'price' => $this->price,
-			'currency' => $this->currency,
-			'utility' => $this->utility,
 		]);
 
 		$query->andFilterWhere(['like', 'title', $this->title])

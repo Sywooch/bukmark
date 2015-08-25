@@ -11,6 +11,7 @@ class Currency {
 	const CURRENCY_USD = 1;
 	
 	const US_TO_ARS = 9.2;
+	const US_TO_ARS_MARGIN = 0.04;
 
 	/**
 	 * Get currency labels
@@ -22,7 +23,4 @@ class Currency {
 			self::CURRENCY_USD => 'US$',
 		];
 	}
-
-	
-
 }

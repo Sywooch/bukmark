@@ -16,9 +16,6 @@ use yii\web\UploadedFile;
  * @property string $bukmark_code
  * @property string $image
  * @property string $description
- * @property string $price
- * @property integer $currency
- * @property string $utility
  *
  * @property Category $category
  * @property Supplier $supplier
@@ -42,13 +39,11 @@ class Product extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['category_id', 'supplier_id', 'title', 'price', 'currency', 'utility'], 'required'],
-			[['category_id', 'supplier_id', 'currency'], 'integer'],
+			[['category_id', 'supplier_id', 'title'], 'required'],
+			[['category_id', 'supplier_id'], 'integer'],
 			['category_id', 'exist', 'targetClass' => Category::className(), 'targetAttribute' => 'id'],
 			['supplier_id', 'exist', 'targetClass' => Supplier::className(), 'targetAttribute' => 'id'],
 			[['description'], 'string'],
-			[['price'], 'number', 'min' => 0],
-			[['utility'], 'number', 'min' => 0],
 			[['title', 'supplier_code', 'bukmark_code'], 'string', 'max' => 255],
 			[['supplier_code'], 'unique', 'when' => function ($model) {
 			return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
@@ -56,7 +51,6 @@ class Product extends \yii\db\ActiveRecord {
 			[['bukmark_code'], 'unique'],
 			// Accept images up to 500KB
 			[['imageFile'], 'image', 'extensions' => ['jpg', 'jpeg', 'png'], 'maxSize' => 500 * 1024],
-			[['currency'], 'in', 'range' => array_keys(Currency::labels())],
 		];
 	}
 
@@ -73,9 +67,6 @@ class Product extends \yii\db\ActiveRecord {
 			'bukmark_code' => 'Código interno',
 			'image' => 'Imagen',
 			'description' => 'Descripción',
-			'price' => 'Precio',
-			'currency' => 'Moneda',
-			'utility' => 'Utilidad',
 		];
 	}
 
@@ -91,20 +82,6 @@ class Product extends \yii\db\ActiveRecord {
 	 */
 	public function getSupplier() {
 		return $this->hasOne(Supplier::className(), ['id' => 'supplier_id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getVariants() {
-		return $this->hasMany(Variant::className(), ['product_id' => 'id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getMassbuys() {
-		return $this->hasMany(Massbuy::className(), ['product_id' => 'id']);
 	}
 
 	/**
@@ -139,26 +116,4 @@ class Product extends \yii\db\ActiveRecord {
 			return FALSE;
 		}
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function beforeValidate() {
-		if (parent::beforeValidate()) {
-			$this->price = str_replace(',', '.', $this->price);
-			$this->utility = str_replace(',', '.', $this->utility);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Get the currency label.
-	 * @return string
-	 */
-	public function getCurrencyLabel() {
-		return Currency::labels()[$this->currency];
-	}
-
 }
