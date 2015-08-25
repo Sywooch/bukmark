@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use app\models\Currency;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Estimate */
@@ -49,23 +50,23 @@ $this->params['breadcrumbs'][] = $this->title;
 			'sent_date',
             [
 				'attribute' => 'total',
-				'format' => ['decimal', 2]
+				'value' => Currency::format($model->total, Currency::CURRENCY_ARS),
 			],
 			[
 				'attribute' => 'cost',
-				'format' => ['decimal', 2]
+				'value' => Currency::format($model->cost, Currency::CURRENCY_ARS),
 			],
 			[
 				'attribute' => 'total_checked',
-				'format' => ['decimal', 2]
+				'value' => Currency::format($model->total_checked, Currency::CURRENCY_ARS),
 			],
 			[
 				'attribute' => 'cost_checked',
-				'format' => ['decimal', 2]
+				'value' => Currency::format($model->cost_checked, Currency::CURRENCY_ARS),
 			],
 			[
 				'attribute' => 'us',
-				'format' => ['decimal', 2]
+				'value' => Currency::format($model->us, Currency::CURRENCY_ARS),
 			],
         ],
     ]) ?>
@@ -94,46 +95,47 @@ $this->params['breadcrumbs'][] = $this->title;
 			'quantity',
             [
 				'attribute' => 'price',
-				'format' => ['decimal', 2],
-				'filter' => false,
-			],
-			[
-				'label' => 'Moneda',
-				'value' => 'currencyLabel'
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->price, $model->currency);
+				},
 			],
 			[
 				'attribute' => 'variant_price',
-				'format' => ['decimal', 2],
-				'filter' => false,
-			],
-			[
-				'label' => 'Moneda',
-				'value' => 'variantCurrencyLabel'
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->variant_price, $model->variant_currency);
+				},
 			],
 			[
 				'label' => 'Suma',
-				'value' => 'cost',
-				'format' => ['decimal', 2],
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->cost, Currency::CURRENCY_ARS);
+				},
 			],
 			[
 				'attribute' => 'utility',
-				'format' => ['decimal', 2],
+				'value' => function ($model, $key, $index, $column) {
+					return $model->utility / 100;
+				},
+				'format' => ['percent', 2],
 				'filter' => false,
 			],
 			[
 				'label' => 'Subtotal',
-				'value' => 'subtotal',
-				'format' => ['decimal', 2],
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->subtotal, Currency::CURRENCY_ARS);
+				},
 			],
 			[
 				'label' => 'Subtotal x cantidad',
-				'value' => 'quantitySubtotal',
-				'format' => ['decimal', 2],
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->quantitySubtotal, Currency::CURRENCY_ARS);
+				},
 			],
 			[
 				'label' => 'Margen de utilidad',
-				'value' => 'utilityMargin',
-				'format' => ['decimal', 2],
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->utilityMargin, Currency::CURRENCY_ARS);
+				},
 			],
             [
 				'class' => 'yii\grid\ActionColumn',

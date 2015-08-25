@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use Yii;
 
 class Currency {
 	
@@ -22,5 +23,15 @@ class Currency {
 			self::CURRENCY_ARS => '$',
 			self::CURRENCY_USD => 'US$',
 		];
+	}
+	
+	/**
+	 * Format value to $ value
+	 * @param float $value
+	 * @param integer $currency
+	 * @return string
+	 */
+	public static function format($value, $currency) {
+		return self::labels()[$currency] . ' ' . Yii::$app->formatter->asDecimal($value, 2);
 	}
 }
