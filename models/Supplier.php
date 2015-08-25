@@ -13,6 +13,7 @@ use Yii;
  * @property string $website
  * @property string $address
  * @property string $notes
+ * @property boolean $deleted
  */
 class Supplier extends \yii\db\ActiveRecord
 {
@@ -23,6 +24,15 @@ class Supplier extends \yii\db\ActiveRecord
     {
         return 'supplier';
     }
+	
+	/**
+     * @inheritdoc
+     */
+	public function behaviors() {
+		return [
+			\app\components\NoDeleteBehavior::className(),
+		];
+	}
 
     /**
      * @inheritdoc

@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $title
+ * @property boolean $deleted
  *
  * @property Product[] $products
  */
@@ -21,6 +22,15 @@ class Category extends \yii\db\ActiveRecord
     {
         return 'category';
     }
+	
+	/**
+     * @inheritdoc
+     */
+	public function behaviors() {
+		return [
+			\app\components\NoDeleteBehavior::className(),
+		];
+	}
 
     /**
      * @inheritdoc

@@ -16,6 +16,7 @@ use yii\web\UploadedFile;
  * @property string $bukmark_code
  * @property string $image
  * @property string $description
+ * @property boolean $deleted
  *
  * @property Category $category
  * @property Supplier $supplier
@@ -34,6 +35,15 @@ class Product extends \yii\db\ActiveRecord {
 		return 'product';
 	}
 
+	/**
+     * @inheritdoc
+     */
+	public function behaviors() {
+		return [
+			\app\components\NoDeleteBehavior::className(),
+		];
+	}
+	
 	/**
 	 * @inheritdoc
 	 */

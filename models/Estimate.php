@@ -20,6 +20,7 @@ use Yii;
  * @property string $total_checked
  * @property string $cost_checked
  * @property string $us
+ * @property boolean $deleted
  */
 class Estimate extends \yii\db\ActiveRecord {
 
@@ -33,6 +34,15 @@ class Estimate extends \yii\db\ActiveRecord {
 	const STATUS_SEND = 4;
 	const STATUS_CONTACT = 5;
 	const STATUS_SENT = 6;
+	
+	/**
+     * @inheritdoc
+     */
+	public function behaviors() {
+		return [
+			\app\components\NoDeleteBehavior::className(),
+		];
+	}
 
 	/**
 	 * @inheritdoc

@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $username
  * @property string $password
+ * @property boolean $deleted
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
@@ -24,6 +25,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
 	public static function tableName() {
 		return 'user';
+	}
+	
+	/**
+     * @inheritdoc
+     */
+	public function behaviors() {
+		return [
+			\app\components\NoDeleteBehavior::className(),
+		];
 	}
 
 	/**

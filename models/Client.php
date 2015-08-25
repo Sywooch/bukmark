@@ -14,6 +14,7 @@ use Yii;
  * @property string $delivery_address
  * @property string $payment_conditions
  * @property string $notes
+ * @property boolean $deleted
  */
 class Client extends \yii\db\ActiveRecord
 {
@@ -24,6 +25,15 @@ class Client extends \yii\db\ActiveRecord
     {
         return 'client';
     }
+	
+	/**
+     * @inheritdoc
+     */
+	public function behaviors() {
+		return [
+			\app\components\NoDeleteBehavior::className(),
+		];
+	}
 
     /**
      * @inheritdoc
