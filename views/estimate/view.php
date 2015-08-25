@@ -82,16 +82,20 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            'id',
             [	'label' => 'Producto',
 				'value' => 'product.title'
 			],
 			[	'label' => 'Proveedor',
 				'value' => 'product.supplier.name'
 			],
-			'product.supplier_code',
-			'product.bukmark_code',
-			'description:ntext',
+			[
+				'label' => 'Cod. proveedor',
+				'attribute' => 'product.supplier_code',
+			],
+			[
+				'label' => 'Cod. interno',
+				'attribute' => 'product.bukmark_code',
+			],
 			'quantity',
             [
 				'attribute' => 'price',
@@ -126,13 +130,13 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'label' => 'Subtotal x cantidad',
+				'label' => 'Subt. x cant.',
 				'value' => function ($model, $key, $index, $column) {
 					return Currency::format($model->quantitySubtotal, Currency::CURRENCY_ARS);
 				},
 			],
 			[
-				'label' => 'Margen de utilidad',
+				'label' => 'Margen',
 				'value' => function ($model, $key, $index, $column) {
 					return Currency::format($model->utilityMargin, Currency::CURRENCY_ARS);
 				},
