@@ -38,7 +38,7 @@ class ProductSearch extends Product {
 	 * @return ActiveDataProvider
 	 */
 	public function search($params) {
-		$query = Product::find();
+		$query = Product::find()->active();
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,

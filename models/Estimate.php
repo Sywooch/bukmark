@@ -43,6 +43,14 @@ class Estimate extends \yii\db\ActiveRecord {
 			\app\components\NoDeleteBehavior::className(),
 		];
 	}
+	
+	/**
+     * @inheritdoc
+     */
+	public static function find()
+    {
+        return new \app\components\DeletedQuery(get_called_class());
+    }
 
 	/**
 	 * @inheritdoc

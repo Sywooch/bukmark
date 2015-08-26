@@ -35,6 +35,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 			\app\components\NoDeleteBehavior::className(),
 		];
 	}
+	
+	/**
+     * @inheritdoc
+     */
+	public static function find()
+    {
+        return new \app\components\DeletedQuery(get_called_class());
+    }
 
 	/**
 	 * @inheritdoc

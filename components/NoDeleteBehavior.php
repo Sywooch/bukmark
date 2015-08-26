@@ -4,6 +4,7 @@ namespace app\components;
 
 use yii\db\ActiveRecord;
 use yii\base\Behavior;
+use yii\db\ActiveQuery;
 
 class NoDeleteBehavior extends Behavior {
 	
@@ -19,4 +20,3 @@ class NoDeleteBehavior extends Behavior {
 		$event->isValid = false;
 	}
 }
-
