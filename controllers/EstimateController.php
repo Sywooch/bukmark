@@ -10,6 +10,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\models\ClientSearch;
+use app\models\ProductSearch;
 
 /**
  * EstimateController implements the CRUD actions for Estimate model.
@@ -81,8 +83,15 @@ class EstimateController extends Controller {
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 				return $this->redirect(['view', 'id' => $model->id]);
 		}
+		
+		$searchModel = new ClientSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->pagination->pageSize = 5;
+		
 		return $this->render('create', [
 					'model' => $model,
+					'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
 		]);
 	}
 	
@@ -98,8 +107,15 @@ class EstimateController extends Controller {
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 				return $this->redirect(['view', 'id' => $model->id]);
 		}
+		
+		$searchModel = new ClientSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->pagination->pageSize = 5;
+		
 		return $this->render('update', [
 					'model' => $model,
+					'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
 		]);
 	}
 
@@ -130,8 +146,15 @@ class EstimateController extends Controller {
 				$estimate->doEstimate();
 				return $this->redirect(['view', 'id' => $estimate->id]);
 		}
+		
+		$searchModel = new ProductSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->pagination->pageSize = 5;
+		
 		return $this->render('create-entry', [
 					'model' => $model,
+					'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
 		]);
 	}
 	
@@ -148,8 +171,15 @@ class EstimateController extends Controller {
 				$model->estimate->doEstimate();
 				return $this->redirect(['view', 'id' => $model->estimate->id]);
 		}
+		
+		$searchModel = new ProductSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->pagination->pageSize = 5;
+		
 		return $this->render('update-entry', [
 					'model' => $model,
+					'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
 		]);
 	}
 	

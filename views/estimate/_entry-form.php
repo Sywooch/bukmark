@@ -2,15 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Product;
-use yii\helpers\ArrayHelper;
 use app\models\Currency;
+use yii\widgets\Pjax;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EstimateEntry */
 /* @var $form yii\widgets\ActiveForm */
 
-$products = Product::find()->all();
 $currencies = Currency::labels();
 
 ?>
@@ -19,7 +18,46 @@ $currencies = Currency::labels();
 
 	<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
-	<?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map($products, 'id', 'title')) ?>
+	<?= $form->field($model, 'product_id')->hiddenInput() ?>
+	
+	<?= Html::input('text', 'product_title', $model->product ? $model->product->title : '', ['class' => 'form-control', 'id' => 'product_title', 'disabled' => true]) ?>
+	
+	<p>
+	
+	<?php Pjax::begin(['id' => 'products']) ?>
+	<?=
+	GridView::widget([
+		'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
+		'columns' => [
+			'id',
+            ['label' => 'Categoría', 'attribute' => 'category.title'],
+            ['label' => 'Proveedor', 'attribute' => 'supplier.name'],
+			'title',
+            'supplier_code',
+            'bukmark_code',
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{check}',
+				'buttons' => [
+					'check' => function ($url, $model, $key) {
+						$options = array_merge([
+							'title' => Yii::t('yii', 'Check'),
+							'aria-label' => Yii::t('yii', 'Check'),
+							'id' => $model->id,
+							'value' => $model->title,
+							'onclick' => '$("#estimateentry-product_id").val($(this).attr("id")); $("#product_title").val($(this).attr("value")); return false;',
+						]);
+						return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
+					},
+				],
+			],
+		],
+	]);
+	?>
+	<?php Pjax::end() ?>
+		
+	</p>
 	
 	<?= $form->field($model, 'quantity')->textInput() ?>
 	

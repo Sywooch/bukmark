@@ -32,6 +32,10 @@ class Currency {
 	 * @return string
 	 */
 	public static function format($value, $currency) {
-		return self::labels()[$currency] . ' ' . Yii::$app->formatter->asDecimal($value, 2);
+		$valueFormatted = null;
+		if($value) {
+			$valueFormatted = self::labels()[$currency] . ' ' . Yii::$app->formatter->asDecimal($value, 2);
+		}
+		return $valueFormatted;
 	}
 }
