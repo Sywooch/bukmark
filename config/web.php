@@ -71,7 +71,7 @@ if (YII_ENV_DEV) {
 		'allowedIPs' => ['*'] // adjust this to your needs
 	];
 	// publish files even there are published before
-	$config['components']['assetManager']['forceCopy'] = false;
+	$config['components']['assetManager']['forceCopy'] = true;
 }
 
 return $config;
