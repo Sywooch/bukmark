@@ -31,8 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Estado',
 				'value' => 'statusLabel',
 			],
-			'request_date',
-			'sent_date',
+			[
+				'attribute' => 'request_date',
+				'format' => 'date',
+			],
+			[
+				'attribute' => 'sent_date',
+				'format' => 'date',
+			],
 			[
 				'class' => 'yii\grid\ActionColumn',
 			],

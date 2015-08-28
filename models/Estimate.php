@@ -57,7 +57,7 @@ class Estimate extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['title', 'client_id', 'request_date'], 'required'],
+			[['title', 'client_id', 'request_date', 'status'], 'required'],
 			[['title'], 'string', 'max' => 255],
 			[['client_id'], 'exist', 'targetClass' => Client::className(), 'targetAttribute' => 'id'],
 			[['status'], 'in', 'range' => array_keys(self::statusLabels())],
