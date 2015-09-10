@@ -12,16 +12,6 @@ use yii\grid\GridView;
 ?>
 
 <div class="estiamte-form">
-
-	<?php $form = ActiveForm::begin(); ?>
-
-	<?= $form->field($model, 'title')->textInput() ?>
-
-	<?= $form->field($model, 'client_id')->hiddenInput() ?>
-	
-	<?= Html::input('text', 'client_name', $model->client ? $model->client->name : '', ['class' => 'form-control', 'id' => 'client_name', 'disabled' => true]) ?>
-	
-	<p>
 	
 	<?php Pjax::begin(['id' => 'clients']) ?>
 	<?=
@@ -55,9 +45,19 @@ use yii\grid\GridView;
 	]);
 	?>
 	<?php Pjax::end() ?>
-		
-	</p>
 
+	<?php $form = ActiveForm::begin(); ?>
+
+	<?= $form->field($model, 'client_id')->hiddenInput() ?>
+	
+	<div class="form-group">
+	
+		<?= Html::input('text', 'client_name', $model->client ? $model->client->name : '', ['class' => 'form-control', 'id' => 'client_name', 'disabled' => true]) ?>
+		
+	</div>
+	
+	<?= $form->field($model, 'title')->textInput() ?>
+	
 	<?= $form->field($model, 'status')->dropDownList(Estimate::statusLabels()) ?>
 
 	<?= $form->field($model, 'request_date')->widget(\yii\jui\DatePicker::classname(), ['options' => ['class' => 'form-control']]) ?>

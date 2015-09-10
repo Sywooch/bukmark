@@ -16,14 +16,6 @@ $currencies = Currency::labels();
 
 <div class="estimate-entry-form">
 
-	<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
-
-	<?= $form->field($model, 'product_id')->hiddenInput() ?>
-	
-	<?= Html::input('text', 'product_title', $model->product ? $model->product->title : '', ['class' => 'form-control', 'id' => 'product_title', 'disabled' => true]) ?>
-	
-	<p>
-	
 	<?php Pjax::begin(['id' => 'products']) ?>
 	<?=
 	GridView::widget([
@@ -56,9 +48,17 @@ $currencies = Currency::labels();
 	]);
 	?>
 	<?php Pjax::end() ?>
-		
-	</p>
 	
+	<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
+	
+	<?= $form->field($model, 'product_id')->hiddenInput() ?>
+	
+	<div class="form-group">
+		
+		<?= Html::input('text', 'product_title', $model->product ? $model->product->title : '', ['class' => 'form-control', 'id' => 'product_title', 'disabled' => true]) ?>
+	
+	</div>
+		
 	<?= $form->field($model, 'quantity')->textInput() ?>
 	
 	<?= $form->field($model, 'utility')->textInput(['value' => is_numeric($model->utility) ? Yii::$app->formatter->asDecimal($model->utility, 2) : null]) ?>
