@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "supplier".
  *
  * @property integer $id
- * @property string $code
  * @property string $name
  * @property string $website
  * @property string $address
@@ -42,9 +41,8 @@ class Supplier extends \yii\db\ActiveRecord
         return [
             [['notes'], 'string'],
 			[['name'], 'required'],
-            [['code', 'name', 'website', 'address'], 'string', 'max' => 255],
+            [['name', 'website', 'address'], 'string', 'max' => 255],
 			[['website'], 'url', 'defaultScheme' => 'http'],
-			[['code'], 'unique'],
         ];
     }
 	
@@ -63,7 +61,6 @@ class Supplier extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Código',
             'name' => 'Nombre',
             'website' => 'Website',
             'address' => 'Dirección',

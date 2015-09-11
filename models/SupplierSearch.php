@@ -19,7 +19,7 @@ class SupplierSearch extends Supplier
     {
         return [
             [['id'], 'integer'],
-            [['code', 'name', 'website', 'address', 'notes'], 'safe'],
+            [['name', 'website', 'address', 'notes'], 'safe'],
         ];
     }
 
@@ -59,8 +59,7 @@ class SupplierSearch extends Supplier
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'website', $this->website])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'notes', $this->notes]);
