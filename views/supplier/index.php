@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'name',
+			'contactPhone',
             'website',
             'address',
             // 'notes:ntext',

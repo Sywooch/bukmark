@@ -75,4 +75,18 @@ class Supplier extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Contact::className(), ['supplier_id' => 'id']);
     }
+	
+	/**
+     * @return string
+     */
+	public function getContactPhone() {
+		$phone = "";
+		foreach ($this->contacts as $contact) {
+			if ($contact->phone) {
+				$phone = $contact->phone;
+				break;
+			}
+		}
+		return $phone;
+	}
 }
