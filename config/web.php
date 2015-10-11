@@ -51,6 +51,11 @@ $config = [
 			'dateFormat' => 'dd/MM/yyyy',
 		],
 	],
+	'modules' => [
+		'gridview' =>  [
+			'class' => '\kartik\grid\Module',
+		],
+	],
 	'params' => $params,
 	'aliases' => [
 		'@images' => '@app/web/images',

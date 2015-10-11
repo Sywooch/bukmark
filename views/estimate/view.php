@@ -85,101 +85,106 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= Html::a('Agregar producto', ['create-entry', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 	
 	</p>
+	
+	<?php
+	$columns = [
+		[	
+			'label' => 'Producto',
+			'value' => 'product.title'
+		],
+		[	'label' => 'Proveedor',
+			'value' => 'product.supplier.name'
+		],
+		[
+			'label' => 'Cod. proveedor',
+			'attribute' => 'product.supplier_code',
+		],
+		[
+			'label' => 'Cod. interno',
+			'attribute' => 'product.bukmark_code',
+		],
+		'quantity',
+		[
+			'attribute' => 'price',
+			'value' => function ($model, $key, $index, $column) {
+				return Currency::format($model->price, $model->currency);
+			},
+		],
+		[
+			'attribute' => 'variant_price',
+			'value' => function ($model, $key, $index, $column) {
+				return Currency::format($model->variant_price, $model->variant_currency);
+			},
+		],
+		[
+			'label' => 'Suma',
+			'value' => function ($model, $key, $index, $column) {
+				return Currency::format($model->cost, Currency::CURRENCY_ARS);
+			},
+		],
+		[
+			'attribute' => 'utility',
+			'value' => function ($model, $key, $index, $column) {
+				return $model->utility / 100;
+			},
+			'format' => ['percent', 2],
+			'filter' => false,
+		],
+		[
+			'label' => 'Subtotal',
+			'value' => function ($model, $key, $index, $column) {
+				return Currency::format($model->subtotal, Currency::CURRENCY_ARS);
+			},
+		],
+		[
+			'label' => 'Subt. x cant.',
+			'value' => function ($model, $key, $index, $column) {
+				return Currency::format($model->quantitySubtotal, Currency::CURRENCY_ARS);
+			},
+		],
+		[
+			'label' => 'Margen',
+			'value' => function ($model, $key, $index, $column) {
+				return Currency::format($model->utilityMargin, Currency::CURRENCY_ARS);
+			},
+		],
+		[
+			'class' => 'yii\grid\ActionColumn',
+			'template' => '{check} {update} {delete}',
+			'buttons' => [
+				'check' => function ($url, $model, $key) {
+					$options = array_merge([
+						'title' => Yii::t('yii', 'Check'),
+						'aria-label' => Yii::t('yii', 'Check'),
+						'data-method' => 'post',
+						'data-pjax' => '0',
+					]);
+					$icon = $model->checked ? 'glyphicon-check' : 'glyphicon-unchecked';
+					return Html::a('<span class="glyphicon ' . $icon . '"></span>', $url, $options);
+				},
+			],
+			'urlCreator' => function($action, $model, $key, $index) {
+				$url = [''];
+				switch ($action) {
+					case 'check':
+						$url = ['check-entry', 'id' => $model->id, 'check' => !$model->checked];
+						break;
+					case 'update':
+						$url = ['update-entry', 'id' => $model->id];
+						break;
+					case 'delete':
+						$url = ['delete-entry', 'id' => $model->id];
+						break;
+				}
+				return Url::to($url);
+			},
+		],
+	];
+	?>
 		
-	<?= GridView::widget([
+	<?= \kartik\grid\GridView::widget([
         'dataProvider' => $dataProvider,
-        'columns' => [
-            [	'label' => 'Producto',
-				'value' => 'product.title'
-			],
-			[	'label' => 'Proveedor',
-				'value' => 'product.supplier.name'
-			],
-			[
-				'label' => 'Cod. proveedor',
-				'attribute' => 'product.supplier_code',
-			],
-			[
-				'label' => 'Cod. interno',
-				'attribute' => 'product.bukmark_code',
-			],
-			'quantity',
-            [
-				'attribute' => 'price',
-				'value' => function ($model, $key, $index, $column) {
-					return Currency::format($model->price, $model->currency);
-				},
-			],
-			[
-				'attribute' => 'variant_price',
-				'value' => function ($model, $key, $index, $column) {
-					return Currency::format($model->variant_price, $model->variant_currency);
-				},
-			],
-			[
-				'label' => 'Suma',
-				'value' => function ($model, $key, $index, $column) {
-					return Currency::format($model->cost, Currency::CURRENCY_ARS);
-				},
-			],
-			[
-				'attribute' => 'utility',
-				'value' => function ($model, $key, $index, $column) {
-					return $model->utility / 100;
-				},
-				'format' => ['percent', 2],
-				'filter' => false,
-			],
-			[
-				'label' => 'Subtotal',
-				'value' => function ($model, $key, $index, $column) {
-					return Currency::format($model->subtotal, Currency::CURRENCY_ARS);
-				},
-			],
-			[
-				'label' => 'Subt. x cant.',
-				'value' => function ($model, $key, $index, $column) {
-					return Currency::format($model->quantitySubtotal, Currency::CURRENCY_ARS);
-				},
-			],
-			[
-				'label' => 'Margen',
-				'value' => function ($model, $key, $index, $column) {
-					return Currency::format($model->utilityMargin, Currency::CURRENCY_ARS);
-				},
-			],
-            [
-				'class' => 'yii\grid\ActionColumn',
-				'template' => '{check} {update} {delete}',
-				'buttons' => [
-					'check' => function ($url, $model, $key) {
-						$options = array_merge([
-							'title' => Yii::t('yii', 'Check'),
-							'aria-label' => Yii::t('yii', 'Check'),
-							'data-method' => 'post',
-							'data-pjax' => '0',
-						]);
-						$icon = $model->checked ? 'glyphicon-check' : 'glyphicon-unchecked';
-						return Html::a('<span class="glyphicon ' . $icon . '"></span>', $url, $options);
-					},
-				],
-				'urlCreator' => function($action, $model, $key, $index) {
-					$url = [''];
-					switch ($action) {
-						case 'check':
-							$url = ['check-entry', 'id' => $model->id, 'check' => !$model->checked];
-							break;
-						case 'update':
-							$url = ['update-entry', 'id' => $model->id];
-							break;
-						case 'delete':
-							$url = ['delete-entry', 'id' => $model->id];
-							break;
-					}
-					return Url::to($url);
-				},
-			],
-        ],
+        'columns' => $columns,
     ]); ?>
 
 </div>
