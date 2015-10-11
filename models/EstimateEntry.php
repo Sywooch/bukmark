@@ -56,7 +56,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			'utility' => 'Utilidad',
 			'price' => 'Precio',
 			'currency' => 'Moneda',
-			'variant_price' => 'Precio variante',
+			'variant_price' => 'Impresión',
 			'variant_currency' => 'Moneda',
 			'description' => 'Descripción',
 			'checked' => 'Confirmado',
