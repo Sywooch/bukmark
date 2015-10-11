@@ -38,7 +38,6 @@ AppAsset::register($this);
                     ['label' => 'Home', 'url' => ['/site/index']],
 					['label' => 'Usuarios', 'url' => ['/user/index']],
 					['label' => 'Proveedores', 'url' => ['/supplier/index']],
-					['label' => 'Categorías', 'url' => ['/category/index']],
 					['label' => 'Productos', 'url' => ['/product/index']],
 					['label' => 'Clientes', 'url' => ['/client/index']],
 					['label' => 'Presupuestos', 'url' => ['/estimate/index']],
