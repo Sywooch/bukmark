@@ -82,6 +82,10 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 	 */
 	public function beforeValidate() {
 		if (parent::beforeValidate()) {
+			// Always use ARS for variant price
+			if ($this->isNewRecord) {
+				$this->variant_currency = Currency::CURRENCY_ARS;
+			}
 			$this->price = str_replace(',', '.', $this->price);
 			$this->variant_price = str_replace(',', '.', $this->variant_price);
 			$this->utility = str_replace(',', '.', $this->utility);

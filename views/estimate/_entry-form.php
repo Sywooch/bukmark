@@ -68,8 +68,6 @@ $currencies = Currency::labels();
 	<?= $form->field($model, 'currency')->dropDownList($currencies) ?>
 	
 	<?= $form->field($model, 'variant_price')->textInput(['value' => is_numeric($model->variant_price) ? Yii::$app->formatter->asDecimal($model->variant_price, 2) : null]) ?>
-	
-	<?= $form->field($model, 'variant_currency')->dropDownList($currencies) ?>
 
 	<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
