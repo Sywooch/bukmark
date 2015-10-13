@@ -12,6 +12,14 @@ $config = [
 		'urlManager' => [
 			'enablePrettyUrl' => true,
 			'showScriptName' => false,
+			// Add rule for PDF estimate
+			'rules' => [
+				[
+					'pattern' => 'estimate/get-pdf/<id:\d+>',
+					'route' => 'estimate/get-pdf',
+					'suffix' => '.pdf',
+				]
+			],
 		],
 		'request' => [
 			// !!! insert a secret key in the following (if it is empty) - this is required by cookie validation

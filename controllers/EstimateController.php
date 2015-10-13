@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use app\models\ClientSearch;
 use app\models\ProductSearch;
+use kartik\mpdf\Pdf;
 
 /**
  * EstimateController implements the CRUD actions for Estimate model.
@@ -134,7 +135,7 @@ class EstimateController extends Controller {
 	/**
 	 * Creates a new EstimateEntry model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 * @param integet $id estimate id
+	 * @param integer $id estimate id
 	 * @return mixed
 	 */
 	public function actionCreateEntry($id) {
@@ -161,7 +162,7 @@ class EstimateController extends Controller {
 	/**
 	 * Updates an existing EstimateEntry model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integet $id
+	 * @param integer $id
 	 * @return mixed
 	 */
 	public function actionUpdateEntry($id) {
@@ -213,6 +214,32 @@ class EstimateController extends Controller {
 		$estimate->doEstimate();
 
 		return $this->redirect(['view', 'id' => $estimate->id]);
+	}
+	
+	/**
+	 * Get the PDF version of the estimate.
+	 * @param integer $id estimate ID
+	 * @return mixed
+	 */
+	public function actionGetPdf($id) {
+		$estimate = $this->findModel($id);
+		$content = $this->renderPartial('pdf');
+
+		// setup kartik\mpdf\Pdf component
+		$pdf = new Pdf([
+			'mode' => Pdf::MODE_CORE,
+			'format' => Pdf::FORMAT_A4,
+			'orientation' => Pdf::ORIENT_PORTRAIT,
+			'destination' => Pdf::DEST_DOWNLOAD,
+			'content' => $content,
+			'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+			'methods' => [
+				'SetFooter' => ['{PAGENO}'],
+			]
+		]);
+
+		// return the pdf output as per the destination setting
+		return $pdf->render();
 	}
 
 	/**
