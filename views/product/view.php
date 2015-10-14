@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'model' => $model,
 		'attributes' => [
 			'id',
+			'title',
 			['label' => 'Categoría', 'value' => $model->category->title],
 			['label' => 'Proveedor', 'value' => $model->supplier->name],
 			'supplier_code',

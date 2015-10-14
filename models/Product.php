@@ -113,7 +113,7 @@ class Product extends \yii\db\ActiveRecord {
 	public function getImageUrl() {
 		$imageUrl = null;
 		if ($this->image) {
-			$imageUrl = '@web/images/product/' . $this->image;
+			$imageUrl = Yii::getAlias('@web/images/product/' . $this->image);
 		}
 		return $imageUrl;
 	}

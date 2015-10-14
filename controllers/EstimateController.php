@@ -223,7 +223,9 @@ class EstimateController extends Controller {
 	 */
 	public function actionGetPdf($id) {
 		$estimate = $this->findModel($id);
-		$content = $this->renderPartial('pdf');
+		$header = $this->renderPartial('pdf-header', ['estimate' => $estimate]);
+		$content = $this->renderPartial('pdf', ['estimate' => $estimate]);
+		$footer = $this->renderPartial('pdf-footer');
 
 		// setup kartik\mpdf\Pdf component
 		$pdf = new Pdf([
@@ -233,8 +235,13 @@ class EstimateController extends Controller {
 			'destination' => Pdf::DEST_DOWNLOAD,
 			'content' => $content,
 			'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+			'options' => [
+				'setAutoTopMargin' => 'pad',
+				'setAutoBottomMargin' => 'pad',
+			],
 			'methods' => [
-				'SetFooter' => ['{PAGENO}'],
+				'SetHeader' => $header,
+				'SetFooter' => $footer,
 			]
 		]);
 
