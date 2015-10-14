@@ -32,7 +32,7 @@ $suppliers = Supplier::find()->all();
         'columns' => [
             [
 				'attribute' => 'id',
-				'options' => ['style' => 'width: 100px;'],
+				'options' => ['style' => 'width: 150px;'],
 			],
             [
 				'label' => 'Categoría',
