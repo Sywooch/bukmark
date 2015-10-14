@@ -3,61 +3,23 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Currency;
-use yii\widgets\Pjax;
-use yii\grid\GridView;
+use app\models\Product;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EstimateEntry */
 /* @var $form yii\widgets\ActiveForm */
 
 $currencies = Currency::labels();
+$products = Product::find()->all();
 
 ?>
 
 <div class="estimate-entry-form">
-
-	<?php Pjax::begin(['id' => 'products']) ?>
-	<?=
-	GridView::widget([
-		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
-		'columns' => [
-			'id',
-            ['label' => 'Categoría', 'attribute' => 'category.title'],
-            ['label' => 'Proveedor', 'attribute' => 'supplier.name'],
-			'title',
-            'supplier_code',
-            'bukmark_code',
-			[
-				'class' => 'yii\grid\ActionColumn',
-				'template' => '{check}',
-				'buttons' => [
-					'check' => function ($url, $model, $key) {
-						$options = array_merge([
-							'title' => Yii::t('yii', 'Check'),
-							'aria-label' => Yii::t('yii', 'Check'),
-							'id' => $model->id,
-							'value' => $model->title,
-							'onclick' => '$("#estimateentry-product_id").val($(this).attr("id")); $("#product_title").val($(this).attr("value")); return false;',
-						]);
-						return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
-					},
-				],
-			],
-		],
-	]);
-	?>
-	<?php Pjax::end() ?>
 	
 	<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 	
-	<?= $form->field($model, 'product_id')->hiddenInput() ?>
-	
-	<div class="form-group">
-		
-		<?= Html::input('text', 'product_title', $model->product ? $model->product->title : '', ['class' => 'form-control', 'id' => 'product_title', 'disabled' => true]) ?>
-	
-	</div>
+	<?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map($products, 'id', 'title'), ['prompt' => 'Elegir producto']) ?>
 		
 	<?= $form->field($model, 'quantity')->textInput() ?>
 	

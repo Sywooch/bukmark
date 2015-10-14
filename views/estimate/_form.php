@@ -3,58 +3,21 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Estimate;
-use yii\widgets\Pjax;
-use yii\grid\GridView;
+use app\models\Client;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Estimate */
 /* @var $form yii\widgets\ActiveForm */
+
+$clients = Client::find()->all();
 ?>
 
 <div class="estiamte-form">
-	
-	<?php Pjax::begin(['id' => 'clients']) ?>
-	<?=
-	GridView::widget([
-		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
-		'columns' => [
-			'id',
-			'name',
-			'cuit',
-			'delivery_address',
-			'address',
-			'payment_conditions',
-			[
-				'class' => 'yii\grid\ActionColumn',
-				'template' => '{check}',
-				'buttons' => [
-					'check' => function ($url, $model, $key) {
-						$options = array_merge([
-							'title' => Yii::t('yii', 'Check'),
-							'aria-label' => Yii::t('yii', 'Check'),
-							'id' => $model->id,
-							'value' => $model->name,
-							'onclick' => '$("#estimate-client_id").val($(this).attr("id")); $("#client_name").val($(this).attr("value")); return false;',
-						]);
-						return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
-					},
-				],
-			],
-		],
-	]);
-	?>
-	<?php Pjax::end() ?>
 
 	<?php $form = ActiveForm::begin(); ?>
 
-	<?= $form->field($model, 'client_id')->hiddenInput() ?>
-	
-	<div class="form-group">
-	
-		<?= Html::input('text', 'client_name', $model->client ? $model->client->name : '', ['class' => 'form-control', 'id' => 'client_name', 'disabled' => true]) ?>
-		
-	</div>
+	<?= $form->field($model, 'client_id')->dropDownList(ArrayHelper::map($clients, 'id', 'name'), ['prompt' => 'Elegir cliente']) ?>
 	
 	<?= $form->field($model, 'title')->textInput() ?>
 	
