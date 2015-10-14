@@ -89,10 +89,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	<?php
 	$columns = [
-		[	
-			'label' => 'Producto',
-			'value' => 'product.title'
-		],
 		[	'label' => 'Proveedor',
 			'value' => 'product.supplier.name'
 		],
@@ -103,6 +99,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		[
 			'label' => 'Cod. interno',
 			'attribute' => 'product.bukmark_code',
+		],
+		[	
+			'label' => 'Producto',
+			'value' => 'product.title'
 		],
 		'quantity',
 		[
