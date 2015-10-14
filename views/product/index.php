@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Category;
+use app\models\Supplier;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductSearch */
@@ -9,6 +12,9 @@ use yii\grid\GridView;
 
 $this->title = 'Productos';
 $this->params['breadcrumbs'][] = $this->title;
+
+$categories = Category::find()->all();
+$suppliers = Supplier::find()->all();
 ?>
 <div class="product-index">
 
@@ -25,8 +31,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             'id',
-            ['label' => 'Categoría', 'attribute' => 'category.title'],
-            ['label' => 'Proveedor', 'attribute' => 'supplier.name'],
+            [
+				'label' => 'Categoría',
+				'attribute' => 'category.title',
+				'filter' => Html::activeDropDownList($searchModel, 'category_id', ArrayHelper::map($categories, 'id', 'title'), ['class'=>'form-control', 'prompt' => 'Categoría']),
+			],
+            [
+				'label' => 'Proveedor',
+				'attribute' => 'supplier.name',
+				'filter' => Html::activeDropDownList($searchModel, 'supplier_id', ArrayHelper::map($suppliers, 'id', 'name'), ['class'=>'form-control', 'prompt' => 'Proveedor']),
+			],
 			'title',
             'supplier_code',
             'bukmark_code',
