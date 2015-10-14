@@ -30,7 +30,10 @@ $suppliers = Supplier::find()->all();
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
+            [
+				'attribute' => 'id',
+				'options' => ['style' => 'width: 100px;'],
+			],
             [
 				'label' => 'Categoría',
 				'attribute' => 'category.title',

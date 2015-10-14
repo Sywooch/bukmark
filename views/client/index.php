@@ -23,7 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
+            [
+				'attribute' => 'id',
+				'options' => ['style' => 'width: 100px;'],
+			],
             'name',
             'cuit',
 			'delivery_address',
