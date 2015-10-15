@@ -42,6 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		],
 	])
 	?>
+	
+	<h2>Contactos</h2>
 
 	<?=
 	GridView::widget([

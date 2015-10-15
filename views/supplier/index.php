@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Supplier;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SupplierSearch */
@@ -27,7 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'id',
 				'options' => ['style' => 'width: 150px;'],
 			],
-            'name',
+            [
+				'attribute' => 'name',
+				'filter' => Html::activeDropDownList($searchModel, 'id', Supplier::getIdNameArray(), ['class'=>'form-control', 'prompt' => 'Nombre']),
+			],
 			'contactPhone',
             'website',
             'address',

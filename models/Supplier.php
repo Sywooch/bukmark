@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\helpers\ArrayHelper;
 use Yii;
 
 /**
@@ -65,6 +66,7 @@ class Supplier extends \yii\db\ActiveRecord
             'website' => 'Website',
             'address' => 'Dirección',
             'notes' => 'Comentarios',
+			'contactPhone' => 'Teléfono',
         ];
     }
 	
@@ -88,5 +90,14 @@ class Supplier extends \yii\db\ActiveRecord
 			}
 		}
 		return $phone;
+	}
+	
+	/**
+	 * Gets an id => name array.
+	 * return string[]
+	 */
+	public static function getIdNameArray() {
+		$suppliers = ArrayHelper::map(self::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name');
+		return $suppliers;
 	}
 }
