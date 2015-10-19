@@ -32,7 +32,7 @@ $suppliers = Supplier::find()->all();
         'columns' => [
             [
 				'attribute' => 'id',
-				'options' => ['style' => 'width: 150px;'],
+				'options' => ['style' => 'width: 100px;'],
 			],
             [
 				'label' => 'Categoría',
@@ -45,8 +45,16 @@ $suppliers = Supplier::find()->all();
 				'filter' => Html::activeDropDownList($searchModel, 'supplier_id', ArrayHelper::map($suppliers, 'id', 'name'), ['class'=>'form-control', 'prompt' => 'Proveedor']),
 			],
 			'title',
-            'supplier_code',
-            'bukmark_code',
+            [
+				'attribute' => 'bukmark_code',
+				'label' => 'Cód. proveedor',
+				'options' => ['style' => 'width: 150px;'],
+			],
+            [
+				'attribute' => 'supplier_code',
+				'label' => 'Cód. interno',
+				'options' => ['style' => 'width: 150px;'],
+			],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
