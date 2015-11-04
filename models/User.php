@@ -11,6 +11,9 @@ use Yii;
  * @property string $username
  * @property string $password
  * @property boolean $deleted
+ * @property boolean $admin
+ * @property string $first_name
+ * @property string $last_name
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
@@ -49,7 +52,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 	 */
 	public function rules() {
 		return [
-			[['username', 'password'], 'string', 'max' => 255],
+			[['username', 'password','first_name', 'last_name'], 'string', 'max' => 255],
 			[['username'], 'unique'],
 			[['username', 'password'], 'required'],
 		];
@@ -62,7 +65,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 		return [
 			'id' => 'ID',
 			'username' => 'Usuario',
-			'password' => 'Contraseña'
+			'password' => 'Contraseña',
+			'first_name' => 'Nombre',
+			'last_name' => 'Apellido',
 		];
 	}
 
@@ -136,4 +141,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 		return $this->password === $password;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getFullName() {
+		$fullName = $this->first_name . ' ' . $this->last_name;
+		$fullName = trim($fullName);
+		return $fullName;
+	}
 }
