@@ -82,7 +82,7 @@ class EstimateController extends Controller {
 		$model = new Estimate();
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-				return $this->redirect(['view', 'id' => $model->id]);
+				return $this->redirect(['index']);
 		}
 		
 		$searchModel = new ClientSearch();
