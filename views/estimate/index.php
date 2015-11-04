@@ -20,6 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?=
 	GridView::widget([
 		'dataProvider' => $dataProvider,
+		'rowOptions' => function ($model, $index, $widget, $grid){
+			return ['style'=>"background-color:$model->statusColor;"];
+		},
 		'columns' => [
 			[
 				'attribute' => 'id',

@@ -78,7 +78,7 @@ class Estimate extends \yii\db\ActiveRecord {
 	public function attributeLabels() {
 		return [
 			'id' => 'N° de presupuesto',
-			'title' => 'Título',
+			'title' => 'Producto solicitado',
 			'client_id' => 'Cliente',
 			'user_id' => 'Usuario',
 			'status' => 'Estado',
