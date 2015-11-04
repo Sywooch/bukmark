@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "client".
@@ -64,7 +65,7 @@ class Client extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Nombre',
             'cuit' => 'CUIT',
-            'address' => 'Dirección',
+            'address' => 'Dirección fiscal',
 			'delivery_address' => 'Dirección de entrega',
             'payment_conditions' => 'Condiciones de pago',
             'notes' => 'Notas',
@@ -78,4 +79,13 @@ class Client extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ClientContact::className(), ['client_id' => 'id']);
     }
+	
+	/**
+	 * Gets an id => name array.
+	 * return string[]
+	 */
+	public static function getIdNameArray() {
+		$clients = ArrayHelper::map(self::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name');
+		return $clients;
+	}
 }

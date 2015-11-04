@@ -44,10 +44,12 @@ class ClientController extends Controller {
 	public function actionIndex() {
 		$searchModel = new ClientSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->sort = ['defaultOrder' => ['name' => SORT_ASC]];
 
 		return $this->render('index', [
 					'searchModel' => $searchModel,
 					'dataProvider' => $dataProvider,
+				'dataProvider' => $dataProvider,
 		]);
 	}
 

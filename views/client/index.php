@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Client;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ClientSearch */
@@ -27,7 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'id',
 				'options' => ['style' => 'width: 150px;'],
 			],
-            'name',
+            [
+				'attribute' => 'name',
+				'filter' => Html::activeDropDownList($searchModel, 'id', Client::getIdNameArray(), ['class'=>'form-control', 'prompt' => 'Nombre']),
+			],
             'cuit',
 			'delivery_address',
             'address',
