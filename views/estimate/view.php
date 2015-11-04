@@ -19,7 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Editar información', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+		<?= Html::a('Crear presupuesto', ['create-entry', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?= Html::a('Generar factura', ['receipt/create', 'estimateId' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?= Html::a('Generar PDF', ['get-pdf', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
@@ -35,11 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-			'title',
 			[
 				'label' => 'Cliente',
 				'attribute' => 'client.name',
 			],
+			'title',
 			[
 				'label' => 'Usuario',
 				'attribute' => 'user.username',
@@ -78,14 +79,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
     ]) ?>
-	
-	<h2>Resumen</h2>
-	
-	<p>
-	
-	<?= Html::a('Agregar producto', ['create-entry', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-	
-	</p>
 	
 	<?php
 	$columns = [
