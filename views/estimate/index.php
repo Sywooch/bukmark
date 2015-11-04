@@ -21,12 +21,15 @@ $this->params['breadcrumbs'][] = $this->title;
 	GridView::widget([
 		'dataProvider' => $dataProvider,
 		'columns' => [
-			'id',
-			'title',
+			[
+				'attribute' => 'id',
+				'options' => ['style' => 'width: 200px;'],
+			],
 			[
 				'label' => 'Cliente',
 				'value' => 'client.name',
 			],
+			'title',
 			[
 				'label' => 'Estado',
 				'value' => 'statusLabel',
