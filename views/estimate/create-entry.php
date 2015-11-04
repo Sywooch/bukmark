@@ -4,8 +4,6 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EstimateEntry */
-/* @var $searchModel app\models\ProductSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Agregar producto';
 $this->params['breadcrumbs'][] = ['label' => 'Presupuestos', 'url' => ['index']];
@@ -18,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_entry-form', [
         'model' => $model,
-		'searchModel' => $searchModel,
-		'dataProvider' => $dataProvider,
     ]) ?>
 
 </div>

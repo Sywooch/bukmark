@@ -4,14 +4,13 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Estimate;
+use app\models\EstimateSearch;
 use app\models\EstimateEntry;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\ClientSearch;
-use app\models\ProductSearch;
 use kartik\mpdf\Pdf;
 
 /**
@@ -46,12 +45,12 @@ class EstimateController extends Controller {
 	 * @return mixed
 	 */
 	public function actionIndex() {
-		$dataProvider = new ActiveDataProvider([
-			'query' => Estimate::find()->with('client')->active(),
-			'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
-		]);
+		$searchModel = new EstimateSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
 
 		return $this->render('index', [
+					'searchModel' => $searchModel,
 					'dataProvider' => $dataProvider,
 		]);
 	}
@@ -85,14 +84,8 @@ class EstimateController extends Controller {
 				return $this->redirect(['index']);
 		}
 		
-		$searchModel = new ClientSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->pagination->pageSize = 5;
-		
 		return $this->render('create', [
 					'model' => $model,
-					'searchModel' => $searchModel,
-					'dataProvider' => $dataProvider,
 		]);
 	}
 	
@@ -109,14 +102,8 @@ class EstimateController extends Controller {
 				return $this->redirect(['view', 'id' => $model->id]);
 		}
 		
-		$searchModel = new ClientSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->pagination->pageSize = 5;
-		
 		return $this->render('update', [
 					'model' => $model,
-					'searchModel' => $searchModel,
-					'dataProvider' => $dataProvider,
 		]);
 	}
 
@@ -148,14 +135,8 @@ class EstimateController extends Controller {
 				return $this->redirect(['view', 'id' => $estimate->id]);
 		}
 		
-		$searchModel = new ProductSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->pagination->pageSize = 5;
-		
 		return $this->render('create-entry', [
 					'model' => $model,
-					'searchModel' => $searchModel,
-					'dataProvider' => $dataProvider,
 		]);
 	}
 	
@@ -173,14 +154,8 @@ class EstimateController extends Controller {
 				return $this->redirect(['view', 'id' => $model->estimate->id]);
 		}
 		
-		$searchModel = new ProductSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->pagination->pageSize = 5;
-		
 		return $this->render('update-entry', [
 					'model' => $model,
-					'searchModel' => $searchModel,
-					'dataProvider' => $dataProvider,
 		]);
 	}
 	
