@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use kartik\editable\Editable;
 use app\models\Estimate;
 
 /* @var $this yii\web\View */
@@ -37,9 +38,15 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			'title',
 			[
+				'class' => 'kartik\grid\EditableColumn',
+				'attribute' => 'status',
 				'label' => 'Estado',
 				'value' => 'statusLabel',
 				'filter' => Html::activeDropDownList($searchModel, 'status', Estimate::statusLabels(), ['class'=>'form-control', 'prompt' => 'Estado']),
+				'editableOptions' => [
+					'inputType' => Editable::INPUT_DROPDOWN_LIST,
+					'data' => Estimate::statusLabels(),
+				],
 			],
 			[
 				'attribute' => 'request_date',

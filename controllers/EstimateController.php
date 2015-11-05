@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use kartik\mpdf\Pdf;
+use yii\helpers\Json;
 
 /**
  * EstimateController implements the CRUD actions for Estimate model.
@@ -48,6 +49,29 @@ class EstimateController extends Controller {
 		$searchModel = new EstimateSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
+
+		if (Yii::$app->request->post('hasEditable')) {
+			$id = Yii::$app->request->post('editableKey');
+			$model = Estimate::findOne($id);
+
+			$out = Json::encode(['output' => '', 'message' => '']);
+
+			$post = [];
+			$posted = current($_POST['Estimate']);
+			$post['Estimate'] = $posted;
+
+			if ($model->load($post)) {
+				$model->save(false);
+				$output = '';
+				if (isset($posted['status'])) {
+					$output = $model->statusLabel;
+				}
+				$out = Json::encode(['output' => $output, 'message' => $model->getErrors()]);
+			}
+			// return ajax json encoded response and exit
+			echo $out;
+			return;
+		}
 
 		return $this->render('index', [
 					'searchModel' => $searchModel,
