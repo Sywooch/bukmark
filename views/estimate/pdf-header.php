@@ -9,3 +9,5 @@ Fecha: <?= Yii::$app->formatter->asDate(time()) ?>
 Cliente: <?= $estimate->client->name ?>
 <br>
 Presupuesto Nro: <?= $estimate->id ?>
+<br>
+Atención: <?= $estimate->user->fullName ?>
