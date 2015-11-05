@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Receipt;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -15,8 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
         'columns' => [
-            'id',
+            [
+				'attribute' => 'id',
+				'options' => ['style' => 'width: 200px;'],
+			],
 			[
 				'label' => 'Cliente',
 				'value' => 'estimate.client.name',
@@ -28,10 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
 				'label' => 'Estado',
 				'value' => 'statusLabel',
+				'filter' => Html::activeDropDownList($searchModel, 'status', Receipt::statusLabels(), ['class'=>'form-control', 'prompt' => 'Estado']),
 			],
             [
 				'attribute' => 'created_date',
 				'format' => 'date',
+				'filter' => false,
 			],
             ['class' => 'yii\grid\ActionColumn'],
         ],

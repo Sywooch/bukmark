@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Receipt;
+use app\models\ReceiptSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -42,14 +43,14 @@ class ReceiptController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Receipt::find()->with('estimate.client'),
-			'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
-        ]);
+		$searchModel = new ReceiptSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+		return $this->render('index', [
+					'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
+		]);
     }
 
     /**
