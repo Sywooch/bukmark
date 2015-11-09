@@ -34,53 +34,59 @@ $user = User::getActiveUser();
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-			[
-				'label' => 'Cliente',
-				'attribute' => 'client.name',
+	<div id="estimate-detail" style="display: none;">
+		<?= DetailView::widget([
+			'model' => $model,
+			'attributes' => [
+				'id',
+				[
+					'label' => 'Cliente',
+					'attribute' => 'client.name',
+				],
+				'title',
+				[
+					'label' => 'Usuario',
+					'attribute' => 'user.username',
+				],
+				[
+					'label' => 'Estado',
+					'attribute' => 'statusLabel',
+				],
+				[
+					'attribute' => 'request_date',
+					'format' => 'date',
+				],
+				[
+					'attribute' => 'sent_date',
+					'format' => 'date',
+				],
+				[
+					'attribute' => 'total',
+					'value' => Currency::format($model->total, Currency::CURRENCY_ARS),
+				],
+				[
+					'attribute' => 'cost',
+					'value' => Currency::format($model->cost, Currency::CURRENCY_ARS),
+				],
+				[
+					'attribute' => 'total_checked',
+					'value' => Currency::format($model->total_checked, Currency::CURRENCY_ARS),
+				],
+				[
+					'attribute' => 'cost_checked',
+					'value' => Currency::format($model->cost_checked, Currency::CURRENCY_ARS),
+				],
+				[
+					'attribute' => 'us',
+					'value' => Currency::format($model->us, Currency::CURRENCY_ARS),
+				],
 			],
-			'title',
-			[
-				'label' => 'Usuario',
-				'attribute' => 'user.username',
-			],
-			[
-				'label' => 'Estado',
-				'attribute' => 'statusLabel',
-			],
-			[
-				'attribute' => 'request_date',
-				'format' => 'date',
-			],
-			[
-				'attribute' => 'sent_date',
-				'format' => 'date',
-			],
-            [
-				'attribute' => 'total',
-				'value' => Currency::format($model->total, Currency::CURRENCY_ARS),
-			],
-			[
-				'attribute' => 'cost',
-				'value' => Currency::format($model->cost, Currency::CURRENCY_ARS),
-			],
-			[
-				'attribute' => 'total_checked',
-				'value' => Currency::format($model->total_checked, Currency::CURRENCY_ARS),
-			],
-			[
-				'attribute' => 'cost_checked',
-				'value' => Currency::format($model->cost_checked, Currency::CURRENCY_ARS),
-			],
-			[
-				'attribute' => 'us',
-				'value' => Currency::format($model->us, Currency::CURRENCY_ARS),
-			],
-        ],
-    ]) ?>
+		]) ?>
+	</div>
+	
+	<p>
+		<?= Html::button('Mostrar/Ocultar detalle', ['class' => 'btn btn-primary', 'onclick' => '$("#estimate-detail").toggle()']) ?>
+	</p>
 	
 	<?php
 	$columns = [
