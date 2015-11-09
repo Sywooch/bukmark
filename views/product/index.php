@@ -32,7 +32,7 @@ $suppliers = Supplier::find()->all();
         'columns' => [
             [
 				'attribute' => 'id',
-				'options' => ['style' => 'width: 100px;'],
+				'options' => ['style' => 'width: 90px;'],
 			],
             [
 				'label' => 'Categoría',
@@ -48,12 +48,12 @@ $suppliers = Supplier::find()->all();
             [
 				'attribute' => 'bukmark_code',
 				'label' => 'Cód. proveedor',
-				'options' => ['style' => 'width: 150px;'],
+				'options' => ['style' => 'width: 120px;'],
 			],
             [
 				'attribute' => 'supplier_code',
 				'label' => 'Cód. interno',
-				'options' => ['style' => 'width: 150px;'],
+				'options' => ['style' => 'width: 120px;'],
 			],
             ['class' => 'yii\grid\ActionColumn'],
         ],
