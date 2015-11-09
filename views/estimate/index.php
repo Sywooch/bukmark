@@ -30,7 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			[
 				'attribute' => 'id',
-				'options' => ['style' => 'width: 200px;'],
+				'label' => 'Número',
+				'options' => ['style' => 'width: 100px;'],
 			],
 			[
 				'label' => 'Cliente',

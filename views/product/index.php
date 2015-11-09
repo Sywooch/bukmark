@@ -48,12 +48,12 @@ $suppliers = Supplier::find()->all();
             [
 				'attribute' => 'bukmark_code',
 				'label' => 'Cód. proveedor',
-				'options' => ['style' => 'width: 120px;'],
+				'options' => ['style' => 'width: 140px;'],
 			],
             [
 				'attribute' => 'supplier_code',
 				'label' => 'Cód. interno',
-				'options' => ['style' => 'width: 120px;'],
+				'options' => ['style' => 'width: 140px;'],
 			],
             ['class' => 'yii\grid\ActionColumn'],
         ],

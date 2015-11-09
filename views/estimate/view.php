@@ -21,8 +21,8 @@ $user = User::getActiveUser();
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Editar información', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?= Html::a('Crear presupuesto', ['create-entry', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Editar información', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?= Html::a('Generar factura', ['receipt/create', 'estimateId' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?= Html::a('Generar PDF', ['get-pdf', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
