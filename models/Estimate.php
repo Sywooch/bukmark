@@ -36,6 +36,11 @@ class Estimate extends \yii\db\ActiveRecord {
 	const STATUS_SENT = 6;
 	
 	/**
+	 * Senarios
+	 */
+	const SCENARIO_GRID = 'grid';
+	
+	/**
      * @inheritdoc
      */
 	public function behaviors() {
@@ -63,6 +68,15 @@ class Estimate extends \yii\db\ActiveRecord {
 			[['status'], 'in', 'range' => array_keys(self::statusLabels())],
 			[['request_date', 'sent_date'], 'date'],
 		];
+	}
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function scenarios() {
+		$scenarios = parent::scenarios();
+		$scenarios[self::SCENARIO_GRID] = ['status'];
+		return $scenarios;
 	}
 
 	/**

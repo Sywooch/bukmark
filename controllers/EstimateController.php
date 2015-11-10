@@ -53,6 +53,7 @@ class EstimateController extends Controller {
 		if (Yii::$app->request->post('hasEditable')) {
 			$id = Yii::$app->request->post('editableKey');
 			$model = Estimate::findOne($id);
+			$model->scenario = Estimate::SCENARIO_GRID;
 
 			$out = Json::encode(['output' => '', 'message' => '']);
 
@@ -61,7 +62,7 @@ class EstimateController extends Controller {
 			$post['Estimate'] = $posted;
 
 			if ($model->load($post)) {
-				$model->save(false);
+				$model->save();
 				$output = '';
 				if (isset($posted['status'])) {
 					$output = $model->statusLabel;
