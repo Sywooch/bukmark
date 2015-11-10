@@ -48,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'inputType' => Editable::INPUT_DROPDOWN_LIST,
 					'data' => Estimate::statusLabels(),
 				],
+				'refreshGrid' => true,
 			],
 			[
 				'attribute' => 'request_date',
