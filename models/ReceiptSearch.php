@@ -12,13 +12,19 @@ use app\models\Receipt;
  */
 class ReceiptSearch extends Receipt
 {
+	/**
+	 *
+	 * @var integer
+	 */
+	public $client_id;
+	
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'estimate_id', 'status', 'type'], 'integer'],
+            [['id', 'estimate_id', 'status', 'type', 'client_id'], 'integer'],
             [['created_date'], 'safe'],
             [['iva'], 'number'],
         ];
@@ -43,6 +49,7 @@ class ReceiptSearch extends Receipt
     public function search($params)
     {
         $query = Receipt::find();
+		$query->joinWith(['estimate']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -63,6 +70,7 @@ class ReceiptSearch extends Receipt
             'created_date' => $this->created_date,
             'type' => $this->type,
             'iva' => $this->iva,
+			'estimate.client_id' => $this->client_id,
         ]);
 
         return $dataProvider;

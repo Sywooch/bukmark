@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Receipt;
+use app\models\Client;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -25,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'label' => 'Cliente',
 				'value' => 'estimate.client.name',
+				'filter' => Html::activeDropDownList($searchModel, 'client_id', Client::getIdNameArray(), ['class'=>'form-control', 'prompt' => 'Nombre']),
 			],
             [
 				'label' => 'Presupuesto',
