@@ -44,6 +44,7 @@ class ReceiptController extends Controller
     public function actionIndex()
     {
 		$searchModel = new ReceiptSearch();
+		$searchModel->load(Yii::$app->request->post());
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
 
