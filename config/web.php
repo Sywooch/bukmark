@@ -87,4 +87,10 @@ if (YII_ENV_DEV) {
 	$config['components']['assetManager']['forceCopy'] = true;
 }
 
+\Yii::$container->set('yii\grid\ActionColumn', [
+	'contentOptions' => [
+		'class' => 'action-column',
+	]
+]);
+
 return $config;

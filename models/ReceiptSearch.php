@@ -6,17 +6,26 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Receipt;
+use app\helpers\DateConverter;
 
 /**
  * ReceiptSearch represents the model behind the search form about `app\models\Receipt`.
  */
 class ReceiptSearch extends Receipt
-{
+{	
 	/**
 	 *
 	 * @var integer
 	 */
 	public $client_id;
+	/**
+	 * @var string from date filter
+	 */
+	public $from_date;
+	/**
+	 * @var string to date filter
+	 */
+	public $to_date;
 	
     /**
      * @inheritdoc
@@ -25,7 +34,7 @@ class ReceiptSearch extends Receipt
     {
         return [
             [['id', 'estimate_id', 'status', 'type', 'client_id'], 'integer'],
-            [['created_date'], 'safe'],
+            [['created_date', 'from_date', 'to_date'], 'safe'],
             [['iva'], 'number'],
         ];
     }
@@ -39,6 +48,16 @@ class ReceiptSearch extends Receipt
         return Model::scenarios();
     }
 
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels() {
+		$labels = parent::attributeLabels();
+		$labels['from_date'] = 'Desde';
+		$labels['to_date'] = 'Hasta';
+		return $labels;
+	}
+	
     /**
      * Creates data provider instance with search query applied
      *
@@ -66,12 +85,30 @@ class ReceiptSearch extends Receipt
         $query->andFilterWhere([
             'id' => $this->id,
             'estimate_id' => $this->estimate_id,
-            'status' => $this->status,
+            'receipt.status' => $this->status,
             'created_date' => $this->created_date,
             'type' => $this->type,
             'iva' => $this->iva,
 			'estimate.client_id' => $this->client_id,
         ]);
+		
+		
+		/**
+		 * Convert the to dates to mysql format.
+		 * Leave them as null so they are not used
+		 * by ActiveQuery::andFilterWhere().
+		 */
+		$fromDate = null;
+		$toDate = null;
+		if ($this->from_date) {
+			$fromDate = DateConverter::convert($this->from_date);
+		}
+		if ($this->to_date) {
+			$toDate = DateConverter::convert($this->to_date);
+		}
+		
+		$query->andFilterWhere(['>=', 'created_date', $fromDate]);
+		$query->andFilterWhere(['<=', 'created_date', $toDate]);
 
         return $dataProvider;
     }

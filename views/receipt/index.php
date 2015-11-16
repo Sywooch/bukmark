@@ -4,13 +4,34 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Receipt;
 use app\models\Client;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $searchModel app\models\ReceiptSearch */
 
 $this->title = 'Facturas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<h1>Filtrar por fecha</h1>
+
+<div class="receipt-form">
+
+	<?php $form = ActiveForm::begin(); ?>
+	
+	<?= $form->field($searchModel, 'from_date')->widget(\yii\jui\DatePicker::classname(), ['options' => ['class' => 'form-control']]) ?>
+
+	<?= $form->field($searchModel, 'to_date')->widget(\yii\jui\DatePicker::classname(), ['options' => ['class' => 'form-control']]) ?>
+
+    <div class="form-group">
+		<?= Html::submitButton('Filtrar', ['class' => 'btn btn-primary']) ?>
+    </div>
+
+	<?php ActiveForm::end(); ?>
+
+</div>
+
 <div class="receipt-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
