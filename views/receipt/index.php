@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use kartik\editable\Editable;
 use app\models\Receipt;
 use app\models\Client;
 use yii\widgets\ActiveForm;
@@ -53,10 +54,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Presupuesto',
 				'value' => 'estimate.title',
 			],
-            [
+			[
+				'class' => 'kartik\grid\EditableColumn',
+				'attribute' => 'status',
 				'label' => 'Estado',
 				'value' => 'statusLabel',
 				'filter' => Html::activeDropDownList($searchModel, 'status', Receipt::statusLabels(), ['class'=>'form-control', 'prompt' => 'Estado']),
+				'editableOptions' => [
+					'inputType' => Editable::INPUT_DROPDOWN_LIST,
+					'data' => Receipt::statusLabels(),
+				],
 			],
             [
 				'attribute' => 'created_date',

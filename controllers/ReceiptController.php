@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 
 /**
  * ReceiptController implements the CRUD actions for Receipt model.
@@ -47,6 +48,29 @@ class ReceiptController extends Controller
 		$searchModel->load(Yii::$app->request->post());
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
+		
+		if (Yii::$app->request->post('hasEditable')) {
+			$id = Yii::$app->request->post('editableKey');
+			$model = Receipt::findOne($id);
+
+			$out = Json::encode(['output' => '', 'message' => '']);
+
+			$post = [];
+			$posted = current($_POST['Receipt']);
+			$post['Receipt'] = $posted;
+
+			if ($model->load($post)) {
+				$model->save();
+				$output = '';
+				if (isset($posted['status'])) {
+					$output = $model->statusLabel;
+				}
+				$out = Json::encode(['output' => $output, 'message' => $model->getErrors()]);
+			}
+			// return ajax json encoded response and exit
+			echo $out;
+			return;
+		}
 
 		return $this->render('index', [
 					'searchModel' => $searchModel,
