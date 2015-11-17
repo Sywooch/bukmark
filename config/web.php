@@ -87,10 +87,26 @@ if (YII_ENV_DEV) {
 	$config['components']['assetManager']['forceCopy'] = true;
 }
 
+// Set the class for the grid-view action column
 \Yii::$container->set('yii\grid\ActionColumn', [
 	'contentOptions' => [
 		'class' => 'action-column',
 	]
+]);
+
+// Change the padding of the grid-view data cells
+$contentOptions = ['style' => 'padding: 2px'];
+\Yii::$container->set('yii\grid\DataColumn', [
+	'contentOptions' => $contentOptions,
+]);
+\Yii::$container->set('yii\grid\ActionColumn', [
+	'contentOptions' => $contentOptions,
+]);
+\Yii::$container->set('kartik\grid\DataColumn', [
+	'contentOptions' => $contentOptions,
+]);
+\Yii::$container->set('kartik\grid\EditableColumn', [
+	'contentOptions' => $contentOptions,
 ]);
 
 return $config;
