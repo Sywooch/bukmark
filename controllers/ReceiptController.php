@@ -48,6 +48,7 @@ class ReceiptController extends Controller
 		$searchModel->load(Yii::$app->request->post());
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
+		$dataProvider->pagination->pageSize = 50;
 		
 		if (Yii::$app->request->post('hasEditable')) {
 			$id = Yii::$app->request->post('editableKey');

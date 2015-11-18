@@ -5,7 +5,9 @@ use kartik\grid\GridView;
 use kartik\editable\Editable;
 use app\models\Receipt;
 use app\models\Client;
+use app\models\Currency;
 use yii\widgets\ActiveForm;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -73,5 +75,75 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+	
+	<?= ExportMenu::widget([
+		'dataProvider' => $dataProvider,
+		'target' => ExportMenu::TARGET_SELF,
+		'showConfirmAlert' => false,
+		'filename' => 'facturas',
+		'columns' => [
+            [
+				'attribute' => 'created_date',
+				'format' => 'date',
+				'filter' => false,
+			],
+			[
+				'attribute' => 'type',
+				'value' => 'typeLabel',
+			],
+			[
+				'label' => 'Factura Nro',
+				'value' => null,
+			],
+			[
+				'label' => 'Cliente',
+				'value' => 'estimate.client.name',
+			],
+			[
+				'label' => 'CUIT',
+				'value' => 'estimate.client.name',
+			],
+			[
+				'label' => 'Facturación Neta',
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->estimate->total_checked, Currency::CURRENCY_ARS);
+				},
+			],
+			[
+				'label' => 'IVA',
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->IVATotal, Currency::CURRENCY_ARS);
+				},
+			],
+			[
+				'label' => 'Facturación Bruta',
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->gross, Currency::CURRENCY_ARS);
+				},
+			],
+			[
+				'label' => 'Utilidad',
+				'value' => function ($model, $key, $index, $column) {
+					return Currency::format($model->estimate->total_checked - $model->estimate->cost_checked, Currency::CURRENCY_ARS);
+				},
+			],
+			[
+				'label' => 'Porcentaje',
+				'value' => null,
+			],
+			[
+				'label' => 'Productos',
+				'value' => 'products',
+			],
+			[
+				'label' => 'Estado',
+				'value' => 'statusLabel',
+			],
+			[
+				'label' => 'Recibo Nro',
+				'value' => null,
+			],
+		],
+	]); ?>
 
 </div>

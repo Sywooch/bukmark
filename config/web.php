@@ -57,6 +57,7 @@ $config = [
 			'thousandSeparator' => '',
 			'decimalSeparator' => ',',
 			'dateFormat' => 'dd/MM/yyyy',
+			'nullDisplay' => '',
 		],
 	],
 	'modules' => [
@@ -84,7 +85,7 @@ if (YII_ENV_DEV) {
 		'allowedIPs' => ['*'] // adjust this to your needs
 	];
 	// publish files even there are published before
-	$config['components']['assetManager']['forceCopy'] = false;
+	$config['components']['assetManager']['forceCopy'] = true;
 }
 
 // Set the class for the grid-view action column

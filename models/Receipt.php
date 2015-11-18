@@ -16,8 +16,8 @@ use Yii;
  *
  * @property Estimate $estimate
  */
-class Receipt extends \yii\db\ActiveRecord
-{
+class Receipt extends \yii\db\ActiveRecord {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -30,53 +30,50 @@ class Receipt extends \yii\db\ActiveRecord
 			[['type'], 'in', 'range' => array_keys(self::typeLabels())],
 		];
 	}
-	
+
 	const IVA = 21;
-	
+
 	/* Statuses go here.
 	  IMPORTANT: If a Status is added it must also be added
 	  to statusLabels() and statusColors(). */
 	const STATUS_PENDING = 0;
 	const STATUS_CANCELED = 1;
 	const STATUS_CHARGED = 2;
-	
+
 	/* types go here.
 	  IMPORTANT: If a type is added it must also be added
-	  to typeLabels()  */
+	  to typeLabels() */
 	const TYPE_A = 0;
 	const TYPE_B = 1;
-	
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'receipt';
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'estimate_id' => 'Presupuesto',
-            'status' => 'Estado',
-            'created_date' => 'Fecha',
-            'type' => 'Tipo',
-            'iva' => 'IVA',
-        ];
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public static function tableName() {
+		return 'receipt';
+	}
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEstimate()
-    {
-        return $this->hasOne(Estimate::className(), ['id' => 'estimate_id']);
-    }
-	
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels() {
+		return [
+			'id' => 'ID',
+			'estimate_id' => 'Presupuesto',
+			'status' => 'Estado',
+			'created_date' => 'Fecha',
+			'type' => 'Tipo',
+			'iva' => 'IVA',
+		];
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getEstimate() {
+		return $this->hasOne(Estimate::className(), ['id' => 'estimate_id']);
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -91,7 +88,7 @@ class Receipt extends \yii\db\ActiveRecord
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get status labels
 	 * @return string[]
@@ -115,7 +112,7 @@ class Receipt extends \yii\db\ActiveRecord
 			self::STATUS_CHARGED => 'gray',
 		];
 	}
-	
+
 	/**
 	 * Get type labels
 	 * @return string[]
@@ -126,7 +123,7 @@ class Receipt extends \yii\db\ActiveRecord
 			self::TYPE_B => 'B',
 		];
 	}
-	
+
 	/**
 	 * 
 	 * @return float
@@ -134,7 +131,15 @@ class Receipt extends \yii\db\ActiveRecord
 	public function getGross() {
 		return $this->estimate->total_checked * (1 + $this->iva / 100);
 	}
-	
+
+	/**
+	 * 
+	 * @return float
+	 */
+	public function getIVATotal() {
+		return $this->estimate->total_checked * ($this->iva / 100);
+	}
+
 	/**
 	 * 
 	 * @return string
@@ -142,7 +147,7 @@ class Receipt extends \yii\db\ActiveRecord
 	public function getStatusLabel() {
 		return self::statusLabels()[$this->status];
 	}
-	
+
 	/**
 	 * 
 	 * @return string
@@ -150,4 +155,35 @@ class Receipt extends \yii\db\ActiveRecord
 	public function getTypeLabel() {
 		return self::typeLabels()[$this->type];
 	}
+
+	/**
+	 * Retunrs a brief list of the checked products
+	 * @return string
+	 */
+	public function getProducts() {
+		$entries = $this->estimate->getEntries()->where(['checked' => true])->all();
+		// Group the entries by product
+		$groupedEntries = [];
+		foreach ($entries as $entry) {
+			if(!isset($groupedEntries[$entry->product->id])) {
+				$groupedEntries[$entry->product->id] = [];
+				$groupedEntries[$entry->product->id]['product'] = $entry->product;
+				$groupedEntries[$entry->product->id]['quantity'] = $entry->quantity;
+			} else {
+				$groupedEntries[$entry->product->id]['quantity'] += $entry->quantity;
+			}
+		}
+		// Get the string
+		$string = '';
+		foreach ($groupedEntries as $entry) {
+			$explodeArray = explode(" ", $entry['product']->title);
+			$title = count($explodeArray) ? $explodeArray[0] : "";
+			$quantity = $entry['quantity'];
+			$string .= $title . " ($quantity), ";
+		}
+		// Remove last ", "
+		$string = trim($string, ", ");
+		return $string;
+	}
+
 }
