@@ -46,12 +46,12 @@ $suppliers = Supplier::find()->all();
 			],
 			'title',
             [
-				'attribute' => 'bukmark_code',
+				'attribute' => 'supplier_code',
 				'label' => 'Cód. proveedor',
 				'options' => ['style' => 'width: 140px;'],
 			],
             [
-				'attribute' => 'supplier_code',
+				'attribute' => 'bukmark_code',
 				'label' => 'Cód. interno',
 				'options' => ['style' => 'width: 140px;'],
 			],
