@@ -11,9 +11,9 @@ use app\models\User;
 /* @var $model app\models\Estimate */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $model->title;
+$this->title = $model->client->name . ' - ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Presupuestos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $model->title;
 $user = User::getActiveUser();
 ?>
 <div class="estimate-view">
@@ -21,7 +21,7 @@ $user = User::getActiveUser();
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-		<?= Html::a('Crear presupuesto', ['create-entry', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+		<?= Html::a('Añadir producto', ['create-entry', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Editar información', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?= Html::a('Generar factura', ['receipt/create', 'estimateId' => $model->id], ['class' => 'btn btn-primary']) ?>
 		<?= Html::a('Generar PDF', ['get-pdf', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
