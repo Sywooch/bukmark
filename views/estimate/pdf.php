@@ -20,7 +20,6 @@ use app\models\Currency;
 <hr>
 
 <br>
-	
 <?php
 // Group entries by product
 $groups = [];
@@ -36,11 +35,11 @@ foreach($estimate->entries as $entry) {
 
 	<table width="100%">
 		<tr>
-			<td><?= Html::img(ltrim($entry->product->imageUrl, '/'), ['height' => 100]) ?></td>
+			<td><?= Html::img(ltrim($product->imageUrl, '/'), ['height' => 100]) ?></td>
 			<td>
-				<?= $entry->product->title . ' - ' . $entry->product->bukmark_code?>
+				<?= $product->title . ' - ' . $product->bukmark_code?>
 				<br>
-				<?= $entry->product->description ?>
+				<?= $product->description ?>
 			</td>
 		</tr>
 	</table>
