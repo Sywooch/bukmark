@@ -26,6 +26,10 @@ $groups = [];
 foreach($estimate->entries as $entry) {
 	$groups[$entry->product->id][] = $entry;
 }
+
+$qGroups = count($groups);
+$i = 0;
+
 ?>
 	
 <?php foreach ($groups as $group): ?>
@@ -62,4 +66,9 @@ foreach($estimate->entries as $entry) {
 		</tr>
 	<?php endforeach; ?>
 	</table>
+
+	<?php if (++$i < $qGroups): ?>
+		<hr>
+	<?php endif; ?>
+
 <?php endforeach; ?>
