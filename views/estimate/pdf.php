@@ -39,7 +39,7 @@ $i = 0;
 
 	<table width="100%">
 		<tr>
-			<td><?= Html::img(ltrim($product->imageUrl, '/'), ['height' => 100]) ?></td>
+			<td><?= $product->imageUrl ? Html::img(ltrim($product->imageUrl, '/'), ['height' => 100]) : '' ?></td>
 			<td>
 				<?= $product->title . ' - ' . $product->bukmark_code?>
 				<br>
