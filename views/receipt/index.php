@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'label' => 'CUIT',
-				'value' => 'estimate.client.name',
+				'value' => 'estimate.client.cuit',
 			],
 			[
 				'label' => 'Facturación Neta',
