@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
 				'attribute' => 'id',
-				'options' => ['style' => 'width: 200px;'],
+				'options' => ['style' => 'width: 100px;'],
 			],
 			[
 				'label' => 'Cliente',
