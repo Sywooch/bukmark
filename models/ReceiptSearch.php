@@ -83,12 +83,12 @@ class ReceiptSearch extends Receipt
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'estimate_id' => $this->estimate_id,
+            'receipt.id' => $this->id,
+            'receipt.estimate_id' => $this->estimate_id,
             'receipt.status' => $this->status,
-            'created_date' => $this->created_date,
-            'type' => $this->type,
-            'iva' => $this->iva,
+            'receipt.created_date' => $this->created_date,
+            'receipt.type' => $this->type,
+            'receipt.iva' => $this->iva,
 			'estimate.client_id' => $this->client_id,
         ]);
 		
