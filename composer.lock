@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "0fce50ed6c9afbf76879734cc7470329",
+    "content-hash": "f34ef7e2e64970b06a5b88bb47e0b348",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -430,16 +431,16 @@
         },
         {
             "name": "kartik-v/yii2-editable",
-            "version": "v1.7.3",
+            "version": "v1.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-editable.git",
-                "reference": "bbbe10218d1539c31f1628e86ee889a27629e3f5"
+                "reference": "7c25b5bb6b21027eaf11b6ee4bba5c9f00cf04cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/bbbe10218d1539c31f1628e86ee889a27629e3f5",
-                "reference": "bbbe10218d1539c31f1628e86ee889a27629e3f5",
+                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/7c25b5bb6b21027eaf11b6ee4bba5c9f00cf04cd",
+                "reference": "7c25b5bb6b21027eaf11b6ee4bba5c9f00cf04cd",
                 "shasum": ""
             },
             "require": {
@@ -474,7 +475,7 @@
                 "popover-x",
                 "widget"
             ],
-            "time": "2015-07-01 16:46:53"
+            "time": "2015-12-27 16:31:06"
         },
         {
             "name": "kartik-v/yii2-export",
@@ -482,12 +483,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-export.git",
-                "reference": "9c728cc34e1e289ea8070f050b4d1d176cc3cde8"
+                "reference": "90e5be7e6159c748487ae9ace23e676de8e92375"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-export/zipball/9c728cc34e1e289ea8070f050b4d1d176cc3cde8",
-                "reference": "9c728cc34e1e289ea8070f050b4d1d176cc3cde8",
+                "url": "https://api.github.com/repos/kartik-v/yii2-export/zipball/90e5be7e6159c748487ae9ace23e676de8e92375",
+                "reference": "90e5be7e6159c748487ae9ace23e676de8e92375",
                 "shasum": ""
             },
             "require": {
@@ -495,6 +496,11 @@
                 "phpoffice/phpexcel": "~1.8.0"
             },
             "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "kartik\\export\\": ""
@@ -528,26 +534,31 @@
                 "xlsx",
                 "yii2"
             ],
-            "time": "2015-11-13 14:41:43"
+            "time": "2016-02-05 02:52:23"
         },
         {
             "name": "kartik-v/yii2-grid",
-            "version": "v3.0.7",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "913fde8fbe41bf998d53a88d0443e25e1e696194"
+                "reference": "8cf8bb9ef3e9dc94933c54fcffdc91471de40ecf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/913fde8fbe41bf998d53a88d0443e25e1e696194",
-                "reference": "913fde8fbe41bf998d53a88d0443e25e1e696194",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/8cf8bb9ef3e9dc94933c54fcffdc91471de40ecf",
+                "reference": "8cf8bb9ef3e9dc94933c54fcffdc91471de40ecf",
                 "shasum": ""
             },
             "require": {
                 "kartik-v/yii2-krajee-base": "~1.7"
             },
             "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "kartik\\grid\\": ""
@@ -572,20 +583,20 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-09-12 19:41:22"
+            "time": "2016-01-14 07:03:28"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v1.7.7",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "c0adff9d9762f4fd3bf0e7cd0000fcab0bf00f19"
+                "reference": "0c274e31e4392cbafc5fe158eae81738794e02ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/c0adff9d9762f4fd3bf0e7cd0000fcab0bf00f19",
-                "reference": "c0adff9d9762f4fd3bf0e7cd0000fcab0bf00f19",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/0c274e31e4392cbafc5fe158eae81738794e02ce",
+                "reference": "0c274e31e4392cbafc5fe158eae81738794e02ce",
                 "shasum": ""
             },
             "require": {
@@ -618,7 +629,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-06-16 05:19:57"
+            "time": "2016-01-10 12:26:29"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -669,16 +680,16 @@
         },
         {
             "name": "kartik-v/yii2-popover-x",
-            "version": "v1.3.1",
+            "version": "v1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-popover-x.git",
-                "reference": "6a21af40c66dd10588fede392d7458f80890cac3"
+                "reference": "38f2208cf92f8c4a7758f485575a881cade1970c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-popover-x/zipball/6a21af40c66dd10588fede392d7458f80890cac3",
-                "reference": "6a21af40c66dd10588fede392d7458f80890cac3",
+                "url": "https://api.github.com/repos/kartik-v/yii2-popover-x/zipball/38f2208cf92f8c4a7758f485575a881cade1970c",
+                "reference": "38f2208cf92f8c4a7758f485575a881cade1970c",
                 "shasum": ""
             },
             "require": {
@@ -713,7 +724,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2015-07-01 16:51:32"
+            "time": "2016-01-12 16:59:09"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -965,20 +976,20 @@
         },
         {
             "name": "yiisoft/yii2-composer",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-composer.git",
-                "reference": "ca8d23707ae47d20b0454e4b135c156f6da6d7be"
+                "reference": "7452fd908a5023b8bb5ea1b123a174ca080de464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/ca8d23707ae47d20b0454e4b135c156f6da6d7be",
-                "reference": "ca8d23707ae47d20b0454e4b135c156f6da6d7be",
+                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/7452fd908a5023b8bb5ea1b123a174ca080de464",
+                "reference": "7452fd908a5023b8bb5ea1b123a174ca080de464",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "1.0.0"
+                "composer-plugin-api": "^1.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -1008,7 +1019,7 @@
                 "extension installer",
                 "yii2"
             ],
-            "time": "2015-03-01 06:22:44"
+            "time": "2016-02-06 00:49:24"
         },
         {
             "name": "yiisoft/yii2-jui",
