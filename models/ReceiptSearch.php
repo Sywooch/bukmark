@@ -34,8 +34,9 @@ class ReceiptSearch extends Receipt
     {
         return [
             [['id', 'estimate_id', 'status', 'type', 'client_id'], 'integer'],
-            [['created_date', 'from_date', 'to_date'], 'safe'],
+            [['created_date'], 'safe'],
             [['iva'], 'number'],
+			[['from_date', 'to_date'], 'date', 'format' => 'dd/MM/yyyy'],
         ];
     }
 
@@ -101,14 +102,14 @@ class ReceiptSearch extends Receipt
 		$fromDate = null;
 		$toDate = null;
 		if ($this->from_date) {
-			$fromDate = DateConverter::convert($this->from_date);
+			$this->from_date = DateConverter::convert($this->from_date);
 		}
 		if ($this->to_date) {
-			$toDate = DateConverter::convert($this->to_date);
+			$this->to_date = DateConverter::convert($this->to_date);
 		}
 		
-		$query->andFilterWhere(['>=', 'created_date', $fromDate]);
-		$query->andFilterWhere(['<=', 'created_date', $toDate]);
+		$query->andFilterWhere(['>=', 'created_date', $this->from_date]);
+		$query->andFilterWhere(['<=', 'created_date', $this->to_date]);
 
         return $dataProvider;
     }
