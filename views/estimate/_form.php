@@ -19,6 +19,8 @@ $clients = Client::find()->all();
 
 	<?= $form->field($model, 'client_id')->dropDownList(ArrayHelper::map($clients, 'id', 'name'), ['prompt' => 'Elegir cliente']) ?>
 	
+	<?= $form->field($model, 'client_contact_id')->textInput() ?>
+	
 	<?= $form->field($model, 'title')->textInput() ?>
 	
 	<?= $form->field($model, 'status')->dropDownList(Estimate::statusLabels()) ?>

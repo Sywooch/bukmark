@@ -10,7 +10,8 @@ use Yii;
  *
  * @property integer $id
  * @property string $title
- * @property integer client_id
+ * @property integer $client_id
+ * @property integer $client_contact_id
  * @property integer $user_id
  * @property integer $status
  * @property string $request_date
@@ -65,6 +66,12 @@ class Estimate extends \yii\db\ActiveRecord {
 			[['title', 'client_id', 'request_date', 'status'], 'required'],
 			[['title'], 'string', 'max' => 255],
 			[['client_id'], 'exist', 'targetClass' => Client::className(), 'targetAttribute' => 'id'],
+			[
+				['client_contact_id'],
+				'exist', 'targetClass' => ClientContact::className(),
+				'targetAttribute' => 'id',
+				'filter' => ['client_id' => $this->client_id],
+			],
 			[['status'], 'in', 'range' => array_keys(self::statusLabels())],
 			[['request_date', 'sent_date'], 'date'],
 		];
@@ -94,6 +101,7 @@ class Estimate extends \yii\db\ActiveRecord {
 			'id' => 'N° de presupuesto',
 			'title' => 'Producto solicitado',
 			'client_id' => 'Cliente',
+			'client_contact_id' => 'Atención',
 			'user_id' => 'Usuario',
 			'status' => 'Estado',
 			'request_date' => 'Fecha solicitado',
@@ -111,6 +119,13 @@ class Estimate extends \yii\db\ActiveRecord {
 	 */
 	public function getClient() {
 		return $this->hasOne(Client::className(), ['id' => 'client_id']);
+	}
+	
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getClientContact() {
+		return $this->hasOne(ClientContact::className(), ['id' => 'client_contact_id']);
 	}
 
 	/**

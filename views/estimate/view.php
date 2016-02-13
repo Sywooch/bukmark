@@ -43,6 +43,18 @@ $user = User::getActiveUser();
 					'label' => 'Cliente',
 					'attribute' => 'client.name',
 				],
+				[
+					'label' => 'Atención',
+					'attribute' => 'clientContact.displayName',
+				],
+				[
+					'label' => 'Email',
+					'attribute' => 'clientContact.email',
+				],
+				[
+					'label' => 'Teléfono',
+					'attribute' => 'clientContact.phone',
+				],
 				'title',
 				[
 					'label' => 'Usuario',
