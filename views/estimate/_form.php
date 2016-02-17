@@ -1,10 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\models\Estimate;
 use app\models\Client;
 use yii\helpers\ArrayHelper;
+use kartik\depdrop\DepDrop;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Estimate */
@@ -17,9 +19,18 @@ $clients = Client::find()->all();
 
 	<?php $form = ActiveForm::begin(); ?>
 
-	<?= $form->field($model, 'client_id')->dropDownList(ArrayHelper::map($clients, 'id', 'name'), ['prompt' => 'Elegir cliente']) ?>
+	<?= $form->field($model, 'client_id')->dropDownList(ArrayHelper::map($clients, 'id', 'name'), ['prompt' => 'Elegir cliente', 'id' => 'client_id']) ?>
 	
-	<?= $form->field($model, 'client_contact_id')->textInput() ?>
+	<?=
+	$form->field($model, 'client_contact_id')->widget(DepDrop::classname(), [
+		'data' => $model->client ? Client::getDefaultContactsArray() + $model->client->getContactsArray() : Client::getDefaultContactsArray(),
+		'pluginOptions' => [
+			'placeholder' => Client::CONTACT_DROPDOWN_PLACEHOLDER,
+			'depends' => ['client_id'],
+			'url' => Url::to(['/client/get-contacts'])
+		]
+	]);
+	?>
 	
 	<?= $form->field($model, 'title')->textInput() ?>
 	

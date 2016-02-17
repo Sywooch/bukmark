@@ -19,6 +19,8 @@ use yii\helpers\ArrayHelper;
  */
 class Client extends \yii\db\ActiveRecord
 {
+	const CONTACT_DROPDOWN_PLACEHOLDER = 'Elegir contacto';
+	
     /**
      * @inheritdoc
      */
@@ -79,6 +81,24 @@ class Client extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ClientContact::className(), ['client_id' => 'id']);
     }
+	
+	/**
+	 * @return array
+	 */
+	public function getContactsArray() {
+		$contacts = [];
+		foreach ($this->contacts as $contact) {
+			$contacts[$contact->id] = $contact->displayName;
+		}
+		return $contacts;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public static function getDefaultContactsArray() {
+		return [null => self::CONTACT_DROPDOWN_PLACEHOLDER];
+	}
 	
 	/**
 	 * Gets an id => name array.

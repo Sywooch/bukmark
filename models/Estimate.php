@@ -66,12 +66,7 @@ class Estimate extends \yii\db\ActiveRecord {
 			[['title', 'client_id', 'request_date', 'status'], 'required'],
 			[['title'], 'string', 'max' => 255],
 			[['client_id'], 'exist', 'targetClass' => Client::className(), 'targetAttribute' => 'id'],
-			[
-				['client_contact_id'],
-				'exist', 'targetClass' => ClientContact::className(),
-				'targetAttribute' => 'id',
-				'filter' => ['client_id' => $this->client_id],
-			],
+			[['client_contact_id'], 'exist', 'targetClass' => ClientContact::className(), 'targetAttribute' => 'id'],
 			[['status'], 'in', 'range' => array_keys(self::statusLabels())],
 			[['request_date', 'sent_date'], 'date'],
 		];

@@ -11,6 +11,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use app\models\ClientContact;
+use yii\web\Response;
+use yii\helpers\ArrayHelper;
 
 /**
  * ClientController implements the CRUD actions for Client model.
@@ -181,6 +183,29 @@ class ClientController extends Controller {
 		$model->delete();
 
 		return $this->redirect(['view', 'id' => $model->client->id]);
+	}
+	
+	/**
+	 * Get the client contacts in JSON format
+	 * @retunr string
+	 */
+	public function actionGetContacts() {
+		$out = [];
+		if (isset($_POST['depdrop_parents'])) {
+			$parents = $_POST['depdrop_parents'];
+			if ($parents != null) {
+				$clientId = $parents[0];
+				$model = Client::findOne($clientId);
+				if ($model) {
+					$contacts = $model->getContactsArray();
+					foreach ($contacts as $k => $contact) {
+						$out[] = ['id' => $k, 'name' => $contact];
+					}
+				}
+			}
+		}
+		$response = json_encode(['output' => $out, 'selected' => '']);
+		return $response;
 	}
 
 	/**
