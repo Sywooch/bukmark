@@ -6,19 +6,6 @@ use app\models\Currency;
 /* @var $estimate app\models\Estimate */
 ?>
 
-<b>Condiciones de pago:</b> <?= $estimate->client->payment_conditions ?>
-
-<br>
-
-<b>Notas:</b>
-<ul>
-	<li>Se incluye impresión de logo</li>
-	<li>Los precios no incluyen el IVA</li>
-	<li>Plazos de entrega: 15 / 20 días</li>
-</ul>
-
-<hr>
-
 <br>
 <?php
 // Group entries by product
@@ -31,41 +18,52 @@ $qGroups = count($groups);
 $i = 0;
 
 ?>
-	
+
+<div style="background: #232323; color: lightgray;">
+	<div style="float:left; margin:0; width: 30%; margin-left: 35px">
+		<b>Imágen</b>
+	</div>
+	<div style="float:left; margin:0; width: 40%;">
+		<b>Código/Descripción</b>
+	</div>
+	<div style="float:left; margin:0; width: 10%; text-align: center;">
+		<b>Cantidad</b>
+	</div>
+	<div style="float:left; margin:0; width: 15%; text-align: center;">
+		<b>Precio unit.</b>
+	</div>
+</div>
+
 <?php foreach ($groups as $group): ?>
 	<?php
 		$product = $group[0]->product;
 	?>
 
-	<table width="100%">
-		<tr>
-			<td><?= $product->imageUrl ? Html::img(ltrim($product->imageUrl, '/'), ['height' => 100]) : '' ?></td>
-			<td>
-				<?= $product->title . ' - ' . $product->bukmark_code?>
-				<br>
-				<?= $product->description ?>
-			</td>
-		</tr>
-	</table>
-
-	<table width="100%">
-	<tr>
-		<td><b>Impresión</b></td>
-		<td><b>Cantidad</b></td>
-		<td><b>Precio unitario</b></td>
-	</tr>
-	<?php foreach ($group as $entry): ?>
-		<tr>
-			<td><?= $entry->description ?></td>
-			<td>
-				<?= $entry->quantity ?>
-			</td>
-			<td>
-				<?= Currency::format($entry->subtotal, Currency::CURRENCY_ARS); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
+	<div style="margin-top: 20px;">
+		<div style="float:left; margin:0; width: 35%; text-align: center; height: 1px;">
+			<?= $product->imageUrl ? Html::img(ltrim($product->imageUrl, '/'), ['height' => 100]) : '' ?>
+		</div>
+		<div style="float:left; margin:0; width: 60%;">
+			<b><?= $product->bukmark_code ?></b>
+			<br>
+			<?= $product->title ?>
+			<br>
+			<?= $product->description ?>
+			<div style="float:left; margin:0;">
+				<?php foreach ($group as $entry): ?>
+					<div style="float:left; margin:0; width: 58%; height: 1px;">
+						<?= $entry->description ?>
+					</div>
+					<div style="float:left; margin:0; width: 30%; text-align: center; height: 1px;">
+						<?= $entry->quantity ?>
+					</div>
+					<div style="float:left; margin:0; text-align: center; height: 1px;">
+						<?= Currency::format($entry->subtotal, Currency::CURRENCY_ARS); ?>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</div>
 
 	<?php if (++$i < $qGroups): ?>
 		<hr>

@@ -232,16 +232,22 @@ class EstimateController extends Controller {
 			'mode' => Pdf::MODE_CORE,
 			'format' => Pdf::FORMAT_A4,
 			'orientation' => Pdf::ORIENT_PORTRAIT,
+			'marginLeft' => 0,
+			'marginRight' => 0,
+			'marginTop' => 0,
+			'marginBottom' => 0,
+			'marginHeader' => 0,
+			'marginFooter' => 0,
 			'destination' => Pdf::DEST_DOWNLOAD,
 			'content' => $content,
-			'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+			'cssFile' => '@webroot/css/pdf.css',
 			'options' => [
 				'setAutoTopMargin' => 'pad',
 				'setAutoBottomMargin' => 'pad',
 			],
 			'methods' => [
-				'SetHeader' => $header,
-				'SetFooter' => $footer,
+				'SetHTMLHeader' => $header,
+				'SetHTMLFooter' => $footer,
 			]
 		]);
 

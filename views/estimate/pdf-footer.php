@@ -1,10 +1,16 @@
-tel: 5273-4007
-<br>
-fax: 5199-0691
-<br>
-info@bukmark.com.ar
-<br>
-Av. Alicia Moreau de Justo 740 Piso 3 Of. 1
-<br>
-C1107AAP Puerto Madero - Dock 5. Argentina
+<?php
+use yii\helpers\Html;
+?>
+
+<div style="background: #232323; color: lightgray; font-style: italic; vertical-align: middle; height: 30px; padding-top: 10px;">
+	<div style="float:left; margin-left: 40px; width: 225px; text-align: right;">
+		<?= Html::img('images/web.png') . ' ' . Yii::$app->params['website']?>
+	</div>
+	<div style="float:left; margin:0; width: 275px; text-align: center;">
+		<?= Html::img('images/email.png') . ' ' . Yii::$app->params['contactEmail']?>
+	</div>
+	<div style="float:left; margin:0; width: 225px; text-align: left;">
+		<?= Html::img('images/phone.png') . ' ' . Yii::$app->params['contactPhone']?>
+	</div>
+</div>
 
