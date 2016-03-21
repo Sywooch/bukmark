@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "product".
@@ -133,5 +134,18 @@ class Product extends \yii\db\ActiveRecord {
 		} else {
 			return FALSE;
 		}
+	}
+	
+	/**
+	 * Returns an array that could be used to populate a product dropdown selector.
+	 * @return string[] each entry is formed as bukmark_code - title and the array is
+	 * indexed by id.
+	 */
+	public static function getDropdownData() {
+		$productsArray = self::find()->active()->asArray()->all();
+		$dropdownData = ArrayHelper::map($productsArray, 'id', function ($productArray) {
+			return $productArray['bukmark_code'] . ' - ' . $productArray['title'];
+		});
+		return $dropdownData;
 	}
 }
