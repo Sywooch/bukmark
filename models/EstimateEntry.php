@@ -76,6 +76,13 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 	public function getProduct() {
 		return $this->hasOne(Product::className(), ['id' => 'product_id']);
 	}
+	
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getProductImage() {
+		return $this->hasOne(ProductImage::className(), ['id' => 'product_image_id']);
+	}
 
 	/**
 	 * @inheritdoc

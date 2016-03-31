@@ -15,7 +15,6 @@ use yii\helpers\ArrayHelper;
  * @property string $title
  * @property string $supplier_code
  * @property string $bukmark_code
- * @property string $image
  * @property string $description
  * @property boolean $deleted
  *
@@ -84,7 +83,6 @@ class Product extends \yii\db\ActiveRecord {
 			'title' => 'Título',
 			'supplier_code' => 'Código de proveedor',
 			'bukmark_code' => 'Código interno',
-			'image' => 'Imagen',
 			'description' => 'Descripción',
 		];
 	}
@@ -134,6 +132,13 @@ class Product extends \yii\db\ActiveRecord {
 		} else {
 			return FALSE;
 		}
+	}
+	
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getProductImages() {
+		return $this->hasMany(ProductImage::className(), ['product_id' => 'id']);
 	}
 	
 	/**
