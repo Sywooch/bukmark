@@ -24,11 +24,6 @@ use yii\helpers\ArrayHelper;
 class Product extends \yii\db\ActiveRecord {
 
 	/**
-	 * @var UploadedFile
-	 */
-	public $imageFile;
-
-	/**
 	 * @inheritdoc
 	 */
 	public static function tableName() {
@@ -67,8 +62,6 @@ class Product extends \yii\db\ActiveRecord {
 			return self::findOne(['supplier_id' => $model->supplier_id, 'supplier_code' => $model->supplier_code]) ? TRUE : FALSE;
 		}],
 			[['bukmark_code'], 'unique'],
-			// Accept images up to 500KB
-			[['imageFile'], 'image', 'extensions' => ['jpg', 'jpeg', 'png'], 'maxSize' => 500 * 1024],
 		];
 	}
 
@@ -107,31 +100,6 @@ class Product extends \yii\db\ActiveRecord {
 	 */
 	public static function getImageFolder() {
 		return Yii::getAlias('@images/product');
-	}
-
-	public function getImageUrl() {
-		$imageUrl = null;
-		if ($this->image) {
-			$imageUrl = Yii::getAlias('@web/images/product/' . $this->image);
-		}
-		return $imageUrl;
-	}
-
-	/**
-	 * Save the uploaded image.
-	 * @return boolean true whether the file is saved successfully
-	 */
-	public function uploadImage() {
-		$this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-		if ($this->imageFile) {
-			$ext = end((explode(".", $this->imageFile->name)));
-			$filename = uniqid() . '.' . $ext;
-			echo $filename;
-			$this->image = $filename;
-			return $this->imageFile->saveAs(self::getImageFolder() . DIRECTORY_SEPARATOR . $filename);
-		} else {
-			return FALSE;
-		}
 	}
 	
 	/**

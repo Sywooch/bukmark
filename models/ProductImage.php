@@ -18,6 +18,11 @@ use Yii;
 class ProductImage extends \yii\db\ActiveRecord {
 
 	/**
+	 * @var UploadedFile
+	 */
+	public $imageFile;
+
+	/**
 	 * @inheritdoc
 	 */
 	public static function tableName() {
@@ -47,7 +52,9 @@ class ProductImage extends \yii\db\ActiveRecord {
 		return [
 			[['product_id', 'filename'], 'required'],
 			[['product_id', 'deleted'], 'integer'],
-			[['filename'], 'string', 'max' => 255]
+			[['filename'], 'string', 'max' => 255],
+			// Accept images up to 500KB
+			[['imageFile'], 'image', 'extensions' => ['jpg', 'jpeg', 'png'], 'maxSize' => 500 * 1024],
 		];
 	}
 
@@ -75,6 +82,31 @@ class ProductImage extends \yii\db\ActiveRecord {
 	 */
 	public function getProduct() {
 		return $this->hasOne(Product::className(), ['id' => 'product_id']);
+	}
+
+	public function getImageUrl() {
+		$imageUrl = null;
+		if ($this->image) {
+			$imageUrl = Yii::getAlias('@web/images/product/' . $this->image);
+		}
+		return $imageUrl;
+	}
+
+	/**
+	 * Save the uploaded image.
+	 * @return boolean true whether the file is saved successfully
+	 */
+	public function uploadImage() {
+		$this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+		if ($this->imageFile) {
+			$ext = end((explode(".", $this->imageFile->name)));
+			$filename = uniqid() . '.' . $ext;
+			echo $filename;
+			$this->image = $filename;
+			return $this->imageFile->saveAs(self::getImageFolder() . DIRECTORY_SEPARATOR . $filename);
+		} else {
+			return FALSE;
+		}
 	}
 
 }
