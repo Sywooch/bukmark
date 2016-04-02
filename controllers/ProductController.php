@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use zxbodya\yii2\galleryManager\GalleryManagerAction;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -39,6 +40,22 @@ class ProductController extends Controller {
 	}
 
 	/**
+	 * @inheritdoc
+	 * @return type
+	 */
+	public function actions() {
+		return [
+			'gallery-api' => [
+				'class' => GalleryManagerAction::className(),
+				// mappings between type names and model classes (should be the same as in behaviour)
+				'types' => [
+					Product::GALLERY_IMAGE_TYPE => Product::className(),
+				],
+			],
+		];
+	}
+
+	/**
 	 * Lists all Product models.
 	 * @return mixed
 	 */
@@ -60,9 +77,9 @@ class ProductController extends Controller {
 	 */
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		
+
 		return $this->render('view', [
-			'model' => $model,
+					'model' => $model,
 		]);
 	}
 
@@ -74,11 +91,8 @@ class ProductController extends Controller {
 	public function actionCreate() {
 		$model = new Product();
 
-		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-			$model->uploadImage();
-			if ($model->save(false)) {
-				return $this->redirect(['view', 'id' => $model->id]);
-			}
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			return $this->redirect(['view', 'id' => $model->id]);
 		}
 		return $this->render('create', [
 					'model' => $model,
@@ -94,11 +108,8 @@ class ProductController extends Controller {
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
 
-		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-			$model->uploadImage();
-			if ($model->save(false)) {
-				return $this->redirect(['view', 'id' => $model->id]);
-			}
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			return $this->redirect(['view', 'id' => $model->id]);
 		}
 		return $this->render('update', [
 					'model' => $model,
@@ -131,4 +142,5 @@ class ProductController extends Controller {
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
 	}
+
 }

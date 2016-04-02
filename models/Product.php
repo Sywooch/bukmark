@@ -22,6 +22,9 @@ use yii\helpers\ArrayHelper;
  * @property Supplier $supplier
  */
 class Product extends \yii\db\ActiveRecord {
+	
+	const GALLERY_IMAGE_TYPE = 'product';
+	const GALLERY_IMAGE_BEHAVIOR = 'galleryBehavior';
 
 	/**
 	 * @inheritdoc
@@ -31,22 +34,44 @@ class Product extends \yii\db\ActiveRecord {
 	}
 
 	/**
-     * @inheritdoc
-     */
+	 * @inheritdoc
+	 */
 	public function behaviors() {
 		return [
 			\app\components\NoDeleteBehavior::className(),
+			self::GALLERY_IMAGE_BEHAVIOR => [
+				'class' => \zxbodya\yii2\galleryManager\GalleryBehavior::className(),
+				'tableName' => '{{%product_image}}',
+				'type' => self::GALLERY_IMAGE_TYPE,
+				'extension' => 'jpg',
+				'directory' => Yii::getAlias('@webroot/images/product/'),
+				'url' => Yii::getAlias('@web/images/product/'),
+				'versions' => [
+					'small' => function ($img) {
+						/** @var \Imagine\Image\ImageInterface $img */
+						return $img->copy()->thumbnail(new \Imagine\Image\Box(200, 200));
+					},
+					'medium' => function ($img) {
+						/** @var Imagine\Image\ImageInterface $img */
+						$dstSize = $img->getSize();
+						$maxWidth = 800;
+						if ($dstSize->getWidth() > $maxWidth) {
+							$dstSize = $dstSize->widen($maxWidth);
+						}
+						return $img->copy()->resize($dstSize);
+					},
+				]
+			],
 		];
 	}
-	
+
 	/**
-     * @inheritdoc
-     */
-	public static function find()
-    {
-        return new \app\components\DeletedQuery(get_called_class());
-    }
-	
+	 * @inheritdoc
+	 */
+	public static function find() {
+		return new \app\components\DeletedQuery(get_called_class());
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -101,14 +126,7 @@ class Product extends \yii\db\ActiveRecord {
 	public static function getImageFolder() {
 		return Yii::getAlias('@images/product');
 	}
-	
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getProductImages() {
-		return $this->hasMany(ProductImage::className(), ['product_id' => 'id']);
-	}
-	
+
 	/**
 	 * Returns an array that could be used to populate a product dropdown selector.
 	 * @return string[] each entry is formed as bukmark_code - title and the array is
@@ -117,8 +135,9 @@ class Product extends \yii\db\ActiveRecord {
 	public static function getDropdownData() {
 		$productsArray = self::find()->active()->asArray()->all();
 		$dropdownData = ArrayHelper::map($productsArray, 'id', function ($productArray) {
-			return $productArray['bukmark_code'] . ' - ' . $productArray['title'];
-		});
+					return $productArray['bukmark_code'] . ' - ' . $productArray['title'];
+				});
 		return $dropdownData;
 	}
+
 }
