@@ -1,28 +1,34 @@
 <?php
 
+use yii\web\View;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\models\Currency;
 use app\models\Product;
-use yii\helpers\ArrayHelper;
+use app\assets\EstimateEntryAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EstimateEntry */
 /* @var $form yii\widgets\ActiveForm */
 
 $currencies = Currency::labels();
+
+$this->registerJs('var productImagesUrl = "' . Url::to(['product/get-images', 'id' => 'placeholder']) . '";', View::POS_HEAD);
+EstimateEntryAsset::register($this);
 ?>
 
 <div class="estimate-entry-form">
 
 	<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
-	<?= $form->field($model, 'product_id')->dropDownList(Product::getDropdownData(), ['prompt' => 'Elegir producto']) ?>
+	<?= $form->field($model, 'product_id')->dropDownList(Product::getDropdownData(), ['prompt' => 'Elegir producto', 'id' => 'product_id']) ?>
 	
-	<?= $form->field($model, 'product_image_id')->hiddenInput() ?>
+	<?= $form->field($model, 'product_image_id')->hiddenInput(['id' => 'product_image_id']) ?>
 	
 	<div class="form-group" id="images">
-		
+		<?= Html::img('@web/images/no-image-selected.jpg', ['class' => 'selected-image product-image', 'id' => 'no-image-selected']); ?>
 	</div>
 
 	<?= $form->field($model, 'quantity')->textInput() ?>
