@@ -28,7 +28,7 @@ EstimateEntryAsset::register($this);
 	<?= $form->field($model, 'product_image_id')->hiddenInput(['id' => 'product_image_id']) ?>
 	
 	<div class="form-group" id="images">
-		<?= Html::img('@web/images/no-image-selected.jpg', ['class' => 'selected-image product-image', 'id' => 'no-image-selected']); ?>
+		<?= Html::img('@web/images/no-image-selected.jpg', ['class' => 'unselected-image product-image', 'id' => 'no-image-selected']); ?>
 	</div>
 
 	<?= $form->field($model, 'quantity')->textInput() ?>
