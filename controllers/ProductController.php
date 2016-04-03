@@ -13,6 +13,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use zxbodya\yii2\galleryManager\GalleryManagerAction;
+use yii\web\Response;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -126,6 +127,21 @@ class ProductController extends Controller {
 		$this->findModel($id)->delete();
 
 		return $this->redirect(['index']);
+	}
+
+	/**
+	 * Returns a JSON array of product image URLs and their ids
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionGetImages($id) {
+		Yii::$app->response->format = Response::FORMAT_JSON;
+		$model = $this->findModel($id);
+		$images = [];
+		foreach ($model->getBehavior(Product::GALLERY_IMAGE_BEHAVIOR)->getImages() as $image) {
+			$images[] = ['id' => $image->id, 'url' => $image->getUrl('small')];
+		}
+		return $images;
 	}
 
 	/**

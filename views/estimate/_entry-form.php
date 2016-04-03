@@ -18,6 +18,12 @@ $currencies = Currency::labels();
 	<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
 	<?= $form->field($model, 'product_id')->dropDownList(Product::getDropdownData(), ['prompt' => 'Elegir producto']) ?>
+	
+	<?= $form->field($model, 'product_image_id')->hiddenInput() ?>
+	
+	<div class="form-group" id="images">
+		
+	</div>
 
 	<?= $form->field($model, 'quantity')->textInput() ?>
 

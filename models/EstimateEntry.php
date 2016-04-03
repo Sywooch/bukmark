@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $estimate_id
  * @property integer $product_id
+ * @property integer $product_image_id
  * @property integer $quantity
  * @property string $utility
  * @property string $price
@@ -34,7 +35,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 	public function rules() {
 		return [
 			[['product_id', 'quantity', 'utility', 'price'], 'required'],
-			[['product_id', 'currency', 'variant_currency'], 'integer'],
+			[['product_id', 'currency', 'variant_currency', 'product_image_id'], 'integer'],
 			[['product_id'], 'exist', 'targetClass' => Product::className(), 'targetAttribute' => 'id'],
 			[['quantity'], 'integer', 'min' => 1],
 			[['utility', 'price', 'variant_price'], 'number', 'min' => 0],
@@ -52,6 +53,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			'id' => 'ID',
 			'estimate_id' => 'Presupuesto',
 			'product_id' => 'Producto',
+			'product_image_id' => 'Imágen',
 			'quantity' => 'Cantidad',
 			'utility' => 'Utilidad',
 			'price' => 'Costo',
