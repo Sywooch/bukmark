@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use app\models\Currency;
+use app\models\Product;
 
 /* @var $estimate app\models\Estimate */
 ?>
@@ -36,12 +37,13 @@ $i = 0;
 
 <?php foreach ($groups as $group): ?>
 	<?php
+		$entry = $group[0];
 		$product = $group[0]->product;
 	?>
 
 	<div style="margin-top: 20px;">
 		<div style="float:left; margin: 0; width: 35%; text-align: center; height: 1px;">
-			<?= $product->imageUrl ? Html::img(ltrim($product->imageUrl, '/'), ['height' => 100]) : '' ?>
+			<?= $entry->product_image_id ? Html::img(ltrim($product->getBehavior(Product::GALLERY_IMAGE_BEHAVIOR)->getUrl($entry->product_image_id, 'small'), '/'), ['height' => 100]) : '' ?>
 		</div>
 		<div style="float: left; margin: 0; width: 60%;">
 			<div style="margin: 0; width: 58%;">

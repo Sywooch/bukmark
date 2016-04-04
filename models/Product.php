@@ -46,6 +46,7 @@ class Product extends \yii\db\ActiveRecord {
 				'extension' => 'jpg',
 				'directory' => Yii::getAlias('@webroot/images/product/'),
 				'url' => Yii::getAlias('@web/images/product/'),
+				'timeHash' => false,
 				'versions' => [
 					'small' => function ($img) {
 						/** @var \Imagine\Image\ImageInterface $img */
