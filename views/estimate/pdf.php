@@ -11,13 +11,12 @@ use app\models\Product;
 <?php
 // Group entries by product
 $groups = [];
-foreach($estimate->entries as $entry) {
+foreach ($estimate->entries as $entry) {
 	$groups[$entry->product->id][] = $entry;
 }
 
 $qGroups = count($groups);
 $i = 0;
-
 ?>
 
 <div style="background: #232323; color: lightgray;">
@@ -35,10 +34,13 @@ $i = 0;
 	</div>
 </div>
 
+<!-- Fix for no background on header div -->
+<div style="float:left; margin: 0; width: 0%; text-align: center; height: 1px;"></div>
+
 <?php foreach ($groups as $group): ?>
 	<?php
-		$entry = $group[0];
-		$product = $group[0]->product;
+	$entry = $group[0];
+	$product = $group[0]->product;
 	?>
 
 	<div style="margin-top: 20px;">

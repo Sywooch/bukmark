@@ -32,8 +32,9 @@ use app\models\Client;
 		<span style="color:red;"><b>5% DE DESCUENTO</b></span>
 		<br>
 		<span style="color:red;">Con pago del 100% adelantado en
-		<br>
-		efectivo o cheque al dia a la orden</span>
+			<br>
+			efectivo o cheque al dia a la orden
+		</span>
 	</div>
 </div>
 
