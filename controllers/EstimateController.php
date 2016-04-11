@@ -46,6 +46,7 @@ class EstimateController extends Controller {
 	 * @return mixed
 	 */
 	public function actionIndex() {
+		Estimate::updateSentEstimates();
 		$searchModel = new EstimateSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];

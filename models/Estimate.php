@@ -24,10 +24,10 @@ use Yii;
  * @property boolean $deleted
  */
 class Estimate extends \yii\db\ActiveRecord {
-
 	/* Statuses go here.
 	  IMPORTANT: If a Status is added it must also be added
 	  to statusLabels() and statusColors(). */
+
 	const STATUS_ENTERED = 0;
 	const STATUS_UTILITY = 1;
 	const STATUS_PRESENTATION_PENDING = 2;
@@ -35,28 +35,27 @@ class Estimate extends \yii\db\ActiveRecord {
 	const STATUS_SEND = 4;
 	const STATUS_CONTACT = 5;
 	const STATUS_SENT = 6;
-	
+
 	/**
 	 * Senarios
 	 */
 	const SCENARIO_GRID = 'grid';
-	
+
 	/**
-     * @inheritdoc
-     */
+	 * @inheritdoc
+	 */
 	public function behaviors() {
 		return [
 			\app\components\NoDeleteBehavior::className(),
 		];
 	}
-	
+
 	/**
-     * @inheritdoc
-     */
-	public static function find()
-    {
-        return new \app\components\DeletedQuery(get_called_class());
-    }
+	 * @inheritdoc
+	 */
+	public static function find() {
+		return new \app\components\DeletedQuery(get_called_class());
+	}
 
 	/**
 	 * @inheritdoc
@@ -71,7 +70,7 @@ class Estimate extends \yii\db\ActiveRecord {
 			[['request_date', 'sent_date'], 'date'],
 		];
 	}
-	
+
 	/**
 	 * @inheritdoc
 	 */
@@ -115,7 +114,7 @@ class Estimate extends \yii\db\ActiveRecord {
 	public function getClient() {
 		return $this->hasOne(Client::className(), ['id' => 'client_id']);
 	}
-	
+
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
@@ -223,6 +222,20 @@ class Estimate extends \yii\db\ActiveRecord {
 		$this->cost_checked = $cost_checked;
 		$this->total_checked = $total_checked;
 		$this->save(false);
+	}
+
+	/**
+	 * Update all sent estimates that were sent over one week ago
+	 */
+	public static function updateSentEstimates() {
+		$date = date("Y-m-d", strtotime("-1 week"));
+		$models = self::find()->active()->where(['=', 'status', self::STATUS_SENT])
+			->andWhere(['is not', 'sent_date', null])
+			->andWhere(['<=', 'sent_date', $date])->all();
+		foreach ($models as $model) {
+			$model->status = self::STATUS_CONTACT;
+			$model->save(false);
+		}
 	}
 
 }
