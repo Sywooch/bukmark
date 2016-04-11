@@ -59,9 +59,12 @@ $config = [
 			'dateFormat' => 'dd/MM/yyyy',
 			'nullDisplay' => '',
 		],
+		'assetManager' => [
+			'linkAssets' => true,
+		],
 	],
 	'modules' => [
-		'gridview' =>  [
+		'gridview' => [
 			'class' => '\kartik\grid\Module',
 		],
 	],
@@ -84,8 +87,6 @@ if (YII_ENV_DEV) {
 		'class' => 'yii\gii\Module',
 		'allowedIPs' => ['*'] // adjust this to your needs
 	];
-	// publish files even there are published before
-	$config['components']['assetManager']['forceCopy'] = true;
 }
 
 // Set the class for the grid-view action column
