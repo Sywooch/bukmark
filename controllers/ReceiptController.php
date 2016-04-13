@@ -46,9 +46,18 @@ class ReceiptController extends Controller
     {
 		$searchModel = new ReceiptSearch();
 		$searchModel->load(Yii::$app->request->post());
+		
+		// data provider used for gridview
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
-		$dataProvider->pagination->pageSize = 50;
+		
+		// data provider used for export
+		$exportDataProvider = $dataProvider;
+		if (Yii::$app->request->isPost) {
+			$exportDataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			$exportDataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
+			$exportDataProvider->pagination->pageSize = 0;
+		}
 		
 		if (Yii::$app->request->post('hasEditable')) {
 			$id = Yii::$app->request->post('editableKey');
@@ -76,6 +85,7 @@ class ReceiptController extends Controller
 		return $this->render('index', [
 					'searchModel' => $searchModel,
 					'dataProvider' => $dataProvider,
+					'exportDataProvider' => $exportDataProvider,
 		]);
     }
 

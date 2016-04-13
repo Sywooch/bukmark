@@ -11,6 +11,7 @@ use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $exportDataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel app\models\ReceiptSearch */
 
 $this->title = 'Facturas';
@@ -21,8 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="receipt-form">
 
-	<?php $form = ActiveForm::begin(); ?>
-	
+	<?php $form = ActiveForm::begin(['method' => 'get']); ?>
+
 	<?= $form->field($searchModel, 'from_date')->widget(\yii\jui\DatePicker::classname(), ['options' => ['class' => 'form-control']]) ?>
 
 	<?= $form->field($searchModel, 'to_date')->widget(\yii\jui\DatePicker::classname(), ['options' => ['class' => 'form-control']]) ?>
@@ -39,20 +40,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
+	<?=
+	GridView::widget([
+		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
-        'columns' => [
-            [
+		'columns' => [
+			[
 				'attribute' => 'id',
 				'options' => ['style' => 'width: 100px;'],
 			],
 			[
 				'label' => 'Cliente',
 				'value' => 'estimate.client.name',
-				'filter' => Html::activeDropDownList($searchModel, 'client_id', Client::getIdNameArray(), ['class'=>'form-control', 'prompt' => 'Nombre']),
+				'filter' => Html::activeDropDownList($searchModel, 'client_id', Client::getIdNameArray(), ['class' => 'form-control', 'prompt' => 'Nombre']),
 			],
-            [
+			[
 				'label' => 'Presupuesto',
 				'value' => 'estimate.title',
 			],
@@ -61,28 +63,30 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'status',
 				'label' => 'Estado',
 				'value' => 'statusLabel',
-				'filter' => Html::activeDropDownList($searchModel, 'status', Receipt::statusLabels(), ['class'=>'form-control', 'prompt' => 'Estado']),
+				'filter' => Html::activeDropDownList($searchModel, 'status', Receipt::statusLabels(), ['class' => 'form-control', 'prompt' => 'Estado']),
 				'editableOptions' => [
 					'inputType' => Editable::INPUT_DROPDOWN_LIST,
 					'data' => Receipt::statusLabels(),
 				],
 			],
-            [
+			[
 				'attribute' => 'created_date',
 				'format' => 'date',
 				'filter' => false,
 			],
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-	
-	<?= ExportMenu::widget([
-		'dataProvider' => $dataProvider,
+			['class' => 'yii\grid\ActionColumn'],
+		],
+	]);
+	?>
+
+	<?=
+	ExportMenu::widget([
+		'dataProvider' => $exportDataProvider,
 		'target' => ExportMenu::TARGET_SELF,
 		'showConfirmAlert' => false,
 		'filename' => 'facturas',
 		'columns' => [
-            [
+			[
 				'attribute' => 'created_date',
 				'format' => 'date',
 				'filter' => false,
@@ -144,6 +148,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => null,
 			],
 		],
-	]); ?>
+	]);
+	?>
 
 </div>
