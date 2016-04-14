@@ -63,6 +63,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			'filter' => false,
 		],
 		[
+			'attribute' => 'quantity',
+		],
+		[
 			'label' => 'Total',
 			'value' => function ($model, $key, $index, $column) {
 				return Currency::format($model->quantitySubtotal, Currency::CURRENCY_ARS);
