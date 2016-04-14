@@ -42,6 +42,7 @@ AppAsset::register($this);
 					['label' => 'Clientes', 'url' => ['/client/index']],
 					['label' => 'Presupuestos', 'url' => ['/estimate/index']],
 					['label' => 'Facturas', 'url' => ['/receipt/index']],
+					['label' => 'Resumen', 'url' => ['/summary/index']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',

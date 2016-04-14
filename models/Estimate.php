@@ -135,6 +135,13 @@ class Estimate extends \yii\db\ActiveRecord {
 	public function getEntries() {
 		return $this->hasMany(EstimateEntry::className(), ['estimate_id' => 'id']);
 	}
+	
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getReceipt() {
+		return $this->hasOne(Receipt::className(), ['estimate_id' => 'id']);
+	}
 
 	/**
 	 * Get status labels
