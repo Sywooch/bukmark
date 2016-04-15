@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Product;
 use app\models\ProductSearch;
+use app\models\EstimateEntry;
 use app\models\Variant;
 use app\models\Massbuy;
 use yii\data\ActiveDataProvider;
@@ -35,22 +36,6 @@ class ProductController extends Controller {
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
-				],
-			],
-		];
-	}
-
-	/**
-	 * @inheritdoc
-	 * @return type
-	 */
-	public function actions() {
-		return [
-			'gallery-api' => [
-				'class' => GalleryManagerAction::className(),
-				// mappings between type names and model classes (should be the same as in behaviour)
-				'types' => [
-					Product::GALLERY_IMAGE_TYPE => Product::className(),
 				],
 			],
 		];
@@ -115,6 +100,32 @@ class ProductController extends Controller {
 		return $this->render('update', [
 					'model' => $model,
 		]);
+	}
+
+	/**
+	 * Override gallery api actions to remove the deleted image ids from the
+	 * estimate entries.
+	 * @param string $action
+	 * @return mixed
+	 */
+	public function actionGalleryApi($action) {
+		if ($action == 'delete') {
+			$ids = Yii::$app->request->post('id');
+			$entries = EstimateEntry::find()->where(['product_image_id' => $ids])->all();
+			foreach ($entries as $entry) {
+				$entry->product_image_id = null;
+				$entry->save();
+			}
+		}
+		$apiActionCofing = [
+			'class' => GalleryManagerAction::className(),
+			// mappings between type names and model classes (should be the same as in behaviour)
+			'types' => [
+				Product::GALLERY_IMAGE_TYPE => Product::className(),
+			],
+		];
+		$apiAction = Yii::createObject($apiActionCofing, ['gallery-api', $this]);
+		return $apiAction->run($action);
 	}
 
 	/**
