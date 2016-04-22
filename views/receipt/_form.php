@@ -13,6 +13,8 @@ use app\models\Receipt;
 
     <?php $form = ActiveForm::begin(); ?>
 	
+	<?= $form->field($model, 'number')->textInput(); ?>
+	
 	<?= $form->field($model, 'type')->textInput()->dropDownList(Receipt::typeLabels()) ?>
 
     <?= $form->field($model, 'status')->dropDownList(Receipt::statusLabels()) ?>

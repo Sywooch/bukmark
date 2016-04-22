@@ -34,7 +34,7 @@ class ReceiptSearch extends Receipt
     {
         return [
             [['id', 'estimate_id', 'status', 'type', 'client_id'], 'integer'],
-            [['created_date'], 'safe'],
+            [['created_date', 'number'], 'safe'],
             [['iva'], 'number'],
 			[['from_date', 'to_date'], 'date', 'format' => 'dd/MM/yyyy'],
         ];
@@ -93,6 +93,7 @@ class ReceiptSearch extends Receipt
 			'estimate.client_id' => $this->client_id,
         ]);
 		
+		$query->andFilterWhere(['like', 'number', $this->number]);
 		
 		/**
 		 * Convert the to dates to mysql format.

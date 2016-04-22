@@ -58,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Presupuesto',
 				'value' => 'estimate.title',
 			],
+			'number',
 			[
 				'class' => 'kartik\grid\EditableColumn',
 				'attribute' => 'status',
@@ -96,8 +97,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => 'typeLabel',
 			],
 			[
+				'attribute' => 'number',
 				'label' => 'Factura Nro',
-				'value' => null,
 			],
 			[
 				'label' => 'Cliente',

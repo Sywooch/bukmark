@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $estimate_id
+ * @property string $number
  * @property integer $status
  * @property string $created_date
  * @property integer $type
@@ -25,6 +26,7 @@ class Receipt extends \yii\db\ActiveRecord {
 		return [
 			[['status', 'type', 'estimate_id'], 'required'],
 			[['estimate_id'], 'unique'],
+			[['number'], 'string', 'max' => 255],
 			[['estimate_id'], 'exist', 'targetClass' => Estimate::className(), 'targetAttribute' => 'id'],
 			[['status'], 'in', 'range' => array_keys(self::statusLabels())],
 			[['type'], 'in', 'range' => array_keys(self::typeLabels())],
@@ -60,6 +62,7 @@ class Receipt extends \yii\db\ActiveRecord {
 		return [
 			'id' => 'ID',
 			'estimate_id' => 'Presupuesto',
+			'number' => 'Número',
 			'status' => 'Estado',
 			'created_date' => 'Fecha',
 			'type' => 'Tipo',

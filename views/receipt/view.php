@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Presupuesto',
 				'value' => $model->estimate->title,
 			],
+			'number',
 			[
 				'attribute' => 'created_date',
 				'format' => 'date',
