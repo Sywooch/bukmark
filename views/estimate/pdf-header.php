@@ -40,7 +40,7 @@ use app\models\Client;
 
 <div style="margin-top: 35px; margin-left: 35px; margin-bottom: 15px">
 	<div style="float:left; margin:0; width:33%;">
-		<b>Cliente: <?= $estimate->client->name ?></b>
+		<b>Cliente: <?= $estimate->client ? $estimate->client->name : '' ?></b>
 		<br>
 		<b>Atención: <?= $estimate->clientContact->displayName ?></b>
 	</div>
