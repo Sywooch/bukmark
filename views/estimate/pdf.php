@@ -45,7 +45,7 @@ $i = 0;
 
 	<div style="margin-top: 20px;">
 		<div style="float:left; margin: 0; width: 35%; text-align: center; height: 1px;">
-			<?= $entry->product_image_id ? Html::img(ltrim($product->getBehavior(Product::GALLERY_IMAGE_BEHAVIOR)->getUrl($entry->product_image_id, 'small'), '/'), ['height' => 100]) : '' ?>
+			<?= $entry->product_image_id ? Html::img(ltrim($product->getBehavior(Product::GALLERY_IMAGE_BEHAVIOR)->getUrl($entry->product_image_id, 'medium'), '/'), ['height' => 100]) : '' ?>
 		</div>
 		<div style="float: left; margin: 0; width: 60%;">
 			<div style="margin: 0; width: 58%;">
