@@ -6,8 +6,8 @@ use app\models\Client;
 ?>
 
 <div>
-	<div style="background: red; height: 50px; width: 100px; float: right; margin-right: 50px; text-align: center;">
-		<h2 style="color:white; padding-top: 10px"><b>{PAGENO}/{nbpg}</b></h2>
+	<div style="background: red; padding-top: 2px; padding-bottom: 2px; width: 80px; float: right; margin-right: 50px; text-align: center;">
+		<h4 style="color:white;"><b>{PAGENO}/{nbpg}</b></h4>
 	</div>
 </div>
 
@@ -21,7 +21,7 @@ use app\models\Client;
 	</div>
 
 	<div style="float:left; margin:0; width:33%;">
-		<span style="font-size: 16px"><b>PRESUPUESTO N°: <?= sprintf('%08d', $estimate->id) ?></b></span>
+		<span style="font-size: 14px"><b>PRESUPUESTO N°: <?= sprintf('%08d', $estimate->id) ?></b></span>
 		<br>
 		<b>Fecha: <?= Yii::$app->formatter->asDate(time()) ?> <span style="color: red;">Validez: 7 días</span></b>
 		<br>

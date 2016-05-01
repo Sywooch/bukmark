@@ -230,7 +230,7 @@ class EstimateController extends Controller {
 
 		// setup kartik\mpdf\Pdf component
 		$pdf = new Pdf([
-			'mode' => Pdf::MODE_CORE,
+			'mode' => Pdf::MODE_UTF8,
 			'format' => Pdf::FORMAT_A4,
 			'orientation' => Pdf::ORIENT_PORTRAIT,
 			'marginLeft' => 0,
@@ -239,7 +239,7 @@ class EstimateController extends Controller {
 			'marginBottom' => 0,
 			'marginHeader' => 0,
 			'marginFooter' => 0,
-			'destination' => Pdf::DEST_DOWNLOAD,
+			'destination' => Pdf::DEST_BROWSER,
 			'content' => $content,
 			'cssFile' => '@webroot/css/pdf.css',
 			'options' => [

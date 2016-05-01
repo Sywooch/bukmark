@@ -51,8 +51,6 @@ $i = 0;
 			<div style="margin: 0; width: 58%;">
 				<b><?= $product->bukmark_code ?></b>
 				<br>
-				<?= $product->title ?>
-				<br>
 				<?= $product->description ?>
 			</div>
 			<div style="float:left; margin: 0;">
