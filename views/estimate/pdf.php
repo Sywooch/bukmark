@@ -50,22 +50,43 @@ $i = 0;
 		<div style="float: left; margin: 0; width: 60%;">
 			<div style="margin: 0; width: 58%;">
 				<b><?= $product->bukmark_code ?></b>
-				<br>
+			</div>
+			<?php
+				$style = "margin: 0; width: 58%;";
+				if (count ($group) == 1) {
+					$style .= ' float: left;';
+				}
+			?>
+			<div style="<?= $style ?>">
 				<?= $product->description ?>
+				<?php if (count($group) == 1): ?>
+					<br>
+					<?= $group[0]->description ?>
+				<?php endif; ?>
 			</div>
-			<div style="float:left; margin: 0;">
-				<?php foreach ($group as $entry): ?>
-					<div style="float:left; margin: 0; width: 58%; height: 1px;">
-						<?= $entry->description ?>
-					</div>
-					<div style="float:left; margin: 0; width: 30%; text-align: center; height: 1px;">
-						<?= $entry->quantity ?>
-					</div>
-					<div style="float:left; margin: 0; text-align: center; height: 1px;">
-						<?= Currency::format($entry->subtotal, Currency::CURRENCY_ARS); ?>
-					</div>
-				<?php endforeach; ?>
-			</div>
+			<?php if (count($group) == 1): ?>
+				<div style="float:left; margin: 0; width: 30%; text-align: center; height: 1px;">
+					<?= $group[0]->quantity ?>
+				</div>
+				<div style="float:left; margin: 0; text-align: center; height: 1px;">
+					<?= Currency::format($group[0]->subtotal, Currency::CURRENCY_ARS); ?>
+				</div>
+			<?php endif; ?>
+			<?php if (count($group) > 1): ?>
+				<div style="float:left; margin: 0;">
+					<?php foreach ($group as $entry): ?>
+						<div style="float:left; margin: 0; width: 58%; height: 1px;">
+							<?= $entry->description ?>
+						</div>
+						<div style="float:left; margin: 0; width: 30%; text-align: center; height: 1px;">
+							<?= $entry->quantity ?>
+						</div>
+						<div style="float:left; margin: 0; text-align: center; height: 1px;">
+							<?= Currency::format($entry->subtotal, Currency::CURRENCY_ARS); ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 	</div>
 

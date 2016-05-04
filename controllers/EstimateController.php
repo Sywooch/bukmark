@@ -239,7 +239,7 @@ class EstimateController extends Controller {
 			'marginBottom' => 0,
 			'marginHeader' => 0,
 			'marginFooter' => 0,
-			'destination' => Pdf::DEST_DOWNLOAD,
+			'destination' => Pdf::DEST_BROWSER,
 			'content' => $content,
 			'cssFile' => '@webroot/css/pdf.css',
 			'options' => [
