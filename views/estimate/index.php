@@ -49,6 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'data' => Estimate::statusLabels(),
 				],
 				'refreshGrid' => true,
+				'options' => ['style' => 'width: 160px;'],
 			],
 			[
 				'attribute' => 'request_date',
@@ -62,6 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'class' => 'yii\grid\ActionColumn',
+				'options' => ['style' => 'width: 60px;'],
 			],
 		],
 	]);
