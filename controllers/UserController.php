@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\components\OwnerFilter;
+use app\components\AdminFilter;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -31,6 +33,14 @@ class UserController extends Controller
 				'actions' => [
 					'delete' => ['post'],
 				],
+			],
+			'owner' => [
+				'class' => OwnerFilter::className(),
+				'only' => ['update', 'view', 'delete'],
+			],
+			'admin' => [
+				'class' => AdminFilter::className(),
+				'only' => ['index', 'create'],
 			],
 		];
 	}
