@@ -56,7 +56,7 @@ class SiteController extends Controller {
 		}
 
 		// Redirect to register if there is no user registered
-		if (!User::find()->count()) {
+		if (!User::find()->active()->count()) {
 			return $this->redirect(['register']);
 		}
 
@@ -76,7 +76,7 @@ class SiteController extends Controller {
 		}
 
 		// Throw exception if there are users registered
-		if (User::find()->count()) {
+		if (User::find()->active()->count()) {
 			throw new \yii\web\BadRequestHttpException;
 		}
 

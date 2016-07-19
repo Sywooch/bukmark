@@ -236,7 +236,7 @@ class Estimate extends \yii\db\ActiveRecord {
 	 */
 	public static function updateSentEstimates() {
 		$date = date("Y-m-d", strtotime("-1 week"));
-		$models = self::find()->active()->where(['=', 'status', self::STATUS_SENT])
+		$models = self::find()->active()->andWhere(['=', 'status', self::STATUS_SENT])
 			->andWhere(['is not', 'sent_date', null])
 			->andWhere(['<=', 'sent_date', $date])->all();
 		foreach ($models as $model) {

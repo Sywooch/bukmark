@@ -29,30 +29,29 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 	public static function tableName() {
 		return 'user';
 	}
-	
+
 	/**
-     * @inheritdoc
-     */
+	 * @inheritdoc
+	 */
 	public function behaviors() {
 		return [
 			\app\components\NoDeleteBehavior::className(),
 		];
 	}
-	
+
 	/**
-     * @inheritdoc
-     */
-	public static function find()
-    {
-        return new \app\components\DeletedQuery(get_called_class());
-    }
+	 * @inheritdoc
+	 */
+	public static function find() {
+		return new \app\components\DeletedQuery(get_called_class());
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function rules() {
 		return [
-			[['username', 'password','first_name', 'last_name'], 'string', 'max' => 255],
+			[['username', 'password', 'first_name', 'last_name'], 'string', 'max' => 255],
 			[['username'], 'unique'],
 			[['username', 'password'], 'required'],
 		];
@@ -69,6 +68,21 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 			'first_name' => 'Nombre',
 			'last_name' => 'Apellido',
 		];
+	}
+
+	// Set new user to admin if there is no current admin active
+	/**
+	 * @inheritdoc
+	 */
+	public function beforeSave($insert) {
+		if (parent::beforeSave($insert)) {
+			if ($this->isNewRecord && self::find()->active()->andWhere(['admin' => true])->count() == 0) {
+				$this->admin = 1;
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -149,4 +163,5 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 		$fullName = trim($fullName);
 		return $fullName;
 	}
+
 }
