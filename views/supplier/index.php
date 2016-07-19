@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Supplier;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SupplierSearch */
@@ -14,31 +15,44 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="supplier-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear proveedor', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Crear proveedor', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            [
-				'attribute' => 'id',
-				'options' => ['style' => 'width: 150px;'],
-			],
-            [
-				'attribute' => 'name',
-				'filter' => Html::activeDropDownList($searchModel, 'id', Supplier::getIdNameArray(), ['class'=>'form-control', 'prompt' => 'Nombre']),
-			],
-			'contactPhone',
-            'website',
-            'address',
-            // 'notes:ntext',
+	<?php
+	$columns = [
+		[
+			'attribute' => 'id',
+			'options' => ['style' => 'width: 150px;'],
+		],
+		[
+			'attribute' => 'name',
+			'filter' => Html::activeDropDownList($searchModel, 'id', Supplier::getIdNameArray(), ['class' => 'form-control', 'prompt' => 'Nombre']),
+		],
+		'contactPhone',
+		'website',
+		'address',
+	];
+	?>
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+	<?=
+	GridView::widget([
+		'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
+		'columns' => array_merge($columns, [['class' => 'yii\grid\ActionColumn']]),
+	]);
+	?>
+
+	<?=
+	ExportMenu::widget([
+		'dataProvider' => $exportDataProvider,
+		'target' => ExportMenu::TARGET_SELF,
+		'showConfirmAlert' => false,
+		'filename' => 'proveedores',
+		'columns' => $columns,
+	]);
+	?>
 
 </div>

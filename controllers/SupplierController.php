@@ -46,9 +46,18 @@ class SupplierController extends Controller {
 		$searchModel = new SupplierSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+		// data provider used for export
+		$exportDataProvider = $dataProvider;
+		if (Yii::$app->request->isPost) {
+			$exportDataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			$exportDataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
+			$exportDataProvider->pagination->pageSize = 0;
+		}
+		
 		return $this->render('index', [
 					'searchModel' => $searchModel,
 					'dataProvider' => $dataProvider,
+					'exportDataProvider' => $exportDataProvider,
 		]);
 	}
 

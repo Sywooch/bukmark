@@ -47,10 +47,19 @@ class ClientController extends Controller {
 		$searchModel = new ClientSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->sort = ['defaultOrder' => ['name' => SORT_ASC]];
+		
+		// data provider used for export
+		$exportDataProvider = $dataProvider;
+		if (Yii::$app->request->isPost) {
+			$exportDataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			$exportDataProvider->sort = ['defaultOrder' => ['id' => SORT_DESC]];
+			$exportDataProvider->pagination->pageSize = 0;
+		}
 
 		return $this->render('index', [
 					'searchModel' => $searchModel,
 					'dataProvider' => $dataProvider,
+					'exportDataProvider' => $exportDataProvider,
 		]);
 	}
 
