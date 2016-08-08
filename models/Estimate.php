@@ -154,7 +154,7 @@ class Estimate extends \yii\db\ActiveRecord {
 			self::STATUS_PRESENTATION_PENDING => 'Presentación pendiente',
 			self::STATUS_WAITING_ANSWER => 'Epserando respuesta',
 			self::STATUS_SEND => 'Enviar',
-			self::STATUS_CONTACT => 'Cotactar',
+			self::STATUS_CONTACT => 'Contactar',
 			self::STATUS_SENT => 'Enviado',
 		];
 	}
@@ -165,13 +165,13 @@ class Estimate extends \yii\db\ActiveRecord {
 	 */
 	public static function statusColors() {
 		return [
-			self::STATUS_ENTERED => 'red',
-			self::STATUS_UTILITY => 'yellow',
-			self::STATUS_PRESENTATION_PENDING => 'blue',
-			self::STATUS_WAITING_ANSWER => 'orange',
-			self::STATUS_SEND => 'green',
-			self::STATUS_CONTACT => 'cyan',
-			self::STATUS_SENT => 'gray',
+			self::STATUS_ENTERED => '#ff0000',
+			self::STATUS_UTILITY => '#ffff00',
+			self::STATUS_PRESENTATION_PENDING => '#93c47d',
+			self::STATUS_WAITING_ANSWER => '#ff9900',
+			self::STATUS_SEND => '#00ff00',
+			self::STATUS_CONTACT => '#666666',
+			self::STATUS_SENT => '#ffffff',
 		];
 	}
 
