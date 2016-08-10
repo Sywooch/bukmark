@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'label' => 'Cliente',
 				'value' => 'client.name',
+				'filter' => Html::activeTextInput($searchModel, 'clientName', ['class'=>'form-control']),
 			],
 			'title',
 			[

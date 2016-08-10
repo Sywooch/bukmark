@@ -12,6 +12,9 @@ use app\models\Estimate;
  */
 class EstimateSearch extends Estimate
 {
+	
+	public $clientName;
+	
     /**
      * @inheritdoc
      */
@@ -19,7 +22,7 @@ class EstimateSearch extends Estimate
     {
         return [
             [['id', 'client_id', 'user_id', 'status', 'deleted'], 'integer'],
-            [['title', 'request_date', 'sent_date'], 'safe'],
+            [['title', 'request_date', 'sent_date', 'clientName'], 'safe'],
             [['total', 'cost', 'total_checked', 'cost_checked', 'us'], 'number'],
         ];
     }
@@ -73,7 +76,11 @@ class EstimateSearch extends Estimate
 
         $query->andFilterWhere(['like', 'title', $this->title]);
 		
-		$query->with('client')->active();
+		$query->joinWith(['client' => function($query) {
+			if ($this->clientName) {
+				$query->where(['like', 'name', $this->clientName]);
+			}
+		}])->active();
 
         return $dataProvider;
     }
