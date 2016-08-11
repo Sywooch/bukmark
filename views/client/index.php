@@ -26,10 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'attribute' => 'id',
 			'options' => ['style' => 'width: 150px;'],
 		],
-		[
-			'attribute' => 'name',
-			'filter' => Html::activeDropDownList($searchModel, 'id', Client::getIdNameArray(), ['class' => 'form-control', 'prompt' => 'Nombre']),
-		],
+		'name',
 		'cuit',
 		'delivery_address',
 		'address',
