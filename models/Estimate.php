@@ -202,6 +202,9 @@ class Estimate extends \yii\db\ActiveRecord {
 			}
 			$this->request_date = DateConverter::convert($this->request_date);
 			$this->sent_date = DateConverter::convert($this->sent_date);
+			if (!$this->sent_date && $this->status == self::STATUS_SENT) {
+				$this->sent_date = date('Y-m-d');
+			}
 			return true;
 		} else {
 			return false;
