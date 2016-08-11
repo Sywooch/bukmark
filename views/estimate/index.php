@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use kartik\editable\Editable;
 use app\models\Estimate;
+use app\models\Currency;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\EstimateSearch */
@@ -15,6 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="estimate-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+	
+	<div style="float: right">
+		<h3>Valor dólar: <?= Currency::format(Currency::getUsToArs(), Currency::CURRENCY_ARS) ?></h3>
+	</div>
 
     <p>
 		<?= Html::a('Crear presupuesto', ['create'], ['class' => 'btn btn-success']) ?>

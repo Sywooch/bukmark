@@ -197,7 +197,7 @@ class Estimate extends \yii\db\ActiveRecord {
 	public function beforeSave($insert) {
 		if (parent::beforeSave($insert)) {
 			if ($this->isNewRecord) {
-				$this->us = Currency::getUsToArs();
+				$this->us = Currency::getUsToArsWithMargin();
 				$this->user_id = Yii::$app->user->id;
 			}
 			$this->request_date = DateConverter::convert($this->request_date);
