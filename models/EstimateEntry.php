@@ -98,6 +98,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			$this->price = str_replace(',', '.', $this->price);
 			$this->variant_price = str_replace(',', '.', $this->variant_price);
 			$this->utility = str_replace(',', '.', $this->utility);
+			$this->utility = str_replace('%', '', $this->utility);
 			return true;
 		} else {
 			return false;

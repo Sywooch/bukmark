@@ -137,11 +137,13 @@ $user = User::getActiveUser();
 			},
 		],
 		[
+			'class' => 'kartik\grid\EditableColumn',
 			'attribute' => 'utility',
 			'value' => function ($model, $key, $index, $column) {
 				return $model->utility / 100;
 			},
 			'format' => ['percent', 2],
+			'refreshGrid' => true,
 			'filter' => false,
 		],
 		[

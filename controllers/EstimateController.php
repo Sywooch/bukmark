@@ -92,6 +92,31 @@ class EstimateController extends Controller {
 				'query' => $model->getEntries()->with('product.supplier'),
 		]);
 		
+		if (Yii::$app->request->post('hasEditable')) {
+			$id = Yii::$app->request->post('editableKey');
+			$entry = EstimateEntry::findOne($id);
+
+			$out = Json::encode(['output' => '', 'message' => '']);
+
+			$post = [];
+			$posted = current($_POST['EstimateEntry']);
+			$post['EstimateEntry'] = $posted;
+
+			if ($entry->load($post)) {
+				if ($entry->save()) {
+					$entry->estimate->doEstimate();
+				}
+				$output = '';
+				if (isset($posted['status'])) {
+					$output = $entry->statusLabel;
+				}
+				$out = Json::encode(['output' => $output, 'message' => $entry->getErrors()]);
+			}
+			// return ajax json encoded response and exit
+			echo $out;
+			return;
+		}
+		
 		return $this->render('view', [
 					'model' => $model,
 					'dataProvider' => $dataProvider,
