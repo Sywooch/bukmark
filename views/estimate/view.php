@@ -101,6 +101,11 @@ $user = User::getActiveUser();
 	</p>
 	
 	<?php
+	// This function is used to display utility values on the gridview and editable fields
+	$utilityDisplayFunction = function ($model, $key, $index, $column = null) {
+		return Yii::$app->formatter->asPercent($model->utility / 100, 2);
+	};
+	
 	$columns = [
 		[	'label' => 'Proveedor',
 			'value' => 'product.supplier.name'
@@ -117,18 +122,52 @@ $user = User::getActiveUser();
 			'label' => 'Producto',
 			'value' => 'product.title'
 		],
-		'quantity',
 		[
+			'class' => 'kartik\grid\EditableColumn',
+			'attribute' => 'quantity',
+			'refreshGrid' => true,
+		],
+		[
+			'class' => 'kartik\grid\EditableColumn',
 			'attribute' => 'price',
 			'value' => function ($model, $key, $index, $column) {
 				return Currency::format($model->price, $model->currency);
 			},
+			'editableOptions' => function ($model, $key, $index) {
+				return [
+					'formOptions' => [
+						'enableClientValidation' => false,
+					],
+					'inputFieldConfig' => [
+						'inputOptions' => [
+							'value' => Yii::$app->formatter->asDecimal($model->price, 2),
+						],
+					]
+				];
+			},
+			'refreshGrid' => true,
+			'filter' => false,
 		],
 		[
+			'class' => 'kartik\grid\EditableColumn',
 			'attribute' => 'variant_price',
 			'value' => function ($model, $key, $index, $column) {
 				return Currency::format($model->variant_price, $model->variant_currency);
 			},
+			'editableOptions' => function ($model, $key, $index) {
+				return [
+					'formOptions' => [
+						'enableClientValidation' => false,
+					],
+					'inputFieldConfig' => [
+						'inputOptions' => [
+							'value' => Yii::$app->formatter->asDecimal($model->variant_price, 2),
+						],
+					]
+				];
+			},
+			'refreshGrid' => true,
+			'filter' => false,
 		],
 		[
 			'label' => 'Suma',
@@ -139,10 +178,19 @@ $user = User::getActiveUser();
 		[
 			'class' => 'kartik\grid\EditableColumn',
 			'attribute' => 'utility',
-			'value' => function ($model, $key, $index, $column) {
-				return $model->utility / 100;
+			'value' => $utilityDisplayFunction,
+			'editableOptions' => function ($model, $key, $index) use ($utilityDisplayFunction) {
+				return [
+					'formOptions' => [
+						'enableClientValidation' => false,
+					],
+					'inputFieldConfig' => [
+						'inputOptions' => [
+							'value' => call_user_func($utilityDisplayFunction, $model, $key, $index),
+						],
+					]
+				];
 			},
-			'format' => ['percent', 2],
 			'refreshGrid' => true,
 			'filter' => false,
 		],
