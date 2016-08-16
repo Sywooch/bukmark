@@ -60,18 +60,18 @@ class EstimateSearch extends Estimate
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'client_id' => $this->client_id,
-            'user_id' => $this->user_id,
-            'status' => $this->status,
-            'request_date' => $this->request_date,
-            'sent_date' => $this->sent_date,
-            'total' => $this->total,
-            'cost' => $this->cost,
-            'total_checked' => $this->total_checked,
-            'cost_checked' => $this->cost_checked,
-            'us' => $this->us,
-            'deleted' => $this->deleted,
+            'estimate.id' => $this->id,
+            'estimate.client_id' => $this->client_id,
+            'estimate.user_id' => $this->user_id,
+            'estimate.status' => $this->status,
+            'estimate.request_date' => $this->request_date,
+            'estimate.sent_date' => $this->sent_date,
+            'estimate.total' => $this->total,
+            'estimate.cost' => $this->cost,
+            'estimate.total_checked' => $this->total_checked,
+            'estimate.cost_checked' => $this->cost_checked,
+            'estimate.us' => $this->us,
+            'estimate.deleted' => $this->deleted,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title]);
