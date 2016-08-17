@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'attribute' => 'name',
 			'filter' => Html::activeDropDownList($searchModel, 'id', Supplier::getIdNameArray(), ['class' => 'form-control', 'prompt' => 'Nombre']),
 		],
+		'contactEmail',
 		'contactPhone',
 		'address',
 	];

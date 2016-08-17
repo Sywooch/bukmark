@@ -67,6 +67,7 @@ class Supplier extends \yii\db\ActiveRecord
             'address' => 'Dirección',
             'notes' => 'Comentarios',
 			'contactPhone' => 'Teléfono',
+			'contactEmail' => 'Email',
         ];
     }
 	
@@ -90,6 +91,20 @@ class Supplier extends \yii\db\ActiveRecord
 			}
 		}
 		return $phone;
+	}
+	
+	/**
+     * @return string
+     */
+	public function getContactEmail() {
+		$email = "";
+		foreach ($this->contacts as $contact) {
+			if ($contact->email) {
+				$email = $contact->email;
+				break;
+			}
+		}
+		return $email;
 	}
 	
 	/**
