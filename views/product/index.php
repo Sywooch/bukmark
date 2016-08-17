@@ -30,8 +30,9 @@ $suppliers = Supplier::find()->all();
 	<?php
 	$columns = [
 		[
-			'attribute' => 'id',
-			'options' => ['style' => 'width: 90px;'],
+			'attribute' => 'bukmark_code',
+			'label' => 'Cód. interno',
+			'options' => ['style' => 'width: 140px;'],
 		],
 		[
 			'label' => 'Categoría',
@@ -47,11 +48,6 @@ $suppliers = Supplier::find()->all();
 		[
 			'attribute' => 'supplier_code',
 			'label' => 'Cód. proveedor',
-			'options' => ['style' => 'width: 140px;'],
-		],
-		[
-			'attribute' => 'bukmark_code',
-			'label' => 'Cód. interno',
 			'options' => ['style' => 'width: 140px;'],
 		],
 	];
