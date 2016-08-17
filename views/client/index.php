@@ -24,10 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
 	$columns = [
 		[
 			'attribute' => 'id',
-			'options' => ['style' => 'width: 150px;'],
+			'options' => ['style' => 'width: 80px;'],
 		],
 		'name',
-		'cuit',
+		[
+			'attribute' => 'cuit',
+			'options' => ['style' => 'width: 140px;'],
+		],
 		'delivery_address',
 		'address',
 		'payment_conditions',
