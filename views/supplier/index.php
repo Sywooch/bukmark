@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			'filter' => Html::activeDropDownList($searchModel, 'id', Supplier::getIdNameArray(), ['class' => 'form-control', 'prompt' => 'Nombre']),
 		],
 		'contactPhone',
-		'website',
 		'address',
 	];
 	?>
@@ -41,7 +40,27 @@ $this->params['breadcrumbs'][] = $this->title;
 	GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
-		'columns' => array_merge($columns, [['class' => 'yii\grid\ActionColumn']]),
+		'columns' => array_merge($columns, [
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{website} {view} {update} {delete}',
+				'buttons' => [
+					'website' => function ($url, $model, $key) {
+						if($model->website) {
+							$options = array_merge([
+								'title' => Yii::t('yii', 'Website'),
+								'aria-label' => Yii::t('yii', 'Website'),
+								'target' => '_blank',
+								'disabled' => true,
+							]);
+							return Html::a('<span class="glyphicon glyphicon-globe"></span>', $model->website, $options);
+						} else {
+							return '';
+						}
+					},
+				],
+			],
+		]),
 	]);
 	?>
 
