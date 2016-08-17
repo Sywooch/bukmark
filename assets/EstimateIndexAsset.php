@@ -4,17 +4,13 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class EstimateEntryAsset extends AssetBundle {
+class EstimateIndexAsset extends AssetBundle {
 
 	public $basePath = '@webroot';
 	public $baseUrl = '@web';
 	
 	public $js = [
-		'js/estimate-entry.js',
-	];
-	
-	public $css = [
-		'css/estimate-entry.css',
+		'js/estimate-index.js',
 	];
 	
 	public $depends = [

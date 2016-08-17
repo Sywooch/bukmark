@@ -5,6 +5,7 @@ use kartik\grid\GridView;
 use kartik\editable\Editable;
 use app\models\Estimate;
 use app\models\Currency;
+use app\assets\EstimateIndexAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\EstimateSearch */
@@ -12,6 +13,8 @@ use app\models\Currency;
 
 $this->title = 'Presupuestos';
 $this->params['breadcrumbs'][] = $this->title;
+
+EstimateIndexAsset::register($this);
 ?>
 <div class="estimate-index">
 
@@ -25,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= Html::a('Crear presupuesto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 	
+	<?php \yii\widgets\Pjax::begin(['id' => 'estimates-gridview']); ?>
 	<?=
 	GridView::widget([
 		'dataProvider' => $dataProvider,
@@ -74,5 +78,6 @@ $this->params['breadcrumbs'][] = $this->title;
 		],
 	]);
 	?>
+	<?php \yii\widgets\Pjax::end(); ?>
 
 </div>
