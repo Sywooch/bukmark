@@ -28,9 +28,14 @@ EstimateIndexAsset::register($this);
 		<?= Html::a('Crear presupuesto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 	
-	<?php \yii\widgets\Pjax::begin(['id' => 'estimates-gridview']); ?>
 	<?=
 	GridView::widget([
+		'pjax' => true,
+		'pjaxSettings' => [
+			'options' => [
+				'id' => 'estimates-gridview',
+			]
+		],
 		'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
 		'rowOptions' => function ($model, $index, $widget, $grid){
@@ -78,6 +83,5 @@ EstimateIndexAsset::register($this);
 		],
 	]);
 	?>
-	<?php \yii\widgets\Pjax::end(); ?>
 
 </div>
