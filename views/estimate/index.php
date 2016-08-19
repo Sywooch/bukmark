@@ -34,7 +34,7 @@ EstimateIndexAsset::register($this);
 		'pjaxSettings' => [
 			'options' => [
 				'id' => 'estimates-gridview',
-			]
+			],
 		],
 		'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
