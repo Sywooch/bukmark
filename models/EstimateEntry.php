@@ -37,7 +37,6 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			[['product_id', 'quantity', 'utility', 'price'], 'required'],
 			[['product_id', 'currency', 'variant_currency', 'product_image_id'], 'integer'],
 			[['estimate_id'], 'exist', 'targetClass' => Estimate::className(), 'targetAttribute' => 'id'],
-			[['product_image_id'], 'integer'],
 			[['product_id'], 'exist', 'targetClass' => Product::className(), 'targetAttribute' => 'id'],
 			[['quantity'], 'integer', 'min' => 1],
 			[['utility', 'price', 'variant_price'], 'number', 'min' => 0],
