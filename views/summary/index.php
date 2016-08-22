@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'attribute' => 'bukmark_code',
 			'label' => 'Código',
 			'value' => 'product.bukmark_code',
+			'options' => ['style' => 'width: 100px;'],
 		],
 		[
 			'attribute' => 'product_id',
