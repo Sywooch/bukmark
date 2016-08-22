@@ -220,17 +220,26 @@ $user = User::getActiveUser();
 		
 	$actionColumn = [
 		'class' => 'yii\grid\ActionColumn',
-		'template' => '{check} {update} {delete}',
+		'template' => '{check} {update} {duplicate} {delete}',
 		'buttons' => [
 			'check' => function ($url, $model, $key) {
 				$options = array_merge([
-					'title' => Yii::t('yii', 'Check'),
-					'aria-label' => Yii::t('yii', 'Check'),
+					'title' => 'Chequear',
+					'aria-label' => 'Chequear',
 					'data-method' => 'post',
 					'data-pjax' => '0',
 				]);
 				$icon = $model->checked ? 'glyphicon-check' : 'glyphicon-unchecked';
 				return Html::a('<span class="glyphicon ' . $icon . '"></span>', $url, $options);
+			},
+			'duplicate' => function ($url, $model, $key) {
+				$options = array_merge([
+					'title' => 'Duplicar',
+					'aria-label' => 'Duplicar',
+					'data-method' => 'post',
+					'data-pjax' => '0',
+				]);
+				return Html::a('<span class="glyphicon glyphicon-plus"></span>', $url, $options);
 			},
 		],
 		'urlCreator' => function($action, $model, $key, $index) {
@@ -241,6 +250,9 @@ $user = User::getActiveUser();
 					break;
 				case 'update':
 					$url = ['update-entry', 'id' => $model->id];
+					break;
+				case 'duplicate':
+					$url = ['duplicate-entry', 'id' => $model->id];
 					break;
 				case 'delete':
 					$url = ['delete-entry', 'id' => $model->id];

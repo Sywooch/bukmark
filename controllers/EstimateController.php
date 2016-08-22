@@ -211,6 +211,24 @@ class EstimateController extends Controller {
 	}
 	
 	/**
+	 * Duplicates an existing EstimateEntry model.
+	 * If duplication is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionDuplicateEntry($id) {
+		$model = $this->findEntryModel($id);
+		$estimate = $model->estimate;
+		
+		$duplicate = new EstimateEntry;
+		$duplicate->attributes = $model->attributes;
+		$duplicate->save();
+		$estimate->doEstimate();
+		
+		return $this->redirect(['view', 'id' => $estimate->id]);
+	}
+	
+	/**
 	 * Deletes an existing EstimateEntry model.
 	 * If deletion is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id
