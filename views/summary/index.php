@@ -71,6 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'value' => function ($model, $key, $index, $column) {
 				return Currency::format($model->quantitySubtotal, Currency::CURRENCY_ARS);
 			},
+			'options' => ['style' => 'width: 150px;'],
 		],
 	];
 	?>
