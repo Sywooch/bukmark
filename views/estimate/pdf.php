@@ -23,13 +23,13 @@ $i = 0;
 	<div style="float:left; margin: 0; width: 30%; margin-left: 35px">
 		<b>Imágen</b>
 	</div>
-	<div style="float:left; margin: 0; width: 40%;">
+	<div style="float:left; margin: 0; width: 38%;">
 		<b>Código/Descripción</b>
 	</div>
 	<div style="float:left; margin: 0; width: 10%; text-align: center;">
 		<b>Cantidad</b>
 	</div>
-	<div style="float:left; margin: 0; width: 15%; text-align: center;">
+	<div style="float:left; margin: 0; width: 16%; text-align: center;">
 		<b>Precio unit.</b>
 	</div>
 </div>
@@ -65,7 +65,7 @@ $i = 0;
 				<?php endif; ?>
 			</div>
 			<?php if (count($group) == 1): ?>
-				<div style="float:left; margin: 0; width: 30%; text-align: center; height: 1px;">
+				<div style="float:left; margin: 0; width: 25%; text-align: center; height: 1px;">
 					<?= $group[0]->quantity ?>
 				</div>
 				<div style="float:left; margin: 0; text-align: center; height: 1px;">
@@ -78,7 +78,7 @@ $i = 0;
 						<div style="float:left; margin: 0; width: 58%; height: 1px;">
 							<?= $entry->description ?>
 						</div>
-						<div style="float:left; margin: 0; width: 30%; text-align: center; height: 1px;">
+						<div style="float:left; margin: 0; width: 25%; text-align: center; height: 1px;">
 							<?= $entry->quantity ?>
 						</div>
 						<div style="float:left; margin: 0; text-align: center; height: 1px;">
