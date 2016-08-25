@@ -11,6 +11,7 @@ use Yii;
  * @property integer $estimate_id
  * @property integer $product_id
  * @property integer $product_image_id
+ * @property integer $rank a higher rank gets displayed first
  * @property integer $quantity
  * @property string $utility
  * @property string $price
@@ -19,6 +20,7 @@ use Yii;
  * @property integer $variant_currency
  * @property string $description
  * @property boolean $checked
+ * @property boolean $sample_delivered
  */
 class EstimateEntry extends \yii\db\ActiveRecord {
 
@@ -35,14 +37,14 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 	public function rules() {
 		return [
 			[['product_id', 'quantity', 'utility', 'price'], 'required'],
-			[['product_id', 'currency', 'variant_currency', 'product_image_id'], 'integer'],
+			[['product_id', 'currency', 'variant_currency', 'product_image_id', 'rank'], 'integer'],
 			[['estimate_id'], 'exist', 'targetClass' => Estimate::className(), 'targetAttribute' => 'id'],
 			[['product_id'], 'exist', 'targetClass' => Product::className(), 'targetAttribute' => 'id'],
 			[['quantity'], 'integer', 'min' => 1],
 			[['utility', 'price', 'variant_price'], 'number', 'min' => 0],
 			[['currency', 'variant_currency'], 'in', 'range' => array_keys(Currency::labels())],
 			[['description'], 'safe'],
-			[['checked'], 'boolean'],
+			[['checked', 'sample_delivered'], 'boolean'],
 		];
 	}
 
@@ -55,6 +57,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			'estimate_id' => 'Presupuesto',
 			'product_id' => 'Producto',
 			'product_image_id' => 'Imágen',
+			'rank' => 'Orden',
 			'quantity' => 'Cantidad',
 			'utility' => 'Utilidad',
 			'price' => 'Costo',
@@ -63,6 +66,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			'variant_currency' => 'Moneda',
 			'description' => 'Descripción',
 			'checked' => 'Confirmado',
+			'sample_delivered' => 'Muestra',
 		];
 	}
 
