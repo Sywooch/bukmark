@@ -222,7 +222,33 @@ EstimateViewAsset::register($this);
 		];
 		array_push($columns, $marginColumn);
 	}
-		
+	
+	$sampleColumn = [
+		'class' => 'yii\grid\ActionColumn',
+		'header' => 'Muestra',
+		'options' => ['style' => 'width: 70px;'],
+		'template' => '{checkSample}',
+		'buttons' => [
+			'checkSample' => function ($url, $model, $key) {
+				$options = array_merge([
+					'title' => 'Muestra entregada',
+					'aria-label' => 'Muetra entregada',
+				]);
+				$icon = $model->sample_delivered ? 'glyphicon-check' : 'glyphicon-unchecked';
+				return Html::a('<span class="glyphicon ' . $icon . '"></span>', $url, $options);
+			},
+		],
+		'urlCreator' => function($action, $model, $key, $index) {
+			$url = [''];
+			switch ($action) {
+				case 'checkSample':
+					$url = ['check-entry-sample', 'id' => $model->id, 'check' => !$model->sample_delivered, 'page' => Yii::$app->request->getQueryParam('page', null)];
+					break;
+			}
+			return Url::to($url);
+		},
+	];
+	
 	$actionColumn = [
 		'class' => 'yii\grid\ActionColumn',
 		'options' => ['style' => 'width: 115px;'],
@@ -290,7 +316,8 @@ EstimateViewAsset::register($this);
 			return Url::to($url);
 		},
 	];
-		
+	
+	array_push($columns, $sampleColumn);
 	array_push($columns, $actionColumn);
 	?>
 		

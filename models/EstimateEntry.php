@@ -66,7 +66,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			'variant_currency' => 'Moneda',
 			'description' => 'Descripción',
 			'checked' => 'Confirmado',
-			'sample_delivered' => 'Muestra',
+			'sample_delivered' => 'Muestra entregada',
 		];
 	}
 

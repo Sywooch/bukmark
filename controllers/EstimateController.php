@@ -318,6 +318,27 @@ class EstimateController extends Controller {
 	}
 	
 	/**
+	 * Sets the sample_delivered field of an EstimateEntry model.
+	 * If operation is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @param boolean $check
+	 * @return mixed
+	 */
+	public function actionCheckEntrySample($id, $check) {
+		$model = $this->findEntryModel($id);
+		$estimate = $model->estimate;
+		$model->sample_delivered = $check;
+		$model->save();
+
+		if (Yii::$app->getRequest()->isAjax) {
+			Yii::$app->getResponse()->getHeaders()->set('Location', Url::to(['view', 'id' => $estimate->id, 'page' => Yii::$app->request->getQueryParam('page', null)]));
+			return;
+		}
+		
+		return $this->redirect(['view', 'id' => $estimate->id]);
+	}
+	
+	/**
 	 * Get the PDF version of the estimate.
 	 * @param integer $id estimate ID
 	 * @return mixed
