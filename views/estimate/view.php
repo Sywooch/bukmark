@@ -6,6 +6,8 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 use app\models\Currency;
 use app\models\User;
+use yii\widgets\Pjax;
+use app\assets\EstimateViewAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Estimate */
@@ -15,6 +17,7 @@ $this->title = $model->client->name . ' - ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Presupuestos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->title;
 $user = User::getActiveUser();
+EstimateViewAsset::register($this);
 ?>
 <div class="estimate-view">
 
@@ -35,6 +38,7 @@ $user = User::getActiveUser();
     </p>
 
 	<div id="estimate-detail" style="display: none;">
+		<?php Pjax::begin(['id' => 'estimate-view']); ?>
 		<?= DetailView::widget([
 			'model' => $model,
 			'attributes' => [
@@ -94,6 +98,7 @@ $user = User::getActiveUser();
 				],
 			],
 		]) ?>
+		<?php Pjax::end(); ?>
 	</div>
 	
 	<p>
@@ -220,14 +225,13 @@ $user = User::getActiveUser();
 		
 	$actionColumn = [
 		'class' => 'yii\grid\ActionColumn',
+		'options' => ['style' => 'width: 85px;'],
 		'template' => '{check} {update} {duplicate} {delete}',
 		'buttons' => [
 			'check' => function ($url, $model, $key) {
 				$options = array_merge([
 					'title' => 'Chequear',
 					'aria-label' => 'Chequear',
-					'data-method' => 'post',
-					'data-pjax' => '0',
 				]);
 				$icon = $model->checked ? 'glyphicon-check' : 'glyphicon-unchecked';
 				return Html::a('<span class="glyphicon ' . $icon . '"></span>', $url, $options);
@@ -236,26 +240,31 @@ $user = User::getActiveUser();
 				$options = array_merge([
 					'title' => 'Duplicar',
 					'aria-label' => 'Duplicar',
-					'data-method' => 'post',
-					'data-pjax' => '0',
 				]);
 				return Html::a('<span class="glyphicon glyphicon-plus"></span>', $url, $options);
+			},
+			'delete' => function ($url, $model, $key) {
+				$options = array_merge([
+					'title' => 'Eliminar',
+					'aria-label' => 'Eliminar',
+				]);
+				return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
 			},
 		],
 		'urlCreator' => function($action, $model, $key, $index) {
 			$url = [''];
 			switch ($action) {
 				case 'check':
-					$url = ['check-entry', 'id' => $model->id, 'check' => !$model->checked];
+					$url = ['check-entry', 'id' => $model->id, 'check' => !$model->checked, 'page' => Yii::$app->request->getQueryParam('page', null)];
 					break;
 				case 'update':
 					$url = ['update-entry', 'id' => $model->id];
 					break;
 				case 'duplicate':
-					$url = ['duplicate-entry', 'id' => $model->id];
+					$url = ['duplicate-entry', 'id' => $model->id, 'page' => Yii::$app->request->getQueryParam('page', null)];
 					break;
 				case 'delete':
-					$url = ['delete-entry', 'id' => $model->id];
+					$url = ['delete-entry', 'id' => $model->id, 'page' => Yii::$app->request->getQueryParam('page', null)];
 					break;
 			}
 			return Url::to($url);
@@ -267,6 +276,12 @@ $user = User::getActiveUser();
 		
 	<?= \kartik\grid\GridView::widget([
 		'pjax' => true,
+		'pjaxSettings' => [
+			'options' => [
+				'id' => 'estimate-entries-gridview',
+				'enablePushState' => false,
+			],
+		],
         'dataProvider' => $dataProvider,
         'columns' => $columns,
     ]); ?>

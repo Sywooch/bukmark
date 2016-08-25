@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use kartik\mpdf\Pdf;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 /**
  * EstimateController implements the CRUD actions for Estimate model.
@@ -34,8 +35,6 @@ class EstimateController extends Controller {
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
-					'delete-entry' => ['post'],
-					'check-entry' => ['post'],
 				],
 			],
 		];
@@ -225,6 +224,11 @@ class EstimateController extends Controller {
 		$duplicate->save();
 		$estimate->doEstimate();
 		
+		if (Yii::$app->getRequest()->isAjax) {
+			Yii::$app->getResponse()->getHeaders()->set('Location', Url::to(['view', 'id' => $estimate->id, 'page' => Yii::$app->request->getQueryParam('page', null)]));
+			return;
+		}
+		
 		return $this->redirect(['view', 'id' => $estimate->id]);
 	}
 	
@@ -239,7 +243,12 @@ class EstimateController extends Controller {
 		$estimate = $model->estimate;
 		$model->delete();
 		$estimate->doEstimate();
-
+		
+		if (Yii::$app->getRequest()->isAjax) {
+			Yii::$app->getResponse()->getHeaders()->set('Location', Url::to(['view', 'id' => $estimate->id, 'page' => Yii::$app->request->getQueryParam('page', null)]));
+			return;
+		}
+		
 		return $this->redirect(['view', 'id' => $estimate->id]);
 	}
 	
@@ -257,6 +266,11 @@ class EstimateController extends Controller {
 		$model->save();
 		$estimate->doEstimate();
 
+		if (Yii::$app->getRequest()->isAjax) {
+			Yii::$app->getResponse()->getHeaders()->set('Location', Url::to(['view', 'id' => $estimate->id, 'page' => Yii::$app->request->getQueryParam('page', null)]));
+			return;
+		}
+		
 		return $this->redirect(['view', 'id' => $estimate->id]);
 	}
 	
