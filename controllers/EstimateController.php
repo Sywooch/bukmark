@@ -233,6 +233,49 @@ class EstimateController extends Controller {
 	}
 	
 	/**
+	 * Reorders an existing EstimateEntry model.
+	 * If the operation is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @param booelan $up
+	 * @return mixed
+	 */
+	public function actionReorderEntry($id, $up) {
+		$model = $this->findEntryModel($id);
+		$estimate = $model->estimate;
+		$key = null;
+		
+		$entries = $estimate->entries;
+		foreach ($entries as $k => $entry) {
+			if ($entry->rank == null) {
+				$entry->rank = $entry->id;
+				$entry->save();
+			}
+			if ($entry->id == $model->id) {
+				$key = $k;
+			}
+		}
+		
+		if ($key !== null) {
+			$key += $up ? -1 : 1;
+			if(isset($entries[$key])) {
+				$entry = $entries[$key];
+				$oldRank = $model->rank;
+				$model->rank = $entry->rank;
+				$entry->rank = $oldRank;
+				$model->save();
+				$entry->save();
+			}
+		}
+		
+		if (Yii::$app->getRequest()->isAjax) {
+			Yii::$app->getResponse()->getHeaders()->set('Location', Url::to(['view', 'id' => $estimate->id, 'page' => Yii::$app->request->getQueryParam('page', null)]));
+			return;
+		}
+		
+		return $this->redirect(['view', 'id' => $estimate->id]);
+	}
+	
+	/**
 	 * Deletes an existing EstimateEntry model.
 	 * If deletion is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id

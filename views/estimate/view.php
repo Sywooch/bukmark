@@ -225,8 +225,8 @@ EstimateViewAsset::register($this);
 		
 	$actionColumn = [
 		'class' => 'yii\grid\ActionColumn',
-		'options' => ['style' => 'width: 85px;'],
-		'template' => '{check} {update} {duplicate} {delete}',
+		'options' => ['style' => 'width: 115px;'],
+		'template' => '{check} {duplicate} {up} {down} {update} {delete}',
 		'buttons' => [
 			'check' => function ($url, $model, $key) {
 				$options = array_merge([
@@ -242,6 +242,20 @@ EstimateViewAsset::register($this);
 					'aria-label' => 'Duplicar',
 				]);
 				return Html::a('<span class="glyphicon glyphicon-plus"></span>', $url, $options);
+			},
+			'up' => function ($url, $model, $key) {
+				$options = array_merge([
+					'title' => 'Subir',
+					'aria-label' => 'Subir',
+				]);
+				return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', $url, $options);
+			},
+			'down' => function ($url, $model, $key) {
+				$options = array_merge([
+					'title' => 'Bajar',
+					'aria-label' => 'Bajar',
+				]);
+				return Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', $url, $options);
 			},
 			'delete' => function ($url, $model, $key) {
 				$options = array_merge([
@@ -259,6 +273,12 @@ EstimateViewAsset::register($this);
 					break;
 				case 'update':
 					$url = ['update-entry', 'id' => $model->id];
+					break;
+				case 'up':
+					$url = ['reorder-entry', 'id' => $model->id, 'up' => true, 'page' => Yii::$app->request->getQueryParam('page', null)];
+					break;
+				case 'down':
+					$url = ['reorder-entry', 'id' => $model->id, 'up' => false, 'page' => Yii::$app->request->getQueryParam('page', null)];
 					break;
 				case 'duplicate':
 					$url = ['duplicate-entry', 'id' => $model->id, 'page' => Yii::$app->request->getQueryParam('page', null)];
