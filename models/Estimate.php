@@ -151,7 +151,7 @@ class Estimate extends \yii\db\ActiveRecord {
 		return [
 			self::STATUS_ENTERED => 'Ingresado',
 			self::STATUS_UTILITY => 'Utilidad',
-			self::STATUS_PRESENTATION_PENDING => 'PDF pendiente',
+			self::STATUS_PRESENTATION_PENDING => 'Confirmado',
 			self::STATUS_WAITING_ANSWER => 'Esperando respuesta',
 			self::STATUS_SEND => 'Enviar',
 			self::STATUS_CONTACT => 'Contactar',

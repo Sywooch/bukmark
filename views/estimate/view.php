@@ -113,7 +113,7 @@ EstimateViewAsset::register($this);
 	
 	$columns = [
 		[	'label' => 'Proveedor',
-			'value' => 'product.supplier.name'
+			'value' => 'product.supplier.name',
 		],
 		[
 			'label' => 'Cod. proveedor',
@@ -284,6 +284,11 @@ EstimateViewAsset::register($this);
 		],
         'dataProvider' => $dataProvider,
         'columns' => $columns,
+		'rowOptions' => function ($model, $key, $index, $grid) {
+			if ($model->checked) {
+				return ['style' => 'font-weight: bold;'];
+			}
+		},
     ]); ?>
 
 </div>
