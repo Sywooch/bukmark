@@ -266,6 +266,7 @@ $user = User::getActiveUser();
 	?>
 		
 	<?= \kartik\grid\GridView::widget([
+		'pjax' => true,
         'dataProvider' => $dataProvider,
         'columns' => $columns,
     ]); ?>
