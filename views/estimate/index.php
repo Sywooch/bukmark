@@ -70,11 +70,13 @@ EstimateIndexAsset::register($this);
 				'attribute' => 'request_date',
 				'format' => 'date',
 				'filter' => false,
+				'options' => ['style' => 'width: 125px;'],
 			],
 			[
 				'attribute' => 'sent_date',
 				'format' => 'date',
 				'filter' => false,
+				'options' => ['style' => 'width: 125px;'],
 			],
 			[
 				'class' => 'yii\grid\ActionColumn',

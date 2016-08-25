@@ -97,7 +97,7 @@ if (YII_ENV_DEV) {
 ]);
 
 // Change the padding of the grid-view data cells
-$contentOptions = ['style' => 'padding: 2px'];
+$contentOptions = ['style' => 'padding: 0px'];
 \Yii::$container->set('yii\grid\DataColumn', [
 	'contentOptions' => $contentOptions,
 ]);
