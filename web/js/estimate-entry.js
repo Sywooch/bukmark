@@ -58,11 +58,25 @@ function setSelection() {
 	}
 }
 
+function setDiscount() {
+	var productId = $("#product_id").val();
+	url = productSupplierUrl.replace('placeholder', productId);
+	$.ajax({
+		type: 'POST',
+		url: url,
+		success: function (data) {
+			$("#supplier_discount").val(data.discount);
+		},
+		dataType: 'json'
+	});
+}
+
 $(document).ready(function () {
 	setSelection();
 
 	$("#product_id").change(function () {
 		$("#product_image_id").val(null);
 		setSelection();
+		setDiscount();
 	});
 });

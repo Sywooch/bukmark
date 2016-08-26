@@ -107,8 +107,12 @@ EstimateViewAsset::register($this);
 	
 	<?php
 	// This function is used to display utility values on the gridview and editable fields
-	$utilityDisplayFunction = function ($model, $key, $index, $column = null) {
-		return Yii::$app->formatter->asPercent($model->utility / 100, 2);
+	$percentageDisplayFunction = function ($model, $key, $index, $column) {
+		$attribute = $column;
+		if(isset($column->attribute)) {
+			$attribute = $column->attribute;
+		}
+		return Yii::$app->formatter->asPercent($model->$attribute / 100, 2);
 	};
 	
 	$columns = [
@@ -155,6 +159,32 @@ EstimateViewAsset::register($this);
 		],
 		[
 			'class' => 'kartik\grid\EditableColumn',
+			'attribute' => 'supplier_discount',
+			'label' => 'Descuento',
+			'value' => $percentageDisplayFunction,
+			'editableOptions' => function ($model, $key, $index) use ($percentageDisplayFunction) {
+				return [
+					'formOptions' => [
+						'enableClientValidation' => false,
+					],
+					'inputFieldConfig' => [
+						'inputOptions' => [
+							'value' => call_user_func($percentageDisplayFunction, $model, $key, $index, 'supplier_discount'),
+						],
+					]
+				];
+			},
+			'refreshGrid' => true,
+			'filter' => false,
+		],
+		[
+			'label' => 'Costo final',
+			'value' => function ($model, $key, $index, $column) {
+				return Currency::format($model->priceWithDiscount, $model->currency);
+			},
+		],
+		[
+			'class' => 'kartik\grid\EditableColumn',
 			'attribute' => 'variant_price',
 			'value' => function ($model, $key, $index, $column) {
 				return Currency::format($model->variant_price, $model->variant_currency);
@@ -183,15 +213,15 @@ EstimateViewAsset::register($this);
 		[
 			'class' => 'kartik\grid\EditableColumn',
 			'attribute' => 'utility',
-			'value' => $utilityDisplayFunction,
-			'editableOptions' => function ($model, $key, $index) use ($utilityDisplayFunction) {
+			'value' => $percentageDisplayFunction,
+			'editableOptions' => function ($model, $key, $index) use ($percentageDisplayFunction) {
 				return [
 					'formOptions' => [
 						'enableClientValidation' => false,
 					],
 					'inputFieldConfig' => [
 						'inputOptions' => [
-							'value' => call_user_func($utilityDisplayFunction, $model, $key, $index),
+							'value' => call_user_func($percentageDisplayFunction, $model, $key, $index, 'utility'),
 						],
 					]
 				];

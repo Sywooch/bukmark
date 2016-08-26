@@ -36,6 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		'attributes' => [
 			'id',
 			'name',
+			[
+				'attribute' => 'discount',
+				'value' => Yii::$app->formatter->asPercent($model->discount / 100, 2),
+			],
 			'website',
 			'address',
 			'notes:ntext',

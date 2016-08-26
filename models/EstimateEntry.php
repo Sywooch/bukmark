@@ -15,6 +15,7 @@ use Yii;
  * @property integer $quantity
  * @property string $utility
  * @property string $price
+ * @property string $supplier_discount
  * @property integer $currency
  * @property string $variant_price
  * @property integer $variant_currency
@@ -41,7 +42,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			[['estimate_id'], 'exist', 'targetClass' => Estimate::className(), 'targetAttribute' => 'id'],
 			[['product_id'], 'exist', 'targetClass' => Product::className(), 'targetAttribute' => 'id'],
 			[['quantity'], 'integer', 'min' => 1],
-			[['utility', 'price', 'variant_price'], 'number', 'min' => 0],
+			[['utility', 'price', 'variant_price', 'supplier_discount'], 'number', 'min' => 0],
 			[['currency', 'variant_currency'], 'in', 'range' => array_keys(Currency::labels())],
 			[['description'], 'safe'],
 			[['checked', 'sample_delivered'], 'boolean'],
@@ -61,6 +62,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			'quantity' => 'Cantidad',
 			'utility' => 'Utilidad',
 			'price' => 'Costo',
+			'supplier_discount' => 'Descuento de proveedor',
 			'currency' => 'Moneda',
 			'variant_price' => 'Impresión',
 			'variant_currency' => 'Moneda',
@@ -97,6 +99,8 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 			$this->variant_price = str_replace(',', '.', $this->variant_price);
 			$this->utility = str_replace(',', '.', $this->utility);
 			$this->utility = str_replace('%', '', $this->utility);
+			$this->supplier_discount = str_replace(',', '.', $this->supplier_discount);
+			$this->supplier_discount = str_replace('%', '', $this->supplier_discount);
 			return true;
 		} else {
 			return false;
@@ -118,15 +122,27 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 	public function getVariantCurrencyLabel() {
 		return Currency::labels()[$this->variant_currency];
 	}
+	
+	/**
+	 * Get price with supplier discount applied
+	 * @return float
+	 */
+	public function getPriceWithDiscount() {
+		$discounted = 1;
+		if ($this->supplier_discount !== null) {
+			$discounted = 1 - $this->supplier_discount / 100;
+		}
+		return $this->price * $discounted;
+	}
 
 	/**
 	 * Get price + variant_price converted to ARS
 	 * @return float
 	 */
 	public function getCost() {
-		$price = $this->price;
+		$price = $this->priceWithDiscount;
 		if ($this->currency == Currency::CURRENCY_USD) {
-			$price = $this->price * $this->estimate->us;
+			$price *= $this->estimate->us;
 		}
 		$variantPrice = $this->variant_price ? $this->variant_price : 0;
 		if ($this->variant_currency == Currency::CURRENCY_USD) {

@@ -13,6 +13,8 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+	
+	<?= $form->field($model, 'discount')->textInput(['value' => is_numeric($model->discount) ? Yii::$app->formatter->asDecimal($model->discount, 2) : null]) ?>
 
     <?= $form->field($model, 'website')->textInput(['maxlength' => true]) ?>
 

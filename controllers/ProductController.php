@@ -164,6 +164,17 @@ class ProductController extends Controller {
 		}
 		return $images;
 	}
+	
+	/**
+	 * Returns a JSON containg the supplier of the product of the given id
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionGetSupplier($id) {
+		Yii::$app->response->format = Response::FORMAT_JSON;
+		$model = $this->findModel($id);
+		return $model->supplier;
+	}
 
 	/**
 	 * Finds the Product model based on its primary key value.

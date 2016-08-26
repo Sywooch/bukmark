@@ -10,6 +10,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property string $discount
  * @property string $website
  * @property string $address
  * @property string $notes
@@ -42,6 +43,7 @@ class Supplier extends \yii\db\ActiveRecord
         return [
             [['notes'], 'string'],
 			[['name'], 'required'],
+			[['discount'], 'number', 'min' => 0],
             [['name', 'website', 'address'], 'string', 'max' => 255],
 			[['website'], 'url', 'defaultScheme' => 'http'],
         ];
@@ -63,6 +65,7 @@ class Supplier extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Nombre',
+			'discount' => 'Descuento',
             'website' => 'Website',
             'address' => 'Dirección',
             'notes' => 'Comentarios',
@@ -70,6 +73,19 @@ class Supplier extends \yii\db\ActiveRecord
 			'contactEmail' => 'Email',
         ];
     }
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function beforeValidate() {
+		if (parent::beforeValidate()) {
+			$this->discount = str_replace(',', '.', $this->discount);
+			$this->discount = str_replace('%', '', $this->discount);
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	/**
      * @return \yii\db\ActiveQuery

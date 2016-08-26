@@ -16,6 +16,7 @@ use app\assets\EstimateEntryAsset;
 $currencies = Currency::labels();
 
 $this->registerJs('var productImagesUrl = "' . Url::to(['product/get-images', 'id' => 'placeholder']) . '";', View::POS_HEAD);
+$this->registerJs('var productSupplierUrl = "' . Url::to(['product/get-supplier', 'id' => 'placeholder']) . '";', View::POS_HEAD);
 EstimateEntryAsset::register($this);
 ?>
 
@@ -36,6 +37,8 @@ EstimateEntryAsset::register($this);
 	<?= $form->field($model, 'utility')->textInput(['value' => is_numeric($model->utility) ? Yii::$app->formatter->asDecimal($model->utility, 2) : null]) ?>
 
 	<?= $form->field($model, 'price')->textInput(['value' => is_numeric($model->price) ? Yii::$app->formatter->asDecimal($model->price, 2) : null]) ?>
+	
+	<?= $form->field($model, 'supplier_discount')->textInput(['value' => is_numeric($model->supplier_discount) ? Yii::$app->formatter->asDecimal($model->supplier_discount, 2) : null, 'id' => 'supplier_discount']) ?>
 
 	<?= $form->field($model, 'currency')->dropDownList($currencies) ?>
 
