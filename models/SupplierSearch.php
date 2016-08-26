@@ -12,13 +12,15 @@ use app\models\Supplier;
  */
 class SupplierSearch extends Supplier
 {
+	public $category_id;
+	
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'category_id'], 'integer'],
             [['name', 'website', 'address', 'notes'], 'safe'],
         ];
     }
@@ -31,6 +33,15 @@ class SupplierSearch extends Supplier
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels() {
+		$labels = parent::attributeLabels();
+		$labels['category_id'] = 'Categoría';
+		return $labels;
+	}
 
     /**
      * Creates data provider instance with search query applied
@@ -65,6 +76,14 @@ class SupplierSearch extends Supplier
             ->andFilterWhere(['like', 'notes', $this->notes]);
 		
 		$query->with(['contacts']);
+		
+		if ($this->category_id !== null) {
+			$query->joinWith([
+				'products' => function ($query) {
+					$query->select('category_id');
+					$query->andWhere(['category_id' => $this->category_id]);
+			}], true, 'INNER JOIN');
+		}
 
         return $dataProvider;
     }

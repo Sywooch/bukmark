@@ -96,6 +96,13 @@ class Supplier extends \yii\db\ActiveRecord
     }
 	
 	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getProducts() {
+		return $this->hasMany(Product::className(), ['supplier_id' => 'id']);
+	}
+	
+	/**
      * @return string
      */
 	public function getContactPhone() {

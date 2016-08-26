@@ -3,7 +3,10 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Supplier;
+use app\models\Category;
 use kartik\export\ExportMenu;
+use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SupplierSearch */
@@ -11,6 +14,7 @@ use kartik\export\ExportMenu;
 
 $this->title = 'Proveedores';
 $this->params['breadcrumbs'][] = $this->title;
+$categories = Category::find()->all();
 ?>
 <div class="supplier-index">
 
@@ -21,6 +25,22 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= Html::a('Crear proveedor', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+	<h3>Filtrar por categoría</h3>
+
+	<div class="receipt-form">
+
+		<?php $form = ActiveForm::begin(['method' => 'get']); ?>
+
+		<?= $form->field($searchModel, 'category_id')->dropDownList(ArrayHelper::map($categories, 'id', 'title')) ?>
+
+		<div class="form-group">
+			<?= Html::submitButton('Filtrar', ['class' => 'btn btn-primary']) ?>
+		</div>
+
+		<?php ActiveForm::end(); ?>
+
+	</div>
+	
 	<?php
 	$columns = [
 		[
