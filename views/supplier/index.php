@@ -31,7 +31,7 @@ $categories = Category::find()->all();
 
 		<?php $form = ActiveForm::begin(['method' => 'get']); ?>
 
-		<?= $form->field($searchModel, 'category_id')->dropDownList(ArrayHelper::map($categories, 'id', 'title')) ?>
+		<?= $form->field($searchModel, 'category_id')->dropDownList(ArrayHelper::map($categories, 'id', 'title'), ['promp' => '']) ?>
 
 		<div class="form-group">
 			<?= Html::submitButton('Filtrar', ['class' => 'btn btn-primary']) ?>

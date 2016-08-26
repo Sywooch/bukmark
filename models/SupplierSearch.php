@@ -77,7 +77,7 @@ class SupplierSearch extends Supplier
 		
 		$query->with(['contacts']);
 		
-		if ($this->category_id !== null) {
+		if ($this->category_id != null) {
 			$query->joinWith([
 				'products' => function ($query) {
 					$query->select('category_id');
