@@ -77,14 +77,24 @@ class Contact extends \yii\db\ActiveRecord {
 	}
 
 	/**
-	 * Get the display name for the contact
+	 * Returns the full name for the contact
+	 * @return string
+	 */
+	public function getFullName() {
+		$fullName = '';
+		$fullName .= $this->first_name;
+		$fullName .= $this->first_name && $this->last_name ? ' ' . $this->last_name : $this->last_name;
+		return $fullName;
+	}
+	
+	/**
+	 * Returns the display name for the contact
 	 * @return string
 	 */
 	public function getDisplayName() {
 		$displayName = '';
-		if ($this->first_name || $this->last_name) {
-			$displayName .= $this->first_name;
-			$displayName .= $this->first_name ? ' ' . $this->last_name : $this->last_name;
+		if ($this->fullName) {
+			$displayName = $this->fullName;
 		} else if ($this->email) {
 			$displayName = $this->email;
 		} else if ($this->phone) {

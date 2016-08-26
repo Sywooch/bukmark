@@ -65,6 +65,7 @@ class Supplier extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Nombre',
+			'contactFullName' => 'Contacto',
 			'discount' => 'Descuento',
             'website' => 'Website',
             'address' => 'Dirección',
@@ -100,6 +101,18 @@ class Supplier extends \yii\db\ActiveRecord
 	 */
 	public function getProducts() {
 		return $this->hasMany(Product::className(), ['supplier_id' => 'id']);
+	}
+	
+	/**
+     * @return string
+     */
+	public function getContactFullName() {
+		$fullName = '';
+		$contacts = $this->contacts;
+		if (count($contacts) > 0) {
+			$fullName = $contacts[0]->fullName;
+		}
+		return $fullName;
 	}
 	
 	/**

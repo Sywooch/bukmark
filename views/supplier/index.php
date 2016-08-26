@@ -44,13 +44,10 @@ $categories = Category::find()->all();
 	<?php
 	$columns = [
 		[
-			'attribute' => 'id',
-			'options' => ['style' => 'width: 150px;'],
-		],
-		[
 			'attribute' => 'name',
 			'filter' => Html::activeDropDownList($searchModel, 'id', Supplier::getIdNameArray(), ['class' => 'form-control', 'prompt' => 'Nombre']),
 		],
+		'contactFullName',
 		'contactEmail',
 		'contactPhone',
 		'address',
