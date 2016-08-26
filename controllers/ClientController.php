@@ -83,14 +83,14 @@ class ClientController extends Controller {
 
 	/**
 	 * Creates a new Client model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * If creation is successful, the browser will be redirected to the 'add contact' page.
 	 * @return mixed
 	 */
 	public function actionCreate() {
 		$model = new Client();
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id]);
+			return $this->redirect(['add-contact', 'id' => $model->id]);
 		} else {
 			return $this->render('create', [
 						'model' => $model,
