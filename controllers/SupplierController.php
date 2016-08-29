@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Supplier;
 use app\models\Contact;
+use app\models\Product;
 use app\models\SupplierSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -88,6 +89,10 @@ class SupplierController extends Controller {
 		$model = new Supplier();
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			$product = Yii::$app->session->get(Product::className());
+			if ($product) {
+				return $this->redirect(['product/create']);
+			}
 			return $this->redirect(['view', 'id' => $model->id]);
 		} else {
 			return $this->render('create', [

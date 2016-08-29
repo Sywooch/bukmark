@@ -25,6 +25,11 @@ EstimateEntryAsset::register($this);
 	<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
 	<?= $form->field($model, 'product_id')->dropDownList(Product::getDropdownData(), ['prompt' => 'Elegir producto', 'id' => 'product_id']) ?>
+	<?php if ($model->isNewRecord): ?>
+		<div class="form-group">
+			<?= Html::submitButton('Crear producto', ['class' => 'btn btn-primary', 'name' => 'action', 'value' => 'add-product']) ?>
+		</div>
+	<?php endif; ?>
 	
 	<?= $form->field($model, 'product_image_id')->hiddenInput(['id' => 'product_image_id']) ?>
 	

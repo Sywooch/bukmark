@@ -86,10 +86,27 @@ class ProductController extends Controller {
 	 */
 	public function actionCreate() {
 		$model = new Product();
-
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id]);
+		$attributes = Yii::$app->session->get(Product::className());
+		if ($attributes) {
+			$model->attributes = $attributes;
 		}
+		
+		if ($model->load(Yii::$app->request->post())) {
+			if (Yii::$app->request->getBodyParam('action')) {
+				Yii::$app->session->set(Product::className(), $model->attributes);
+				return $this->redirect(["supplier/create"]);
+			} else {
+				Yii::$app->session->remove(Product::className());
+			}
+			if ($model->save()) {
+				$estimateEntry = Yii::$app->session->get(EstimateEntry::className());
+				if ($estimateEntry) {
+					return $this->redirect(['estimate/create-entry', 'id' => $estimateEntry['estimate_id']]);
+				}
+				return $this->redirect(['view', 'id' => $model->id]);
+			}
+		}
+		
 		return $this->render('create', [
 					'model' => $model,
 		]);

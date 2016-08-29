@@ -25,6 +25,11 @@ $currencies = Currency::labels();
 	<?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map($categories, 'id', 'title')) ?>
 
 	<?= $form->field($model, 'supplier_id')->dropDownList(ArrayHelper::map($suppliers, 'id', 'name')) ?>
+	<?php if ($model->isNewRecord): ?>
+		<div class="form-group">
+			<?= Html::submitButton('Crear proveedor', ['class' => 'btn btn-primary', 'name' => 'action', 'value' => 'add-supplier']) ?>
+		</div>
+	<?php endif; ?>
 
 	<?= $form->field($model, 'title')->textInput() ?>
 

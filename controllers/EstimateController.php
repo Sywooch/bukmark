@@ -128,21 +128,22 @@ class EstimateController extends Controller {
 	 * @return mixed
 	 */
 	public function actionCreate() {
-		$model = Yii::$app->session->get(Estimate::className());
-		if (!$model) {
-			$model = new Estimate();
+		$model = new Estimate();
+		$attributes = Yii::$app->session->get(Estimate::className());
+		if ($attributes) {
+			$model->attributes = $attributes;
 		}
 
 		if ($model->load(Yii::$app->request->post())) {
-				if (Yii::$app->request->getBodyParam('action')) {
-					Yii::$app->session->set(Estimate::className(), $model);
-					return $this->redirect(["client/create"]);
-				} else {
-					Yii::$app->session->remove(Estimate::className());
-				}
-				if ($model->save()) {
-					return $this->redirect(['index']);
-				}
+			if (Yii::$app->request->getBodyParam('action')) {
+				Yii::$app->session->set(Estimate::className(), $model->attributes);
+				return $this->redirect(["client/create"]);
+			} else {
+				Yii::$app->session->remove(Estimate::className());
+			}
+			if ($model->save()) {
+				return $this->redirect(['index']);
+			}
 		}
 		
 		return $this->render('create', [
@@ -190,10 +191,22 @@ class EstimateController extends Controller {
 		$estimate = $this->findModel($id);
 		$model = new EstimateEntry();
 		$model->estimate_id = $estimate->id;
+		$attributes = Yii::$app->session->get(EstimateEntry::className());
+		if ($attributes) {
+			$model->attributes = $attributes;
+		}
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		if ($model->load(Yii::$app->request->post())) {
+			if (Yii::$app->request->getBodyParam('action')) {
+				Yii::$app->session->set(EstimateEntry::className(), $model->attributes);
+				return $this->redirect(["product/create"]);
+			} else {
+				Yii::$app->session->remove(EstimateEntry::className());
+			}
+			if ($model->save()) {
 				$estimate->doEstimate();
 				return $this->redirect(['view', 'id' => $estimate->id]);
+			}
 		}
 		
 		return $this->render('create-entry', [

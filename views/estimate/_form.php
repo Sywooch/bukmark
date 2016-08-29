@@ -22,7 +22,7 @@ $clients = Client::find()->all();
 	<?= $form->field($model, 'client_id')->dropDownList(ArrayHelper::map($clients, 'id', 'name'), ['prompt' => 'Elegir cliente', 'id' => 'client_id']) ?>
 	<?php if ($model->isNewRecord): ?>
 		<div class="form-group">
-			<?= Html::submitButton('Añadir cliente', ['class' => 'btn btn-primary', 'name' => 'action', 'value' => 'add-client']) ?>
+			<?= Html::submitButton('Crear cliente', ['class' => 'btn btn-primary', 'name' => 'action', 'value' => 'add-client']) ?>
 		</div>
 	<?php endif; ?>
 	
