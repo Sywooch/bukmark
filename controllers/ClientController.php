@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Client;
+use app\models\Estimate;
 use app\models\ClientSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -141,6 +142,10 @@ class ClientController extends Controller {
 		$model->client_id = $client->id;
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			$estimate = Yii::$app->session->get(Estimate::className());
+			if ($estimate) {
+				return $this->redirect(['estimate/create']);
+			}
 			return $this->redirect(['view', 'id' => $client->id]);
 		} else {
 			return $this->render('add-contact', [

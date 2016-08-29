@@ -17,9 +17,12 @@ $clients = Client::find()->all();
 
 <div class="estiamte-form">
 
-	<?php $form = ActiveForm::begin(); ?>
+	<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
 	<?= $form->field($model, 'client_id')->dropDownList(ArrayHelper::map($clients, 'id', 'name'), ['prompt' => 'Elegir cliente', 'id' => 'client_id']) ?>
+	<div class="form-group">
+		<?= Html::submitButton('Añadir cliente', ['class' => 'btn btn-primary', 'name' => 'action', 'value' => 'add-client']) ?>
+	</div>
 	
 	<?=
 	$form->field($model, 'client_contact_id')->widget(DepDrop::classname(), [

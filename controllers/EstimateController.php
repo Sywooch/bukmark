@@ -128,10 +128,21 @@ class EstimateController extends Controller {
 	 * @return mixed
 	 */
 	public function actionCreate() {
-		$model = new Estimate();
+		$model = Yii::$app->session->get(Estimate::className());
+		if (!$model) {
+			$model = new Estimate();
+		}
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-				return $this->redirect(['index']);
+		if ($model->load(Yii::$app->request->post())) {
+				if (Yii::$app->request->getBodyParam('action')) {
+					Yii::$app->session->set(Estimate::className(), $model);
+					return $this->redirect(["client/create"]);
+				} else {
+					Yii::$app->session->remove(Estimate::className());
+				}
+				if ($model->save()) {
+					return $this->redirect(['index']);
+				}
 		}
 		
 		return $this->render('create', [
