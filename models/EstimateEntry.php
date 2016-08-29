@@ -11,7 +11,7 @@ use Yii;
  * @property integer $estimate_id
  * @property integer $product_id
  * @property integer $product_image_id
- * @property integer $rank a higher rank gets displayed first
+ * @property integer $rank a lower rank gets displayed first
  * @property integer $quantity
  * @property string $utility
  * @property string $price
@@ -38,7 +38,7 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 	public function rules() {
 		return [
 			[['product_id', 'quantity', 'utility', 'price'], 'required'],
-			[['product_id', 'currency', 'variant_currency', 'product_image_id', 'rank'], 'integer'],
+			[['product_id', 'currency', 'variant_currency', 'product_image_id'], 'integer'],
 			[['estimate_id'], 'exist', 'targetClass' => Estimate::className(), 'targetAttribute' => 'id'],
 			[['product_id'], 'exist', 'targetClass' => Product::className(), 'targetAttribute' => 'id'],
 			[['quantity'], 'integer', 'min' => 1],
@@ -105,6 +105,17 @@ class EstimateEntry extends \yii\db\ActiveRecord {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function afterSave($insert, $changedAttributes) {
+		if ($this->rank == null) {
+			$this->rank = $this->id;
+			$this->save();
+		}
+		parent::afterSave($insert, $changedAttributes);
 	}
 
 	/**

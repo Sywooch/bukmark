@@ -133,7 +133,7 @@ class Estimate extends \yii\db\ActiveRecord {
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getEntries() {
-		return $this->hasMany(EstimateEntry::className(), ['estimate_id' => 'id'])->orderBy(['rank' => SORT_DESC]);
+		return $this->hasMany(EstimateEntry::className(), ['estimate_id' => 'id'])->orderBy(['rank' => SORT_ASC]);
 	}
 	
 	/**
