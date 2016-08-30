@@ -90,6 +90,13 @@ class EstimateController extends Controller {
 		$dataProvider = new ActiveDataProvider([
 				'query' => $model->getEntries()->with('product.supplier'),
 		]);
+		// Set last page as default
+		$dataProvider->prepare();
+		$pagination = $dataProvider->getPagination();
+		$page = Yii::$app->request->getQueryParam($pagination->pageParam);
+		if (!$page) {
+			$pagination->setPage($pagination->getPageCount() - 1);
+		}
 		
 		if (Yii::$app->request->post('hasEditable')) {
 			$id = Yii::$app->request->post('editableKey');
