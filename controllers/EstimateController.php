@@ -336,9 +336,14 @@ class EstimateController extends Controller {
 	public function actionCheckEntry($id, $check) {
 		$model = $this->findEntryModel($id);
 		$estimate = $model->estimate;
-		$model->checked = $check;
-		$model->save();
-		$estimate->doEstimate();
+		if ($estimate->canBeConfirmed()) {
+			$model->checked = $check;
+			$model->save();
+			if ($estimate->status_was_confirmed == false && $check == true) {
+				$estimate->setStatusToConfirmed();
+			}
+			$estimate->doEstimate();
+		}
 
 		if (Yii::$app->getRequest()->isAjax) {
 			Yii::$app->getResponse()->getHeaders()->set('Location', Url::to(['view', 'id' => $estimate->id, 'page' => Yii::$app->request->getQueryParam('page', null)]));

@@ -13,6 +13,8 @@ use Yii;
  * @property integer $client_id
  * @property integer $client_contact_id
  * @property integer $user_id
+ * @property integer $status_was_contact
+ * @property integer $status_was_confirmed
  * @property integer $status
  * @property string $request_date
  * @property string $sent_date
@@ -30,7 +32,7 @@ class Estimate extends \yii\db\ActiveRecord {
 
 	const STATUS_ENTERED = 0;
 	const STATUS_UTILITY = 1;
-	const STATUS_PRESENTATION_PENDING = 2;
+	const STATUS_CONFIRMED = 2;
 	const STATUS_WAITING_ANSWER = 3;
 	const STATUS_SEND = 4;
 	const STATUS_CONTACT = 5;
@@ -158,7 +160,7 @@ class Estimate extends \yii\db\ActiveRecord {
 		return [
 			self::STATUS_ENTERED => 'Ingresado',
 			self::STATUS_UTILITY => 'Utilidad',
-			self::STATUS_PRESENTATION_PENDING => 'Confirmado',
+			self::STATUS_CONFIRMED => 'Confirmado',
 			self::STATUS_WAITING_ANSWER => 'Esperando respuesta',
 			self::STATUS_SEND => 'Enviar',
 			self::STATUS_CONTACT => 'Contactar',
@@ -174,7 +176,7 @@ class Estimate extends \yii\db\ActiveRecord {
 		return [
 			self::STATUS_ENTERED => '#ff0000',
 			self::STATUS_UTILITY => '#ffff00',
-			self::STATUS_PRESENTATION_PENDING => '#93c47d',
+			self::STATUS_CONFIRMED => '#93c47d',
 			self::STATUS_WAITING_ANSWER => '#ff9900',
 			self::STATUS_SEND => '#00ff00',
 			self::STATUS_CONTACT => '#666666',
@@ -248,11 +250,47 @@ class Estimate extends \yii\db\ActiveRecord {
 		$date = date("Y-m-d", strtotime("-1 week"));
 		$models = self::find()->active()->andWhere(['=', 'status', self::STATUS_SENT])
 			->andWhere(['is not', 'sent_date', null])
-			->andWhere(['<=', 'sent_date', $date])->all();
+			->andWhere(['<=', 'sent_date', $date])
+			->andWhere(['or', ['status_was_contact' => null], ['status_was_contact' => 0]])->all();
 		foreach ($models as $model) {
-			$model->status = self::STATUS_CONTACT;
-			$model->save(false);
+			$model->setStatusToContact();
 		}
 	}
 
+	/**
+	 * Sets the estimate status to contact. It also sets the corresponding flag
+	 * to true.
+	 */
+	public function setStatusToContact() {
+		if ($this->status != SELF::STATUS_CONTACT) {
+			$this->status = self::STATUS_CONTACT;
+			$this->status_was_contact = true;
+			$this->save(false);
+		}
+	}
+	
+	/**
+	 * Sets the estimate status to confirmed. It also sets the corresponding flag
+	 * to true.
+	 */
+	public function setStatusToConfirmed() {
+		if ($this->status != SELF::STATUS_CONFIRMED) {
+			$this->status = self::STATUS_CONFIRMED;
+			$this->status_was_confirmed = true;
+			$this->save(false);
+		}
+	}
+	
+	/**
+	 * Checks if the estimate entries can be confirmed.
+	 * @return boolean
+	 */
+	public function canBeConfirmed() {
+		$statuses = [
+			self::STATUS_SENT,
+			self::STATUS_CONTACT,
+			self::STATUS_CONFIRMED,
+		];
+		return in_array($this->status, $statuses) ? true : false;
+	}
 }
