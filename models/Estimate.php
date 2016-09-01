@@ -142,6 +142,13 @@ class Estimate extends \yii\db\ActiveRecord {
 	public function getReceipt() {
 		return $this->hasOne(Receipt::className(), ['estimate_id' => 'id']);
 	}
+	
+	/**
+	 * @return inter
+	 */
+	public function getEntriesWithSampleDeliveredCount() {
+		return $this->getEntries()->andWhere(['>', 'sample_delivered', 0])->count();
+	}
 
 	/**
 	 * Get status labels

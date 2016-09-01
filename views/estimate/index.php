@@ -79,6 +79,13 @@ EstimateIndexAsset::register($this);
 				'options' => ['style' => 'width: 125px;'],
 			],
 			[
+				'label' => 'Muestra',
+				'value' => function  ($model, $key, $index, $column) {
+					return $model->entriesWithSampleDeliveredCount > 0 ? 'Si' : 'No';
+				},
+				'options' => ['style' => 'width: 70px;'],
+			],
+			[
 				'class' => 'yii\grid\ActionColumn',
 				'options' => ['style' => 'width: 60px;'],
 			],

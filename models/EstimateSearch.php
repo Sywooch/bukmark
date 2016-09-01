@@ -73,7 +73,7 @@ class EstimateSearch extends Estimate
             'estimate.us' => $this->us,
             'estimate.deleted' => $this->deleted,
         ]);
-
+		
         $query->andFilterWhere(['like', 'title', $this->title]);
 		
 		$query->joinWith(['client' => function($query) {
