@@ -90,6 +90,7 @@ class Client extends \yii\db\ActiveRecord
 		foreach ($this->contacts as $contact) {
 			$contacts[$contact->id] = $contact->displayName;
 		}
+		natcasesort($contacts);
 		return $contacts;
 	}
 	

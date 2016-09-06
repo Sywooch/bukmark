@@ -13,8 +13,8 @@ use zxbodya\yii2\galleryManager\GalleryManager;
 /* @var $model app\models\Product */
 /* @var $form yii\widgets\ActiveForm */
 
-$categories = Category::find()->all();
-$suppliers = Supplier::find()->all();
+$categories = Category::find()->active()->orderBy(['title' => SORT_ASC])->all();
+$suppliers = Supplier::find()->active()->orderBy(['name' => SORT_ASC])->all();
 $currencies = Currency::labels();
 ?>
 

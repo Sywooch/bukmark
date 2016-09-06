@@ -148,7 +148,8 @@ class Supplier extends \yii\db\ActiveRecord
 	 * return string[]
 	 */
 	public static function getIdNameArray() {
-		$suppliers = ArrayHelper::map(self::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name');
+		$suppliers = ArrayHelper::map(self::find()->select(['id', 'name'])->active()
+				->orderBy(['name' => SORT_ASC])->asArray()->all(), 'id', 'name');
 		return $suppliers;
 	}
 }

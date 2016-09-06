@@ -12,7 +12,7 @@ use kartik\depdrop\DepDrop;
 /* @var $model app\models\Estimate */
 /* @var $form yii\widgets\ActiveForm */
 
-$clients = Client::find()->all();
+$clients = Client::find()->active()->orderBy(['name' => SORT_ASC])->all();
 ?>
 
 <div class="estiamte-form">

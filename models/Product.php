@@ -138,6 +138,7 @@ class Product extends \yii\db\ActiveRecord {
 		$dropdownData = ArrayHelper::map($productsArray, 'id', function ($productArray) {
 					return $productArray['bukmark_code'] . ' - ' . $productArray['title'];
 				});
+		natcasesort($dropdownData);
 		return $dropdownData;
 	}
 
