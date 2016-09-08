@@ -370,7 +370,6 @@ EstimateViewAsset::register($this);
 			if ($model->sample_delivered) {
 				Html::addCssStyle($options, ['background-color' => EstimateEntry::SAMPLE_DELIVERED_COLOR]);
 			}
-			print_r($options);
 			return $options;
 		},
     ]); ?>
