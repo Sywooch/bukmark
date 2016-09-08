@@ -8,6 +8,7 @@ use app\models\Currency;
 use app\models\User;
 use yii\widgets\Pjax;
 use app\assets\EstimateViewAsset;
+use app\models\EstimateEntry;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Estimate */
@@ -362,9 +363,15 @@ EstimateViewAsset::register($this);
         'dataProvider' => $dataProvider,
         'columns' => $columns,
 		'rowOptions' => function ($model, $key, $index, $grid) {
+			$options = [];
 			if ($model->checked) {
-				return ['style' => 'font-weight: bold;'];
+				Html::addCssStyle($options, 'font-weight: bold;');
 			}
+			if ($model->sample_delivered) {
+				Html::addCssStyle($options, ['background-color' => EstimateEntry::SAMPLE_DELIVERED_COLOR]);
+			}
+			print_r($options);
+			return $options;
 		},
     ]); ?>
 

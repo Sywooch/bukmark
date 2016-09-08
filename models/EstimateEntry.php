@@ -25,6 +25,8 @@ use Yii;
  */
 class EstimateEntry extends \yii\db\ActiveRecord {
 
+	const SAMPLE_DELIVERED_COLOR = '#93c47d';
+	
 	/**
 	 * @inheritdoc
 	 */

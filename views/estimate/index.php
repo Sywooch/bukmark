@@ -38,7 +38,7 @@ EstimateIndexAsset::register($this);
 		],
 		'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-		'rowOptions' => function ($model, $index, $widget, $grid){
+		'rowOptions' => function ($model, $index, $widget, $grid) {
 			return ['style'=>"background-color:$model->statusColor;"];
 		},
 		'columns' => [
