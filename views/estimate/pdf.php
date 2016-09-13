@@ -19,32 +19,31 @@ $qGroups = count($groups);
 $i = 0;
 ?>
 
-<div style="background: #232323; color: lightgray;">
-	<div style="float:left; margin: 0; width: 30%; margin-left: 35px">
-		<b>Imágen</b>
-	</div>
-	<div style="float:left; margin: 0; width: 38%;">
-		<b>Código/Descripción</b>
-	</div>
-	<div style="float:left; margin: 0; width: 10%; text-align: center;">
-		<b>Cantidad</b>
-	</div>
-	<div style="float:left; margin: 0; width: 16%; text-align: center;">
-		<b>Precio unit.</b>
-	</div>
-</div>
-
-<!-- Fix for no background on header div -->
-<div style="float:left; margin: 0; width: 0%; text-align: center; height: 1px;"></div>
+<?php $linesTotal = 0; ?>
 
 <?php foreach ($groups as $group): ?>
 	<?php
 	$entry = $group[0];
 	$product = $group[0]->product;
+	
+	$lines = 0;
+	$lines += ceil((strlen($product->description) + 1) / 46.0);
+	foreach ($group as $entry) {
+		$lines += ceil((strlen($entry->description) + 1) / 46.0);
+	}
+	$lines = $lines > 6 ? $lines : 6;
+	$lines += 7;
+	$linesTotal += $lines;
 	?>
 
+	<?php if ($linesTotal > 55): ?>
+		<pagebreak />
+		<?php $linesTotal = $lines; ?>
+	<?php endif; ?>
+
 	<div style="margin-top: 20px;">
-		<div style="float:left; margin: 0; width: 35%; text-align: center; height: 1px;">
+		<div style="float: left; margin: 0; width: 35%; text-align: center; height: 1px;">
+			<?= $lines ?> 
 			<?= $entry->product_image_id ? Html::img(ltrim($product->getBehavior(Product::GALLERY_IMAGE_BEHAVIOR)->getUrl($entry->product_image_id, 'medium'), '/'), ['height' => 100]) : '' ?>
 		</div>
 		<div style="float: left; margin: 0; width: 60%;">
@@ -65,23 +64,23 @@ $i = 0;
 				<?php endif; ?>
 			</div>
 			<?php if (count($group) == 1): ?>
-				<div style="float:left; margin: 0; width: 25%; text-align: center; height: 1px;">
+				<div style="float: left; margin: 0; width: 25%; text-align: center; height: 1px;">
 					<?= $group[0]->quantity ?>
 				</div>
-				<div style="float:left; margin: 0; text-align: center; height: 1px;">
+				<div style="float: left; margin: 0; text-align: center; height: 1px;">
 					<?= Currency::format($group[0]->subtotal, Currency::CURRENCY_ARS); ?>
 				</div>
 			<?php endif; ?>
 			<?php if (count($group) > 1): ?>
-				<div style="float:left; margin: 0;">
+				<div style="float: left; margin: 0;">
 					<?php foreach ($group as $entry): ?>
-						<div style="float:left; margin: 0; width: 58%; height: 1px;">
+						<div style="float: left; margin: 0; width: 58%; height: 1px;">
 							<?= $entry->description ?>
 						</div>
-						<div style="float:left; margin: 0; width: 25%; text-align: center; height: 1px;">
+						<div style="float: left; margin: 0; width: 25%; text-align: center; height: 1px;">
 							<?= $entry->quantity ?>
 						</div>
-						<div style="float:left; margin: 0; text-align: center; height: 1px;">
+						<div style="float: left; margin: 0; text-align: center; height: 1px;">
 							<?= Currency::format($entry->subtotal, Currency::CURRENCY_ARS); ?>
 						</div>
 					<?php endforeach; ?>

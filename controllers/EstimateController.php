@@ -401,6 +401,7 @@ class EstimateController extends Controller {
 			'content' => $content,
 			'cssFile' => '@webroot/css/pdf.css',
 			'options' => [
+				'autoPageBreak' => false,
 				'setAutoTopMargin' => 'pad',
 				'setAutoBottomMargin' => 'pad',
 			],

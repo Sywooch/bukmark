@@ -57,3 +57,21 @@ use app\models\Client;
 		A convenir
 	</div>
 </div>
+
+<div style="background: #232323; color: lightgray;">
+	<div style="float: left; margin: 0; width: 30%; margin-left: 35px">
+		<b>Imágen</b>
+	</div>
+	<div style="float: left; margin: 0; width: 38%;">
+		<b>Código/Descripción</b>
+	</div>
+	<div style="float: left; margin: 0; width: 10%; text-align: center;">
+		<b>Cantidad</b>
+	</div>
+	<div style="float: left; margin: 0; width: 16%; text-align: center;">
+		<b>Precio unit.</b>
+	</div>
+</div>
+
+<!-- Fix for no background on header div -->
+<div style="float: left; margin: 0; width: 0%; text-align: center; height: 1px;"></div>
