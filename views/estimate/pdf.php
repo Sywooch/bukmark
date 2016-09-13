@@ -36,14 +36,13 @@ $i = 0;
 	$linesTotal += $lines;
 	?>
 
-	<?php if ($linesTotal > 55): ?>
+	<?php if ($linesTotal > 58): ?>
 		<pagebreak />
 		<?php $linesTotal = $lines; ?>
 	<?php endif; ?>
 
 	<div style="margin-top: 20px;">
 		<div style="float: left; margin: 0; width: 35%; text-align: center; height: 1px;">
-			<?= $lines ?> 
 			<?= $entry->product_image_id ? Html::img(ltrim($product->getBehavior(Product::GALLERY_IMAGE_BEHAVIOR)->getUrl($entry->product_image_id, 'medium'), '/'), ['height' => 100]) : '' ?>
 		</div>
 		<div style="float: left; margin: 0; width: 60%;">
