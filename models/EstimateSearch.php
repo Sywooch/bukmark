@@ -14,6 +14,7 @@ class EstimateSearch extends Estimate
 {
 	
 	public $clientName;
+	public $sampleDelivered;
 	
     /**
      * @inheritdoc
@@ -21,7 +22,7 @@ class EstimateSearch extends Estimate
     public function rules()
     {
         return [
-            [['id', 'client_id', 'user_id', 'status', 'deleted'], 'integer'],
+            [['id', 'client_id', 'user_id', 'status', 'deleted', 'sampleDelivered'], 'integer'],
             [['title', 'request_date', 'sent_date', 'clientName'], 'safe'],
             [['total', 'cost', 'total_checked', 'cost_checked', 'us'], 'number'],
         ];
@@ -76,11 +77,19 @@ class EstimateSearch extends Estimate
 		
         $query->andFilterWhere(['like', 'title', $this->title]);
 		
-		$query->joinWith(['client' => function($query) {
-			if ($this->clientName) {
-				$query->where(['like', 'name', $this->clientName]);
-			}
-		}])->active();
+		$joinWith = [
+			'client' => function ($query) {
+				if ($this->clientName) {
+					$query->where(['like', 'name', $this->clientName]);
+				}
+			},
+		];
+			
+		if ($this->sampleDelivered) {
+			array_push($joinWith, 'entriesWithSampleDelivered');
+		}
+		
+		$query->joinWith($joinWith)->active();
 
         return $dataProvider;
     }

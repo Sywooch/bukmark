@@ -146,10 +146,17 @@ class Estimate extends \yii\db\ActiveRecord {
 	}
 	
 	/**
-	 * @return inter
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getEntriesWithSampleDelivered() {
+		return $this->getEntries()->andWhere(['>', 'sample_delivered', 0]);
+	}
+	
+	/**
+	 * @return integer
 	 */
 	public function getEntriesWithSampleDeliveredCount() {
-		return $this->getEntries()->andWhere(['>', 'sample_delivered', 0])->count();
+		return $this->getEntriesWithSampleDelivered()->count();
 	}
 
 	/**

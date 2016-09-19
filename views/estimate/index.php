@@ -80,6 +80,7 @@ EstimateIndexAsset::register($this);
 			],
 			[
 				'label' => 'Muestra',
+				'filter' => Html::activeCheckbox($searchModel, 'sampleDelivered', ['label' => '']),
 				'value' => function  ($model, $key, $index, $column) {
 					return $model->entriesWithSampleDeliveredCount > 0 ? 'Si' : 'No';
 				},
