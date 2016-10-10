@@ -136,6 +136,7 @@ EstimateViewAsset::register($this);
 			'class' => 'kartik\grid\EditableColumn',
 			'attribute' => 'quantity',
 			'refreshGrid' => true,
+			'enableSorting' => false,
 		],
 		[
 			'class' => 'kartik\grid\EditableColumn',
@@ -157,6 +158,7 @@ EstimateViewAsset::register($this);
 			},
 			'refreshGrid' => true,
 			'filter' => false,
+			'enableSorting' => false,
 		],
 		[
 			'class' => 'kartik\grid\EditableColumn',
@@ -177,6 +179,7 @@ EstimateViewAsset::register($this);
 			},
 			'refreshGrid' => true,
 			'filter' => false,
+			'enableSorting' => false,
 		],
 		[
 			'label' => 'Costo final',
@@ -204,6 +207,7 @@ EstimateViewAsset::register($this);
 			},
 			'refreshGrid' => true,
 			'filter' => false,
+			'enableSorting' => false,
 		],
 		[
 			'label' => 'Suma',
@@ -229,6 +233,7 @@ EstimateViewAsset::register($this);
 			},
 			'refreshGrid' => true,
 			'filter' => false,
+			'enableSorting' => false,
 		],
 		[
 			'label' => 'Subtotal',
