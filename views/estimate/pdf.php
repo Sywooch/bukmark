@@ -11,7 +11,8 @@ use app\models\Product;
 <?php
 // Group entries by product
 $groups = [];
-foreach ($estimate->entries as $entry) {
+$entries = $estimate->getEntries()->orderBy(['rank' => SORT_ASC])->all();
+foreach ($entries as $entry) {
 	$groups[$entry->product->id][] = $entry;
 }
 

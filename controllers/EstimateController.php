@@ -90,6 +90,7 @@ class EstimateController extends Controller {
 		$dataProvider = new ActiveDataProvider([
 				'query' => $model->getEntries()->with('product.supplier'),
 		]);
+		$dataProvider->sort = ['defaultOrder' => ['rank' => SORT_ASC]];
 		// Set last page as default
 		$pagination = $dataProvider->getPagination();
 		$page = Yii::$app->request->getQueryParam($pagination->pageParam);
