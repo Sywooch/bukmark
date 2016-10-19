@@ -277,7 +277,7 @@ class EstimateController extends Controller {
 		$estimate = $model->estimate;
 		$key = null;
 		
-		$entries = $estimate->entries;
+		$entries = $estimate->getEntries()->orderBy(['rank' => SORT_ASC])->all();
 		foreach ($entries as $k => $entry) {
 			if ($entry->rank == null) {
 				$entry->rank = $entry->id;
